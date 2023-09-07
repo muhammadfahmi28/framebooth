@@ -13,5 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', "SplashController@index");
+Route::get('/', "SplashController@index")->name('login')->middleware('guest');
+
 Route::post('/', "SplashController@login");
+
+Route::get('/logout', "SplashController@logout");
+Route::post('/logout', "SplashController@logout");
+
+
+Route::prefix('app')->middleware('auth')->group(function () {
+Route::post('/', "SplashController@login");
+    Route::get('/', "GalleryController@index")->name('app.gallery');
+});
+

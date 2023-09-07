@@ -2,7 +2,8 @@
 @section('title', "Gallery")
 @section("body")
 <div>
-    User Name : {{ $name }} <br/>
+    uid : {{ $tuser->uid }} <br/>
+    <a href="/logout">logout</a>
 </div>
 
 <div>

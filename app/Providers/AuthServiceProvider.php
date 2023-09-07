@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\SimpleHasher;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -27,8 +28,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // add custom guard provider
-        // Auth::provider('tuser_provider_driver', function ($app, array $config) {
-        //     return new TicketUserProvider(new SimpleHasher(), $config['model']);
-        // });
+        Auth::provider('tuser_provider_driver', function ($app, array $config) {
+            return new TicketUserProvider(new SimpleHasher(), $config['model']);
+        });
     }
 }

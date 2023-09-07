@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tusers_id')->nullable(); // if ticket somehow deleted, data about file photos will be preserved
+            $table->unsignedBigInteger('tuser_id')->nullable(); // if ticket somehow deleted, data about file photos will be preserved
 
             $table->string('filename', 100);
             $table->timestamps();
 
-            $table->foreign('tusers_id')->references('id')->on('tusers');
+            $table->foreign('tuser_id')->references('id')->on('tusers');
         });
     }
 

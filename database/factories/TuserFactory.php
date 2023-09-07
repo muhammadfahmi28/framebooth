@@ -23,7 +23,7 @@ class TuserFactory extends Factory
             'uid' => Str::random(6) . time() . Str::random(2),
             'code' => md5(Hash::make( '' . time() . Str::random(4))),
             'max_photos' => env("VAR_DEFAULT_MAX_PHOTOS", 3),
-            'valid_until' => Carbon::today()->addDays("VAR_DEFAULT_DAYS_VALID", 60)
+            'valid_until' => Carbon::today()->addDays(env("VAR_DEFAULT_DAYS_VALID", 60))
         ];
     }
 }
