@@ -27,8 +27,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         // add custom guard provider
-        Auth::provider('tuser_provider_driver', function ($app, array $config) {
-            return new TicketUserProvider(new SimpleHasher(), $config['model']);
-        });
+        // Auth::provider('tuser_provider_driver', function ($app, array $config) {
+        //     return new TicketUserProvider(new SimpleHasher(), $config['model']);
+        // });
     }
 }

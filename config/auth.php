@@ -38,7 +38,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'tusers',
+            'provider' => 'users',
         ],
     ],
 
@@ -60,10 +60,10 @@ return [
     */
 
     'providers' => [
-        'tusers' => [
-            'driver' => 'tuser_provider_driver',
-            'model' => App\Models\Tuser::class,
-        ],
+        // 'tusers' => [
+        //     'driver' => 'tuser_provider_driver',
+        //     'model' => App\Models\Tuser::class,
+        // ],
 
         'users' => [
             'driver' => 'eloquent',
