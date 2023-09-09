@@ -3,6 +3,7 @@
 @section("body")
 <div>
     uid : {{ $tuser->uid }} <br/>
+    {{-- nanti ganti jadi nama dan tombol ganti nama --}}
     <a href="/logout">logout</a>
 </div>
 

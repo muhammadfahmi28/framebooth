@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', "SplashController@index")->name('login')->middleware('guest');
 
-Route::post('/', "SplashController@login");
+Route::post('/submit_code', "SplashController@login");
 
 Route::get('/logout', "SplashController@logout");
 Route::post('/logout', "SplashController@logout");
@@ -24,5 +24,7 @@ Route::post('/logout', "SplashController@logout");
 Route::prefix('app')->middleware('auth')->group(function () {
 Route::post('/', "SplashController@login");
     Route::get('/', "GalleryController@index")->name('app.gallery');
+    Route::get('/capture', "PhotoController@capture")->name('app.capture');
+    Route::post('/capture', "PhotoController@store");
 });
 

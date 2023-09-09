@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')PhotoBooth</title>
 
+    <script src="{{asset('assets/js/jquery-3.7.1.min.js')}}" type="text/javascript"></script>
+
     @yield('head')
 </head>
 <body>
