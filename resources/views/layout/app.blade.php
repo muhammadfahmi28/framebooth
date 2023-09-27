@@ -10,6 +10,8 @@
     @yield('head')
 </head>
 <body>
+    @yield('pre_body')
     @yield('body')
+    @yield('post_body')
 </body>
 </html>

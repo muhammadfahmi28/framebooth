@@ -24,7 +24,17 @@ Route::post('/logout', "SplashController@logout");
 Route::prefix('app')->middleware('auth')->group(function () {
 Route::post('/', "SplashController@login");
     Route::get('/', "GalleryController@index")->name('app.gallery');
-    Route::get('/capture', "PhotoController@capture")->name('app.capture');
-    Route::post('/capture', "PhotoController@store");
+
+    Route::middleware(['photos.cantake'])->group(function () {
+        Route::get('/capture', "PhotoController@capture")->name('app.capture');
+        Route::post('/capture', "PhotoController@store");
+        Route::post('/testcsrf', "PhotoController@testcsrf")->name('app.testcsrf');
+    });
+
+    Route::get('/print/{id}', "GalleryController@testshellopen")->name('app.open');
+    Route::get('/delete/{id}', "GalleryController@delete");
+    Route::get('/view/{id}', "GalleryController@show");
+
+
 });
 

@@ -48,4 +48,9 @@ class Tuser extends Model implements
         return $this->hasMany(Photo::class, 'tuser_id');
     }
 
+    public function canTakePhotos()
+    {
+        return ($this->photos()->count() < $this->max_photos);
+    }
+
 }
