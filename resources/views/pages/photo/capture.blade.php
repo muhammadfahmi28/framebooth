@@ -125,7 +125,7 @@
     </div>
 
     <div>
-        <canvas id="canvas-collage"> </canvas>
+        <canvas id="canvas-collage" data-background="{{asset('assets/images/frame/1.png')}}"> </canvas>
     </div>
 
     <div>
@@ -205,6 +205,12 @@
 
         let startbutton = null;
 
+        // F
+        let canvascollage = null;
+        let ratio = (16 / 9);
+        const collageArray = [[105, 71, 450.04, 337.53], [555, 531, 450.04, 337.53], [105, 931, 450.04, 337.53]];
+        let collageImages = [];
+        let collageIndex = 0;
 
         function showViewLiveResultButton() {
 
@@ -251,6 +257,8 @@
 
             startbutton = document.getElementById("startbutton");
 
+            // F
+            canvascollage = document.getElementById("canvas-collage");
 
             navigator.mediaDevices
                 .getUserMedia({
@@ -291,7 +299,7 @@
 
                         if (isNaN(height)) {
 
-                            height = width / (16 / 9);
+                            height = width / (ratio);
 
                         }
 
@@ -305,6 +313,11 @@
                         canvas.setAttribute("height", height);
 
                         streaming = true;
+
+                        // F
+                        canvascollage.setAttribute("width", 1206);
+                        canvascollage.setAttribute("height", 1375);
+                        redrawBackground();
 
                     }
 
@@ -357,7 +370,6 @@
 
         }
 
-
         // Capture a photo by fetching the current contents of the video
 
         // and drawing it into a canvas, then converting that to a PNG
@@ -386,6 +398,9 @@
 
                 photo.setAttribute("src", data);
 
+                console.log("takepicture", data);
+                takeCollage(data); //F
+
             } else {
 
                 clearphoto();
@@ -393,6 +408,59 @@
             }
 
         }
+
+        async function takeCollage(dataUrl) {
+            collageImages[collageIndex] = dataUrl;
+            console.log("takeCollage", collageImages);
+
+            // redrawBackground(
+            //     redrawCollageImages
+            // );
+
+
+            // redrawCollageImages();
+
+            await redrawBackground();
+            await redrawCollageImages();
+
+
+            collageIndex++;
+            if (collageIndex >= collageArray.length) {
+                collageIndex = 0;
+            }
+        }
+
+        function redrawBackground(onLoad = null) { //F
+            console.log("ACTION redrawBackground =======================", onLoad);
+            const collageContext = canvascollage.getContext("2d");
+            // collageContext.clearRect(0, 0, canvascollage.width, canvascollage.height);
+            const img = new Image;
+            img.src = canvascollage.getAttribute("data-background");
+            img.onload = function() {
+                collageContext.drawImage(img, 0, 0);
+                if (onLoad) {
+                    onLoad();
+                }
+            };
+            // collageContext.drawImage(img,0,0);
+        }
+
+        function redrawCollageImages() {
+            console.log("ACTION redrawCollageImages =======================");
+            let collageContext = canvascollage.getContext("2d");
+            console.log("forEach =======================");
+            collageImages.forEach((e, i, arr) => {
+                if (e) {
+                    console.log("forEach", i, collageArray[i]);
+                    const img = new Image;
+                    img.src = e;
+                    img.onload = function() {
+                        collageContext.drawImage(img, collageArray[i][0], collageArray[i][1], collageArray[i][2], collageArray[i][3]);
+                    };
+                }
+            });
+        }
+
 
 
         // Set up our event listener to run the startup process
