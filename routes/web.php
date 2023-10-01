@@ -31,7 +31,7 @@ Route::post('/', "SplashController@login");
         Route::post('/testcsrf', "PhotoController@testcsrf")->name('app.testcsrf');
     });
 
-    Route::get('/print/{id}', "GalleryController@testshellopen")->name('app.open');
+    Route::get('/print/{id}', "GalleryController@printPhoto")->name('app.open');
     Route::get('/delete/{id}', "GalleryController@delete");
     Route::get('/view/{id}', "GalleryController@show");
 

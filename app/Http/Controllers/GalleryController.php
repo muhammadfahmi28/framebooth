@@ -40,15 +40,29 @@ class GalleryController extends Controller
     }
 
     function testshellopen($id){
+        // $tuser = Tuser::find(auth()->user()->id);
+        // $photo = $tuser->photos()->find($id);
+        // if ($photo) {
+        //     $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $tuser->uid.'/'.$photo->filename;
+        //     if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        //         $storage_rel_path = str_replace('/', '\\', $storage_rel_path);
+        //         shell_exec(storage_path($storage_rel_path));
+        //     }
+        //     return dd(storage_path($storage_rel_path));
+        // }
+        return back();
+    }
+
+    function printPhoto($id){
         $tuser = Tuser::find(auth()->user()->id);
         $photo = $tuser->photos()->find($id);
         if ($photo) {
             $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $tuser->uid.'/'.$photo->filename;
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
                 $storage_rel_path = str_replace('/', '\\', $storage_rel_path);
-                shell_exec(storage_path($storage_rel_path));
+                $real_path = storage_path($storage_rel_path);
+                exec('rundll32 C:\WINDOWS\system32\shimgvw.dll,ImageView_PrintTo "'.$real_path.'" "PDF24"');
             }
-            return dd(storage_path($storage_rel_path));
 
         }
         return back();
