@@ -1,0 +1,65 @@
+:root{
+    --background-color: rgba(247, 227, 221,1);
+}
+
+body{
+    background-image: url("/assets/images/bg.png");
+    background-repeat: repeat;
+    background-color: var(--background-color);
+}
+
+#main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 1000px;
+    margin: auto;
+    background-color: var(--background-color);
+    box-shadow: 0px 0px 48px 48px var(--background-color);
+    -webkit-box-shadow: 0px 0px 48px 48px var(--background-color);
+    -moz-box-shadow: 0px 0px 48px 48px var(--background-color);
+    position: relative;
+    transition: opacity 400ms;
+}
+
+.load-hide {
+    transition: opacity 400ms;
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+#content {
+    flex-grow: 1;
+    position: relative;
+}
+
+#header, #footer {
+    flex-shrink: 0;
+    position: relative;
+}
+
+
+/* Custom Components */
+
+.app-btn-logout {
+    width: 120px;
+    height: 120px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: url("/assets/images/btn-logout.svg") no-repeat;
+    text-decoration: none;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.app-btn-logout:hover {
+    background: url("/assets/images/btn-logout-hover.svg") no-repeat;
+}
+
+.app-btn-logout:active {
+    background: url("/assets/images/btn-logout-active.svg") no-repeat;
+}

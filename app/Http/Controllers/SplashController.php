@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 class SplashController extends Controller
 {
     function index() {
-        return view('pages.splash');
+        return view('pages.splash.index');
     }
 
     function login(Request $request) {

@@ -12,9 +12,14 @@ class GalleryController extends Controller
     function index() {
         $tuser = Tuser::find(auth()->user()->id);
         $photos = $tuser->photos;
-        $folder = Photo::DEFAULT_DIR . '/' . $tuser->uid;
-        return view('pages.gallery.index', compact('tuser', 'photos', 'folder'));
-    }
+        if ($photos->count())
+        { //use count. has() will create new query.
+            $folder = Photo::DEFAULT_DIR . '/' . $tuser->uid;
+            return view('pages.gallery.index', compact('tuser', 'photos', 'folder'));
+        } else {
+            return redirect()->route('app.capture');
+        }
+}
 
     function show($id) {
         $tuser = Tuser::find(auth()->user()->id);
