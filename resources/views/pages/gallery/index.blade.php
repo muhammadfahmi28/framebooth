@@ -3,26 +3,26 @@
 @section("body")
 
 <div id="main-container" class="opacity-0" >
-    <div id="header" >
+    {{-- <div id="header" >
         <div>
-            uid : {{ $tuser->uid }} <br/>
-            {{-- nanti ganti jadi nama dan tombol ganti nama --}}
-            {{-- <a href="/logout">logout</a> --}}
+            nanti ganti jadi nama dan tombol ganti nama
+            <a href="/logout">logout</a>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">
                 Logout
             </button>
         </div>
+    </div> --}}
+
+    <div id="header" class="mb-4 py-3" >
+        <h1>Photos</h1>
     </div>
 
     <div id="content">
-        <div>
-            <h2>Photos</h2>
-        </div>
 
         @if ($photos)
 
-            <div>
-                @foreach ($photos as $photo)
+            <div class="row">
+                {{-- @foreach ($photos as $photo)
                 <div>
                     <img src="{{asset('storage/'.$folder.'/'.$photo->filename)}}" alt="" width="250px">
                     <a href="{{url("app/print/{$photo->id}")}}">Print</a>
@@ -33,17 +33,24 @@
                     <br/>
                     {{$photo->created_at}}
                 </div>
-                @endforeach
+                @endforeach --}}
+                @for ($x = 0; $x <= 10; $x++)
+                <div class="gl-photo-frame col">
+                    <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">
+                        <img src="{{asset('storage/'.$folder.'/'.$photos[0]->filename)}}" alt="" width="250px">
+                    </div>
+                </div>
+                @endfor
             </div>
             @if ($tuser->canTakePhotos())
-            <div>
+            {{-- <div>
                 <a href="{{route('app.capture')}}">Take Photo</a>
-            </div>
+            </div> --}}
             @endif
         @else
-            <div>
+            {{-- <div>
                 <a href="{{route('app.capture')}}">Take Photo Big Button</a>
-            </div>
+            </div> --}}
         @endif
 
     </div>
@@ -56,12 +63,27 @@
 
 @include('components.logout-modal')
 
+<!-- Button trigger modal -->
+{{-- todo if !$tuser->canTakePhotos() disable, grtayscale dan bukan pointer, text berapa perberapa image yang diambil --}}
+<a class="app-btn-capture load-hide opacity-0" href="{{route('app.capture')}}">
+    &nbsp;
+</a>
+
+<div id="gl-photo-tool" class="gl-photo-tool p-3 d-block" style="position: absolute; bottom: 0; z-index: 5; width: 100%">
+    <div class="d-block" style="margin: auto; background-color: teal; text-align: center; width: 300px;">
+        Tools
+    </div>
+</div>
+
 <script>
 
     const pre_image = [
         '/assets/images/btn-logout.svg',
         '/assets/images/btn-logout-hover.svg',
-        '/assets/images/btn-logout-active.svg'
+        '/assets/images/btn-logout-active.svg',
+        '/assets/images/capture-1.svg',
+        '/assets/images/capture-2.svg',
+        '/assets/images/capture-3.svg'
     ];
 
     function preloadImages(images) {
@@ -79,6 +101,26 @@
 
     $(function () {
         renderPage();
+    });
+
+    $(".gl-photo-frame").on("click", function () {
+    });
+
+    $(".gl-photo-frame").on("click", function () {
+        $(".gl-photo-frame").removeClass("selected");
+        $(this).addClass("selected");
+        $("#gl-photo-tool").removeClass("disabled");
+    });
+
+    $(document).mouseup(function(e)
+    {
+        var container = $(".gl-photo-frame");
+        if (!container.is(e.target) && container.has(e.target).length === 0)
+        {
+            $(".gl-photo-frame").removeClass("selected");
+            $("#gl-photo-tool").addClass("disabled");
+        }
+
     });
 </script>
 @endsection

@@ -40,6 +40,21 @@ body{
     position: relative;
 }
 
+h1, h2, h3 {
+    font-family: 'Passion One', sans-serif;
+}
+
+h1 {
+    color: #fff;
+    font-size: 5rem;
+    text-shadow:
+        3px 3px 2px #000,
+        -3px 3px 2px #000,
+        -3px -3px 0 #000,
+        3px -3px 0 #000;
+    transform: translate(-64px) rotate(-12deg);
+    display: inline-block;
+}
 
 /* Custom Components */
 
@@ -54,6 +69,7 @@ body{
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
+    cursor: pointer;
 }
 
 .app-btn-logout:hover {
@@ -63,3 +79,61 @@ body{
 .app-btn-logout:active {
     background: url("/assets/images/btn-logout-active.svg") no-repeat;
 }
+
+.app-btn-capture {
+    min-width: 158px;
+    height: 120px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: url("/assets/images/capture-1.svg") no-repeat;
+    text-decoration: none;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.app-btn-capture:hover {
+    background: url("/assets/images/capture-2.svg") no-repeat;
+}
+
+.app-btn-capture:active {
+    background: url("/assets/images/capture-3.svg") no-repeat;
+}
+
+
+.gl-photo>img {
+    max-width: 250px;
+    max-height: 250px;
+    margin: 10px 10px 28px 10px;
+    pointer-events: none;
+}
+
+.gl-photo {
+    background: #f9ffff;
+    width: fit-content;
+    height: fit-content;
+    margin: auto;
+    border: #e4e1de solid 2px;
+    position: relative;
+    border-radius: 3px;
+    transition: transform 350ms;
+}
+
+.gl-photo-frame {
+    display: inline-block;
+    /* width: 300px; */
+    min-height: 280px;
+    /* padding: 12px 0; */
+    z-index: 0;
+    position: relative;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.gl-photo-frame.selected .gl-photo {
+    transform: rotate(0deg) scale(1.25) !important;
+    z-index: 1;
+}
+

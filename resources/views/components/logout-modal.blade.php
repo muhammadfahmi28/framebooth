@@ -4,8 +4,8 @@
 </a>
 
 {{-- <a class="app-btn-logout load-hide opacity-0" href="/logout"> --}}
-&nbsp;
-</a>
+{{-- &nbsp; --}}
+{{-- </a> --}}
 
 <!-- Modal -->
 <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
