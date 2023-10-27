@@ -6,6 +6,7 @@ body{
     background-image: url("/assets/images/bg.png");
     background-repeat: repeat;
     background-color: var(--background-color);
+    overflow: hidden;
 }
 
 #main-container {
@@ -20,6 +21,7 @@ body{
     -moz-box-shadow: 0px 0px 48px 48px var(--background-color);
     position: relative;
     transition: opacity 400ms;
+    overflow-x: visible;
 }
 
 .load-hide {
@@ -54,6 +56,12 @@ h1 {
         3px -3px 0 #000;
     transform: translate(-64px) rotate(-12deg);
     display: inline-block;
+}
+
+.prevent-select {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 /* Custom Components */
@@ -91,6 +99,7 @@ h1 {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
+    z-index: 10;
 }
 
 .app-btn-capture:hover {
@@ -137,3 +146,57 @@ h1 {
     z-index: 1;
 }
 
+.gl-photo-tool {
+    position: absolute; bottom: 0; z-index: 5; width: 100%;
+    overflow: hidden;
+}
+
+.gl-photo-tool>div {
+    transition: transform 300ms;
+}
+
+
+.gl-photo-tool-hidden>div {
+    transform: translateY(95%);
+    pointer-events: none;
+}
+
+
+
+.gl-icon-gl-view,
+.gl-icon-gl-print,
+.gl-icon-gl-del {
+    width: 82px;
+    height: 82px;
+    text-decoration: none !important;
+}
+
+.gl-icon-gl-view {
+    background-image: url("/assets/images/view-1.svg");
+}
+.gl-icon-gl-print {
+    background-image: url("/assets/images/print-1.svg");
+}
+.gl-icon-gl-del {
+    background-image: url("/assets/images/del-1.svg");
+}
+
+.gl-icon-gl-view:hover {
+    background-image: url("/assets/images/view-2.svg");
+}
+.gl-icon-gl-print:hover {
+    background-image: url("/assets/images/print-2.svg");
+}
+.gl-icon-gl-del:hover {
+    background-image: url("/assets/images/del-2.svg");
+}
+
+.gl-icon-gl-view:active {
+    background-image: url("/assets/images/view-3.svg");
+}
+.gl-icon-gl-print:active {
+    background-image: url("/assets/images/print-3.svg");
+}
+.gl-icon-gl-del:active {
+    background-image: url("/assets/images/del-3.svg");
+}

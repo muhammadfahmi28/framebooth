@@ -34,13 +34,16 @@
                     {{$photo->created_at}}
                 </div>
                 @endforeach --}}
-                @for ($x = 0; $x <= 10; $x++)
-                <div class="gl-photo-frame col">
+                {{-- @for ($x = 0; $x <= 10; $x++) --}}
+
+                @foreach ($photos as $photo)
+                <div class="gl-photo-frame col" data-photo_id="{{$photo->id}}">
                     <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">
-                        <img src="{{asset('storage/'.$folder.'/'.$photos[0]->filename)}}" alt="" width="250px">
+                        <img src="{{asset('storage/'.$folder.'/'.$photo->filename)}}" alt="" width="250px">
                     </div>
                 </div>
-                @endfor
+                @endforeach
+                {{-- @endfor --}}
             </div>
             @if ($tuser->canTakePhotos())
             {{-- <div>
@@ -69,13 +72,30 @@
     &nbsp;
 </a>
 
-<div id="gl-photo-tool" class="gl-photo-tool p-3 d-block" style="position: absolute; bottom: 0; z-index: 5; width: 100%">
-    <div class="d-block" style="margin: auto; background-color: teal; text-align: center; width: 300px;">
-        Tools
+<div id="gl-photo-tool" class="gl-photo-tool gl-photo-tool-hidden px-3 d-block prevent-select">
+    <div class="d-block" style="margin: auto; text-align: center; width: 300px;">
+        <a href="#" class="d-inline-block gl-icon-gl-view px-3">
+            &nbsp;
+            {{-- <img src="{{'assets/images/view-1.svg'}}" height="82px" alt=""> --}}
+        </a>
+
+        <a href="#" class="d-inline-block gl-icon-gl-print px-3">
+            &nbsp;
+            {{-- <img src="{{'assets/images/print-1.svg'}}" height="82px" alt=""> --}}
+        </a>
+
+        <a href="#" class="d-inline-block gl-icon-gl-del px-3">
+            &nbsp;
+            {{-- <img src="{{'assets/images/del-1.svg'}}" height="82px" alt=""> --}}
+        </a>
+
+
     </div>
 </div>
 
 <script>
+
+    var photo_selected = null;
 
     const pre_image = [
         '/assets/images/btn-logout.svg',
@@ -83,7 +103,16 @@
         '/assets/images/btn-logout-active.svg',
         '/assets/images/capture-1.svg',
         '/assets/images/capture-2.svg',
-        '/assets/images/capture-3.svg'
+        '/assets/images/capture-3.svg',
+        'assets/images/view-1.svg',
+        'assets/images/print-1.svg',
+        'assets/images/del-1.svg',
+        'assets/images/view-2.svg',
+        'assets/images/print-2.svg',
+        'assets/images/del-2.svg',
+        'assets/images/view-3.svg',
+        'assets/images/print-3.svg',
+        'assets/images/del-3.svg'
     ];
 
     function preloadImages(images) {
@@ -104,24 +133,25 @@
     });
 
     $(".gl-photo-frame").on("click", function () {
-    });
-
-    $(".gl-photo-frame").on("click", function () {
         $(".gl-photo-frame").removeClass("selected");
         $(this).addClass("selected");
+        photo_selected = $(this).data("photo_id");
         $("#gl-photo-tool").removeClass("disabled");
+        $("#gl-photo-tool").removeClass("gl-photo-tool-hidden");
     });
 
     $(document).mouseup(function(e)
     {
-        var container = $(".gl-photo-frame");
+        var container = $(".gl-photo-frame, .gl-photo-tool");
         if (!container.is(e.target) && container.has(e.target).length === 0)
         {
+            photo_selected = null;
+            $("#gl-photo-tool").addClass("gl-photo-tool-hidden");
             $(".gl-photo-frame").removeClass("selected");
             $("#gl-photo-tool").addClass("disabled");
         }
-
     });
+
 </script>
 @endsection
 
