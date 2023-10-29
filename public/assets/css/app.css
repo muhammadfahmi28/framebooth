@@ -6,7 +6,7 @@ body{
     background-image: url("/assets/images/bg.png");
     background-repeat: repeat;
     background-color: var(--background-color);
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 #main-container {
@@ -199,4 +199,11 @@ h1 {
 }
 .gl-icon-gl-del:active {
     background-image: url("/assets/images/del-3.svg");
+}
+
+.ratio__f4 {
+    aspect-ratio: 33/21;
+}
+.ratio__f4_portait {
+    aspect-ratio: 21/33;
 }

@@ -15,8 +15,9 @@ class Photo extends Model
     ];
     // protected $hidden = [
     // ];
-    // protected $casts = [
-    // ];
+    protected $casts = [
+        'raws' => "array"
+    ];
 
     /**
      * Get the tuser that owns the Photo
