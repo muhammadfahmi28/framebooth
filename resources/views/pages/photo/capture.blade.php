@@ -51,9 +51,15 @@
             </div>
         </div>
         <div id="step-2" class="row align-items-center h-100" style="display: none;">
-            <div class="col-12">
-                <div id="image-main" class="ratio__f4_portait mx-auto mb-4" style="height: 1024px; background-color: rgba(165, 42, 42, 0.548)">
-                    asd
+            <div class="col-2 fs-1 text-end" onclick="prevCollage();">
+                <button class="btn btn-primary">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+            </div>
+
+            <div class="col-8">
+                <div id="image-main" class="mx-auto mb-4 hidden text-left" style="width: fit-content; background-color: rgba(165, 42, 42, 0.548)">
+                    <img src="" alt="" height="1024px">
                 </div>
                 <form action="{{route('app.capture')}}" method="post">
                     <input id="main_photo" type="hidden" name="main_photo">
@@ -65,15 +71,16 @@
                     </button>
                 </form>
             </div>
+            <div class="col-2 fs-1 text-start text-start">
+                <button class="btn btn-primary"onclick="nextCollage();">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
         </div>
 
     </div>
 </div>
-<div>
-    <button onclick="nextCollage();">Prev</button>
-    <button onclick="prevCollage();">Next</button>
-</div>
-<canvas id="canvas-collage"> </canvas>
+<canvas id="canvas-collage" style="display: none;"> </canvas>
 <canvas id="canvas" style="display: none;"> </canvas>
 
 @endsection
@@ -306,6 +313,11 @@
         await drawBackground();
         await drawPhotos();
         await drawForeground();
+        const collageContext = canvascollage.getContext("2d");
+        const data = canvascollage.toDataURL("image/png");
+        $("#image-main>img").attr("src", data);
+        $("#image-main").removeClass("hidden");
+        $("#edit_done").removeClass("disabled").removeAttr("disabled");
     }
 
     function nextCollage() {
