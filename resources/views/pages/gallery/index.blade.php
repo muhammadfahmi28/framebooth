@@ -84,7 +84,7 @@
             {{-- <img src="{{'assets/images/print-1.svg'}}" height="82px" alt=""> --}}
         </a>
 
-        <a href="#" class="d-inline-block gl-icon-gl-del px-3">
+        <a id="gl-tool-delete" href="#" data-url="{{url("app/delete/")}}/" class="d-inline-block gl-icon-gl-del px-3">
             &nbsp;
             {{-- <img src="{{'assets/images/del-1.svg'}}" height="82px" alt=""> --}}
         </a>
@@ -136,6 +136,9 @@
         $(".gl-photo-frame").removeClass("selected");
         $(this).addClass("selected");
         photo_selected = $(this).data("photo_id");
+
+        $("#gl-tool-delete").attr("href", ("" + $("#gl-tool-delete").data("url") + photo_selected));
+
         $("#gl-photo-tool").removeClass("disabled");
         $("#gl-photo-tool").removeClass("gl-photo-tool-hidden");
     });

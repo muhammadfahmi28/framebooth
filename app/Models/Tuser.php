@@ -30,7 +30,6 @@ class Tuser extends Model implements
     protected $casts = [
         'autodelete_on' => 'datetime',
         'valid_until' => 'date',
-        'code'
     ];
 
     /**

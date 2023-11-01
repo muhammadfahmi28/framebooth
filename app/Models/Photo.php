@@ -11,7 +11,8 @@ class Photo extends Model
 
     protected $fillable = [
         'tuser_id',
-        'filename'
+        'filename',
+        'raws'
     ];
     // protected $hidden = [
     // ];
@@ -41,4 +42,18 @@ class Photo extends Model
         }
         return storage_path($storage_rel_path);
     }
+
+    function getRawsRealPath() {
+        $filenames = [];
+        foreach ($this->raws as $filename) {
+            $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/'.$filename;
+            if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+                $storage_rel_path = str_replace('/', '\\', $storage_rel_path);
+            }
+            $filenames[] = storage_path($storage_rel_path);
+        }
+
+        return $filenames;
+    }
+
 }

@@ -28,7 +28,8 @@ Route::post('/', "SplashController@login");
     Route::middleware(['photos.cantake'])->group(function () {
         Route::get('/capture', "PhotoController@capture")->name('app.capture');
         Route::post('/capture', "PhotoController@store");
-        Route::post('/testcsrf', "PhotoController@testcsrf")->name('app.testcsrf');
+        Route::post('/save', "PhotoController@saveAndPrint")->name('app.save_and_print');
+        // Route::post('/testcsrf', "PhotoController@testcsrf")->name('app.testcsrf');
     });
 
     Route::get('/print/{id}', "GalleryController@printPhoto")->name('app.open');

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "65e85f9f959c0b087110331754d451cf",
+    "content-hash": "20a9444159a76ecdff413df016d33761",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1105,6 +1105,177 @@
                 }
             ],
             "time": "2023-08-27T10:19:19+00:00"
+        },
+        {
+            "name": "intervention/gif",
+            "version": "3.0.0-alpha.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/gif.git",
+                "reference": "fdcc830c15a41ae992d3bf40675318e2b6201d8b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/gif/zipball/fdcc830c15a41ae992d3bf40675318e2b6201d8b",
+                "reference": "fdcc830c15a41ae992d3bf40675318e2b6201d8b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1",
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Gif\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@intervention.io",
+                    "homepage": "https://intervention.io/"
+                }
+            ],
+            "description": "Native PHP GIF Encoder/Decoder",
+            "homepage": "https://github.com/intervention/gif",
+            "keywords": [
+                "animation",
+                "gd",
+                "gif",
+                "image"
+            ],
+            "support": {
+                "issues": "https://github.com/Intervention/gif/issues",
+                "source": "https://github.com/Intervention/gif/tree/3.0.0-alpha.4"
+            },
+            "time": "2023-10-28T13:43:13+00:00"
+        },
+        {
+            "name": "intervention/image",
+            "version": "3.0.0-beta.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/image.git",
+                "reference": "6d744bf30223398a4627aab1f2a671a02dfcda23"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/6d744bf30223398a4627aab1f2a671a02dfcda23",
+                "reference": "6d744bf30223398a4627aab1f2a671a02dfcda23",
+                "shasum": ""
+            },
+            "require": {
+                "intervention/gif": "^3.0",
+                "intervention/mimesniffer": "^0.5",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.6",
+                "phpstan/phpstan": "^1",
+                "phpunit/phpunit": "^9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Image\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@intervention.io",
+                    "homepage": "https://intervention.io/"
+                }
+            ],
+            "description": "PHP image manipulation",
+            "homepage": "https://image.intervention.io/",
+            "keywords": [
+                "gd",
+                "image",
+                "imagick",
+                "resize",
+                "thumbnail",
+                "watermark"
+            ],
+            "support": {
+                "issues": "https://github.com/Intervention/image/issues",
+                "source": "https://github.com/Intervention/image/tree/3.0.0-beta.8"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/interventionio",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/Intervention",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-10-23T13:55:10+00:00"
+        },
+        {
+            "name": "intervention/mimesniffer",
+            "version": "0.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/mimesniffer.git",
+                "reference": "699ea368f0215fcc50e90077c429a1835a202d0d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/mimesniffer/zipball/699ea368f0215fcc50e90077c429a1835a202d0d",
+                "reference": "699ea368f0215fcc50e90077c429a1835a202d0d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\MimeSniffer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@intervention.io",
+                    "homepage": "https://intervention.io/"
+                }
+            ],
+            "description": "PHP MIME Type Sniffer",
+            "homepage": "http://intervention.io/",
+            "keywords": [
+                "detector",
+                "mime",
+                "sniffer",
+                "type"
+            ],
+            "support": {
+                "issues": "https://github.com/Intervention/mimesniffer/issues",
+                "source": "https://github.com/Intervention/mimesniffer/tree/0.5.1"
+            },
+            "time": "2023-10-03T15:19:44+00:00"
         },
         {
             "name": "laravel/framework",

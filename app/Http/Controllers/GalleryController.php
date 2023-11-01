@@ -6,6 +6,7 @@ use App\Models\Photo;
 use App\Models\Tuser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class GalleryController extends Controller
 {
@@ -30,16 +31,34 @@ class GalleryController extends Controller
     function delete($id) {
         $tuser = Tuser::find(auth()->user()->id);
         $photo = $tuser->photos()->find($id);
-        $real_path = $photo->getRealPath();
 
-        if (file_exists($real_path)) {
-            try {
+        $filename = $photo->filename;
+        $real_path = $photo->getRealPath();
+        $raws_real_path = $photo->getRawsRealPath();
+
+        try {
+            if (file_exists($real_path)) {
                 unlink($real_path);
-            } catch (\Throwable $th) {
-                report($th);
-                return back()->withErrors(["delete"=>"cannot delete photo"]);
             }
+        } catch (\Exception $ex) {
+            Log::alert("CANT DELETE IMAGE FILE!! PROCEED DELETE MODEL ANYWAY >> " . $filename );
+            report($ex);
         }
+
+        try {
+            foreach ($raws_real_path as $real_path) {
+                if (file_exists($real_path)) {
+                    try {
+                        unlink($real_path);
+                    } catch (\Exception $ex) {}
+                }
+            }
+
+        } catch (\Exception $ex) {
+            Log::alert("CANT DELETE RAW IMAGE FILE!! PROCEED DELETE MODEL ANYWAY >> " . $filename );
+            report($ex);
+        }
+
         $photo->delete();
         return back();
     }

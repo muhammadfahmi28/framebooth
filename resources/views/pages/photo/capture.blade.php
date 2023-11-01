@@ -61,12 +61,13 @@
                 <div id="image-main" class="mx-auto mb-4 hidden text-left" style="width: fit-content; background-color: rgba(165, 42, 42, 0.548)">
                     <img src="" alt="" height="1024px">
                 </div>
-                <form action="{{route('app.capture')}}" method="post">
+                <form id="form_main" action="javascript:void(0);" data-url="{{route("app.save_and_print")}}">
+                    @csrf
                     <input id="main_photo" type="hidden" name="main_photo">
                     <input id="raw1th" type="hidden" name="raw[]">
                     <input id="raw2nd" type="hidden" name="raw[]">
                     <input id="raw3rd" type="hidden" name="raw[]">
-                    <button id="edit_done" class="d-block m-auto btn btn-success fs-1" disabled>
+                    <button  type="button" id="edit_done" class="d-block m-auto btn btn-success fs-1" disabled>
                         <i class="fa-solid fa-print"></i> Print
                     </button>
                 </form>
@@ -186,7 +187,7 @@
             canvas.height = height;
             context.drawImage(video, 0, 0, width, height);
 
-            const data = canvas.toDataURL('image/jpeg', 0.9);
+            const data = canvas.toDataURL('image/jpeg', 0.95);
             $(".available-photo.active>img").first().attr("src", data);
             console.log("takepicture", data);
         } else {
@@ -225,18 +226,6 @@
 
     function drawBackground() {
         const collageContext = canvascollage.getContext("2d");
-        // const bgPath = "/assets/images/frame/" + collageArray[collageIndex][0];
-        // const bg = new Image;
-        // bg.src = bgPath;
-        // console.log(bgPath);
-        // return new Promise((resolve, reject) => {
-        //     bg.onload = function() {
-        //         canvascollage.width = this.width;
-        //         canvascollage.height = this.height;
-        //         resolve();
-        //     };
-        // })
-
         canvascollage.width = bgImages[collageIndex].width;
         canvascollage.height = bgImages[collageIndex].height;
     }
@@ -244,18 +233,6 @@
 
     function drawForeground() {
         const collageContext = canvascollage.getContext("2d");
-        // const fgPath = "/assets/images/frame/" + collageArray[collageIndex][0];
-        // const fg = new Image;
-        // fg.src = fgPath;
-        // console.log(fgPath);
-        // return new Promise((resolve, reject) => {
-        //     fg.onload = function() {
-        //         collageContext.drawImage(fg, 0, 0);
-        //         console.log("FG drawed");
-        //         resolve();
-        //     };
-        // })
-
         collageContext.drawImage(bgImages[collageIndex], 0, 0);
     }
 
@@ -314,8 +291,9 @@
         await drawPhotos();
         await drawForeground();
         const collageContext = canvascollage.getContext("2d");
-        const data = canvascollage.toDataURL("image/png");
+        const data = canvascollage.toDataURL('image/jpeg', 0.95);
         $("#image-main>img").attr("src", data);
+        $("#main_photo").val(data);
         $("#image-main").removeClass("hidden");
         $("#edit_done").removeClass("disabled").removeAttr("disabled");
     }
@@ -380,6 +358,38 @@
             startCollage();
         }
 
+    });
+
+    $("#edit_done").on("click", function () {
+        $(this).attr('disabled');
+        console.log("SENDING");
+        const url = $("#form_main").data("url");
+        const token = $('#form_main input[name="_token"]').val();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': token
+            }
+        });
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: {
+                _token: token,
+                main_photo: $("#main_photo").val(),
+                raw: [
+                    $("#raw1th").val(),
+                    $("#raw2nd").val(),
+                    $("#raw3rd").val(),
+                ]
+            },
+            success: function (data) {
+                alert("DONE TODO REDIRECT");
+            },
+            always: function (data) {
+                alert("FAIL PLS RETRY");
+                $("#edit_done").removeAttr("disabled");
+            }
+        });
     });
 
 </script>
