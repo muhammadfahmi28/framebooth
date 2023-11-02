@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -16,13 +16,17 @@ return new class extends Migration
         Schema::create('pending_prints', function (Blueprint $table) {
             $table->id();
 
-            $table->string('filename_1st', 100);
+            $table->unsignedBigInteger('first_id');
             $table->foreign('first_id')->references('id')->on('photos')->onDelete("cascade");
-            $table->string('filename_2nd', 100)->nullable();
+            $table->string('filename_1st', 100);
+
+            $table->unsignedBigInteger('second_id')->nullable();
             $table->foreign('second_id')->references('id')->on('photos')->onDelete("set null");
-            $table->dateTime('printed_at')->nullable()->default(null)->nullable();
+            $table->string('filename_2nd', 100)->nullable();
 
             $table->string('filename_merged', 100)->nullable();
+
+            $table->dateTime('printed_at')->nullable()->default(null)->nullable();
 
             $table->timestamps();
         });

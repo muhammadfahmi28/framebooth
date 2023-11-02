@@ -6,6 +6,7 @@ use App\Models\PendingPrint;
 use App\Models\Tuser;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\File;
@@ -74,25 +75,33 @@ class PhotoController extends Controller
             return json_encode(["status" => "FAILED", "body" => $request->all()]);
         }
 
-        $tuser->photos()->create([
+        $photo = $tuser->photos()->create([
             "filename" => $photo_filename . "." . $photo_ext,
             "raws" => $rawFileNames
         ]);
 
-        //TODO insert into pending
-        // $pending = PendingPrint::whereNull('second_id')->orderBy("created_at", "ASC")->first();
-        // if (is_null($pending)) {
-        //     //crete new pending
-        //     $pending = PendingPrint::create([
+        // insert into pending
+        $pending = PendingPrint::whereNull('second_id')->orderBy("created_at", "ASC")->first();
+        if (is_null($pending)) {
+            //crete new pending
+            $pending = PendingPrint::create([
+                'filename_1st'=> $photo->filename,
+                'first_id'=> $photo->id,
+            ]);
+        } else {
+            $pending->update([
+                'filename_2nd' => $photo->filename,
+                'second_id' => $photo->id
+            ]);
+        }
 
-        //     ]);
-        // } else {
-        //     $pending->second = ""; //
-        // }
+        // TODO UPLOAD KE DRIVE
 
-        //TODO UPLOAD KE DRIVE
+        // Trigger Print Command, Bakal ngeprint kalau ada pending print yang bisa diprint
+        // jangan andelin ini. trigger print juga harus dipanggil di skeduler OS, crontab atau task scheduler
+        Artisan::call('photo:print');
 
-        return json_encode(["status" => "OK", "body" => $request->all()]);
+        return json_encode(["status" => "OK", "body" => $request->all(), "dd" => $photo->toArray()]);
     }
 
     function testcsrf(Request $request) {
