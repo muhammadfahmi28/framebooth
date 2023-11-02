@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\File;
+use chillerlan\QRCode\QRCode;
+use Intervention\Image\ImageManager;
 
 class PhotoController extends Controller
 {
@@ -18,6 +20,7 @@ class PhotoController extends Controller
     }
 
     function saveAndPrint(Request $request) {
+        $manager = new ImageManager(['driver' => 'gd']);
         $tuser = Tuser::find(auth()->user()->id);
         $uid = $tuser->uid;
 
@@ -30,23 +33,36 @@ class PhotoController extends Controller
             'raw' => 'required'
         ]);
 
+        // TODO REMOTE GET calon url {$uid}/" . $photo_filename . "." . $photo_ext -->> return string url
+        $imgUrl = 'https://www.google.com/'; // << Dari Remote
+        $qrBase64 = (new \chillerlan\QRCode\QRCode)->render($imgUrl);
+
         try {
-            $imgBase64 = $request->main_photo;
-            $imgData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imgBase64));
+            // Save Directly w/o QR
+            // $imgBase64 = $request->main_photo;
+            // $imgData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imgBase64));
 
             // save File
-            $tmpFilePath = sys_get_temp_dir() . '/' . Str::uuid()->toString();
-            file_put_contents($tmpFilePath, $imgData);
+            // $tmpFilePath = sys_get_temp_dir() . '/' . Str::uuid()->toString();
+            // file_put_contents($tmpFilePath, $imgData);
 
-            $tmpFile = new  File($tmpFilePath);
-            $file = new UploadedFile(
-                $tmpFile->getPathname(),
-                $tmpFile->getFilename(),
-                $tmpFile->getMimeType(),
-                0,
-                true
-            );
-            Storage::putFileAs("public/photos/{$uid}/", $file, $photo_filename . "." . $photo_ext);
+            // $tmpFile = new  File($tmpFilePath);
+            // $file = new UploadedFile(
+            //     $tmpFile->getPathname(),
+            //     $tmpFile->getFilename(),
+            //     $tmpFile->getMimeType(),
+            //     0,
+            //     true
+            // );
+            // Storage::putFileAs("public/photos/{$uid}/", $file, $photo_filename . "." . $photo_ext);
+
+            // Save with QR
+            $imgBase64 = $request->main_photo;
+            $imgImage = $manager->read($imgBase64);
+            $imgQR = $manager->read($qrBase64);
+            $imgQR->scale(height: 360);
+            $imgImage->place($imgQR, 'top-left', 459, 2127);
+            $imgImage->toJpeg(100)->save(storage_path("app/public/photos/{$uid}/" . $photo_filename . "." . $photo_ext));
 
             $rawsBase64 = $request->raw;
             $rawFileNames = [];
@@ -75,6 +91,8 @@ class PhotoController extends Controller
             return json_encode(["status" => "FAILED", "body" => $request->all()]);
         }
 
+        // TODO UPLOAD KE REMOTE Dengan link placehoder diatas
+
         $photo = $tuser->photos()->create([
             "filename" => $photo_filename . "." . $photo_ext,
             "raws" => $rawFileNames
@@ -94,8 +112,6 @@ class PhotoController extends Controller
                 'second_id' => $photo->id
             ]);
         }
-
-        // TODO UPLOAD KE DRIVE
 
         // Trigger Print Command, Bakal ngeprint kalau ada pending print yang bisa diprint
         // jangan andelin ini. trigger print juga harus dipanggil di skeduler OS, crontab atau task scheduler
