@@ -32,6 +32,10 @@ class GalleryController extends Controller
         $tuser = Tuser::find(auth()->user()->id);
         $photo = $tuser->photos()->find($id);
 
+        if ($photo == null) {
+            return redirect()->route('app.gallery');
+        }
+
         $filename = $photo->filename;
         $real_path = $photo->getRealPath();
         $raws_real_path = $photo->getRawsRealPath();

@@ -35,26 +35,9 @@ class PhotoController extends Controller
 
         // TODO REMOTE GET calon url {$uid}/" . $photo_filename . "." . $photo_ext -->> return string url
         $imgUrl = 'https://www.google.com/'; // << Dari Remote
-        $qrBase64 = (new \chillerlan\QRCode\QRCode)->render($imgUrl);
+        $qrBase64 = (new QRCode)->render($imgUrl);
 
         try {
-            // Save Directly w/o QR
-            // $imgBase64 = $request->main_photo;
-            // $imgData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imgBase64));
-
-            // save File
-            // $tmpFilePath = sys_get_temp_dir() . '/' . Str::uuid()->toString();
-            // file_put_contents($tmpFilePath, $imgData);
-
-            // $tmpFile = new  File($tmpFilePath);
-            // $file = new UploadedFile(
-            //     $tmpFile->getPathname(),
-            //     $tmpFile->getFilename(),
-            //     $tmpFile->getMimeType(),
-            //     0,
-            //     true
-            // );
-            // Storage::putFileAs("public/photos/{$uid}/", $file, $photo_filename . "." . $photo_ext);
 
             // Save with QR
             $imgBase64 = $request->main_photo;
@@ -62,13 +45,62 @@ class PhotoController extends Controller
             $imgQR = $manager->read($qrBase64);
             $imgQR->scale(height: 360);
             $imgImage->place($imgQR, 'top-left', 459, 2127);
-            $imgImage->toJpeg(100)->save(storage_path("app/public/photos/{$uid}/" . $photo_filename . "." . $photo_ext));
+            // $imgImage->toJpeg(100)->save(storage_path("app/public/photos/{$uid}/" . $photo_filename . "." . $photo_ext));
+            $imgBase64 = $imgImage->toJpeg(100)->toDataUri(); // to data Uri cause intervention cant create directories
 
+            $imgImage->scale(height: 360); //for thumbs
+            $imgThumbBase64 = $imgImage->toJpeg(70)->toDataUri();
+            $imgData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imgBase64));
+            $imgThumbBaseData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imgThumbBase64));
+
+            // // Save Directly w/o QR
+            // $imgBase64 = $request->main_photo;
+            // $imgData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $imgBase64));
+
+            //  -----  SAVE FILE
+            // STORE TEMPS
+            $tmpFilePath = sys_get_temp_dir() . '/' . Str::uuid()->toString();
+            file_put_contents($tmpFilePath, $imgData);
+
+            $tmpFileThumbPath = sys_get_temp_dir() . '/' . Str::uuid()->toString();
+            file_put_contents($tmpFileThumbPath, $imgThumbBaseData);
+
+            // STORE PHOTO
+            $tmpFile = new  File($tmpFilePath);
+            $file = new UploadedFile(
+                $tmpFile->getPathname(),
+                $tmpFile->getFilename(),
+                $tmpFile->getMimeType(),
+                0,
+                true
+            );
+            Storage::putFileAs("public/photos/{$uid}/", $file, $photo_filename . "." . $photo_ext);
+
+            // STORE THUMB
+            $tmpFileThumb = new  File($tmpFileThumbPath);
+            $file = new UploadedFile(
+                $tmpFileThumb->getPathname(),
+                $tmpFileThumb->getFilename(),
+                $tmpFileThumb->getMimeType(),
+                0,
+                true
+            );
+            Storage::putFileAs("public/photos/{$uid}/small/", $file, $photo_filename . "." . $photo_ext);
+
+            //  -----  SAVE RAWS
             $rawsBase64 = $request->raw;
             $rawFileNames = [];
             $i = 1;
             foreach ($rawsBase64 as $rawBase64) {
                 $rawImgData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $rawBase64)) ;
+                $rawThumbImage = $manager->read($rawImgData);
+                $rawThumbImage->scale(height: 360); //for thumbs
+                $rawThumbBase64 = $rawThumbImage->toJpeg(70)->toDataUri();
+                $rawThumbData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $rawThumbBase64)) ;
+
+                // STORE RAWS
+                $saveName = $photo_filename . "_raw_" . $i . "." . $photo_ext;
+
                 $tmpFilePath = sys_get_temp_dir() . '/' . Str::uuid()->toString();
                 file_put_contents($tmpFilePath, $rawImgData);
 
@@ -80,9 +112,22 @@ class PhotoController extends Controller
                     0,
                     true
                 );
-                $saveName = $photo_filename . "_raw_" . $i . "." . $photo_ext;
                 Storage::putFileAs("public/photos/{$uid}/", $file, $saveName);
                 $rawFileNames[] = $saveName;
+
+                $tmpFileThumbPath = sys_get_temp_dir() . '/' . Str::uuid()->toString();
+                file_put_contents($tmpFileThumbPath, $rawThumbData);
+
+                $tmpFileThumb = new  File($tmpFileThumbPath);
+                $fileThumb = new UploadedFile(
+                    $tmpFileThumb->getPathname(),
+                    $tmpFileThumb->getFilename(),
+                    $tmpFileThumb->getMimeType(),
+                    0,
+                    true
+                );
+                Storage::putFileAs("public/photos/{$uid}/small/", $fileThumb, $saveName);
+
                 $i++;
                 // put raws
             }

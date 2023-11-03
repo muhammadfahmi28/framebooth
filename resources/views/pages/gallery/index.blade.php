@@ -39,7 +39,11 @@
                 @foreach ($photos as $photo)
                 <div class="gl-photo-frame col" data-photo_id="{{$photo->id}}">
                     <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">
-                        <img src="{{asset('storage/'.$folder.'/'.$photo->filename)}}" alt="" width="250px">
+                        @if (count($photo->raws) > 0)
+                            <img src="{{asset('storage/'.$folder.'/small\/'.$photo->raws[0])}}" alt="">
+                        @else
+                            <img src="{{asset('storage/'.$folder.'/small\/'.$photo->filename)}}" alt="">
+                        @endif
                     </div>
                 </div>
                 @endforeach
@@ -60,6 +64,24 @@
 
 </div>
 
+<div id="modalConfirmDelete" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Delete Photo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Confirm delete this photo?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <a id="modalConfirmDeleteConfirm"  class="btn btn-danger" href="#" data-url="{{url("app/delete/")}}/" role="button">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 @endsection
 
 @section("post_body")
@@ -68,7 +90,10 @@
 
 <!-- Button trigger modal -->
 {{-- todo if !$tuser->canTakePhotos() disable, grtayscale dan bukan pointer, text berapa perberapa image yang diambil --}}
-<a class="app-btn-capture load-hide opacity-0" href="{{route('app.capture')}}">
+<h2 class="opacity-0 load-hide app-capture-counter">
+    {{$photos->count()}}/{{$tuser->max_photos}}
+</h2>
+<a class="app-btn-capture load-hide opacity-0 {{$tuser->canTakePhotos() ? "" : "filer-grayscale"}}" href="{{$tuser->canTakePhotos() ? route('app.capture') : "#"}}">
     &nbsp;
 </a>
 
@@ -79,12 +104,12 @@
             {{-- <img src="{{'assets/images/view-1.svg'}}" height="82px" alt=""> --}}
         </a>
 
-        <a href="#" class="d-inline-block gl-icon-gl-print px-3">
+        {{-- Print via gallery ga dulu --}}
+        {{-- <a href="#" class="d-inline-block gl-icon-gl-print px-3">
             &nbsp;
-            {{-- <img src="{{'assets/images/print-1.svg'}}" height="82px" alt=""> --}}
-        </a>
+        </a> --}}
 
-        <a id="gl-tool-delete" href="#" data-url="{{url("app/delete/")}}/" class="d-inline-block gl-icon-gl-del px-3">
+        <a id="gl-tool-delete" href="#" class="d-inline-block gl-icon-gl-del px-3" data-bs-toggle="modal" data-bs-target="#modalConfirmDelete">
             &nbsp;
             {{-- <img src="{{'assets/images/del-1.svg'}}" height="82px" alt=""> --}}
         </a>
@@ -104,15 +129,15 @@
         '/assets/images/capture-1.svg',
         '/assets/images/capture-2.svg',
         '/assets/images/capture-3.svg',
-        'assets/images/view-1.svg',
-        'assets/images/print-1.svg',
-        'assets/images/del-1.svg',
-        'assets/images/view-2.svg',
-        'assets/images/print-2.svg',
-        'assets/images/del-2.svg',
-        'assets/images/view-3.svg',
-        'assets/images/print-3.svg',
-        'assets/images/del-3.svg'
+        '/assets/images/view-1.svg',
+        '/assets/images/print-1.svg',
+        '/assets/images/del-1.svg',
+        '/assets/images/view-2.svg',
+        '/assets/images/print-2.svg',
+        '/assets/images/del-2.svg',
+        '/assets/images/view-3.svg',
+        '/assets/images/print-3.svg',
+        '/assets/images/del-3.svg'
     ];
 
     function preloadImages(images) {
@@ -132,12 +157,13 @@
         renderPage();
     });
 
-    $(".gl-photo-frame").on("click", function () {
+    $(".gl-photo").on("click", function () {
+        let parent = $(this).parent();
         $(".gl-photo-frame").removeClass("selected");
-        $(this).addClass("selected");
-        photo_selected = $(this).data("photo_id");
+        parent.addClass("selected");
+        photo_selected = parent.data("photo_id");
 
-        $("#gl-tool-delete").attr("href", ("" + $("#gl-tool-delete").data("url") + photo_selected));
+        $("#modalConfirmDeleteConfirm").attr("href", ("" + $("#modalConfirmDeleteConfirm").data("url") + photo_selected));
 
         $("#gl-photo-tool").removeClass("disabled");
         $("#gl-photo-tool").removeClass("gl-photo-tool-hidden");
@@ -145,7 +171,7 @@
 
     $(document).mouseup(function(e)
     {
-        var container = $(".gl-photo-frame, .gl-photo-tool");
+        var container = $(".gl-photo, .gl-photo-tool");
         if (!container.is(e.target) && container.has(e.target).length === 0)
         {
             photo_selected = null;

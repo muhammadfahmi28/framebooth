@@ -24,7 +24,7 @@
     @yield('body')
 
     <script>
-
+        const HOME_URL = "{{url('')}}";
         function preloadImage(url) {
             var img=new Image();
             img.src=url;

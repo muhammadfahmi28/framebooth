@@ -32,6 +32,10 @@ body{
     opacity: 0;
 }
 
+.filer-grayscale {
+    filter: grayscale(100%);
+}
+
 #content {
     flex-grow: 1;
     position: relative;
@@ -55,6 +59,17 @@ h1 {
         -3px -3px 0 #000,
         3px -3px 0 #000;
     transform: translate(-64px) rotate(-12deg);
+    display: inline-block;
+}
+
+h2 {
+    color: #fff;
+    font-size: 3rem;
+    text-shadow:
+        3px 3px 2px #000,
+        -3px 3px 2px #000,
+        -3px -3px 0 #000,
+        3px -3px 0 #000;
     display: inline-block;
 }
 
@@ -86,6 +101,13 @@ h1 {
 
 .app-btn-logout:active {
     background: url("/assets/images/btn-logout-active.svg") no-repeat;
+}
+
+.app-capture-counter {
+    position: absolute;
+    bottom: 0;
+    right: 180px;
+    z-index: 10;
 }
 
 .app-btn-capture {

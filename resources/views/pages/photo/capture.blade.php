@@ -84,6 +84,51 @@
 <canvas id="canvas-collage" style="display: none;"> </canvas>
 <canvas id="canvas" style="display: none;"> </canvas>
 
+<div id="modalLoading" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Printing</h5>
+            </div>
+            <div class="modal-body fs-1 text-center">
+                <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+            </div>
+                <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalSuccess" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Success</h5>
+            </div>
+            <div class="modal-body text-center">
+                You'll be redirected
+            </div>
+                <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalFailed" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Failed</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body fs-1 text-center">
+                <i class="fa-solid fa-spinner fa-spin-pulse"></i>
+            </div>
+                <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section("post_body")
@@ -122,6 +167,10 @@
     let canvas = null;
     let photo = null;
     let capturebtn = null; //take Photo
+
+    var modalLoading = null;
+    var modalSuccess = null;
+    var modalFailed = null;
 
     // F
     let canvascollage = null;
@@ -315,6 +364,9 @@
 
     $(function () {
         startup();
+        modalLoading = new bootstrap.Modal('#modalLoading', {backdrop: "static", keyboard: false, focus: true});
+        modalSuccess = new bootstrap.Modal('#modalSuccess', {backdrop: "static", keyboard: false, focus: true});
+        modalFailed = new bootstrap.Modal('#modalFailed', {focus: true});
     });
 
     $(".available-photo").on("click", function () {
@@ -361,6 +413,7 @@
     });
 
     $("#edit_done").on("click", function () {
+        modalLoading.show();
         $(this).attr('disabled');
         console.log("SENDING");
         const url = $("#form_main").data("url");
@@ -383,10 +436,15 @@
                 ]
             },
             success: function (data) {
-                alert("DONE TODO REDIRECT");
+                modalLoading.hide();
+                modalSuccess.show();
+                setTimeout(() => {
+                    window.location.replace(HOME_URL);
+                }, 2000);
             },
             always: function (data) {
-                alert("FAIL PLS RETRY");
+                modalLoading.hide();
+                modalFailed.show();
                 $("#edit_done").removeAttr("disabled");
             }
         });
