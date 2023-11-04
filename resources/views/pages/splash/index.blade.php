@@ -13,7 +13,7 @@
     </div> --}}
     <div id="content" class="d-flex flex-column justify-content-center">
         <div class="splash-content text-center" style="width: 100%;">
-            <img src="{{asset('assets/images/logo.jpg')}}" alt="logo" class="m-5" height="200px">
+            <img src="{{asset('assets/images/logo.png')}}" alt="logo" class="m-5" height="400px">
             <div style="height: 400px; width:400px; margin: auto;">
                 <div id="reader"></div>
             </div>
