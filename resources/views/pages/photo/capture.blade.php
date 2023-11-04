@@ -183,7 +183,8 @@
     const collageArray = [
         ["1.png", null],
         ["2.png", null],
-        ["3.png", null]
+        ["3.png", null],
+        ["4.png", null]
     ];
     var collageIndex = 0;
 

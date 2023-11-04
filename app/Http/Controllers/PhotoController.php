@@ -42,9 +42,13 @@ class PhotoController extends Controller
             // Save with QR
             $imgBase64 = $request->main_photo;
             $imgImage = $manager->read($imgBase64);
-            $imgQR = $manager->read($qrBase64);
-            $imgQR->scale(height: 360);
-            $imgImage->place($imgQR, 'top-left', 459, 2127);
+
+            if (env('PRINT_QR', false)) {
+                $imgQR = $manager->read($qrBase64);
+                $imgQR->scale(height: 360);
+                $imgImage->place($imgQR, 'top-left', 459, 2127);
+            }
+
             // $imgImage->toJpeg(100)->save(storage_path("app/public/photos/{$uid}/" . $photo_filename . "." . $photo_ext));
             $imgBase64 = $imgImage->toJpeg(100)->toDataUri(); // to data Uri cause intervention cant create directories
 
