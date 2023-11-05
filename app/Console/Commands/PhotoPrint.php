@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\PendingPrint;
 use App\Models\Photo;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 
 class PhotoPrint extends Command
@@ -56,6 +57,7 @@ class PhotoPrint extends Command
         // $savePath = 'storage/app/public/prints/'. $filenamemerge;
 
         $savePath = 'app/public/prints/'. $filenamemerge;
+        Storage::makeDirectory('public/prints');
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $savePath = str_replace('/', '\\', $savePath);
         }

@@ -160,6 +160,7 @@
 
 <script>
     const width = 1920; // We will scale the photo width to this
+    // var camera_ratio = (9/16)
     let height = null; // This will be computed based on the input stream
     let streaming = false;
 
@@ -174,7 +175,8 @@
 
     // F
     let canvascollage = null;
-    let ratio = (33 / 21);
+    // let ratio = (33 / 21); //ratio of the frame
+    let ratio = (33 / 21); //ratio of the frame
     const defaultPos = [
         [36, 24, 777, 525],
         [36, 597, 777, 525],
@@ -200,6 +202,10 @@
             video: true,
             audio: false
         }).then((stream) => {
+            let camera_setting = stream.getVideoTracks()[0].getSettings();
+            // console.log("ratio", camera_setting);
+            // camera_ratio = (camera_setting.width/camera_setting.height)
+            ratio = (camera_setting.height/camera_setting.width)
             video.srcObject = stream;
             video.play();
         })
@@ -211,7 +217,7 @@
             "canplay",
             (ev) => {
                 if (height == null) {
-                    height = width / (ratio);
+                    height = width * (ratio);
                 }
                 console.log("canplay", height);
                 video.setAttribute("width", width);
@@ -303,7 +309,8 @@
             const I_1 = new Image;
             I_1.src = image1st;
             I_1.onload = function() {
-                collageContext.drawImage(I_1, pos[0][0], pos[0][1], pos[0][2], pos[0][3]);
+                collageContext.drawImage(I_1, pos[0][0], pos[0][1], pos[0][2], pos[0][2] * ratio);
+                // collageContext.drawImage(I_1, pos[0][0], pos[0][1], pos[0][2], pos[0][3]); //deprecated bikin lebar
                 console.log("0 drawed");
                 drawCount += 1;
                 if (drawCount >= 3) {
@@ -314,7 +321,7 @@
             const I_2 = new Image;
             I_2.src = image2nd;
             I_2.onload = function() {
-                collageContext.drawImage(I_2, pos[1][0], pos[1][1], pos[1][2], pos[1][3]);
+                collageContext.drawImage(I_2, pos[1][0], pos[1][1], pos[1][2], pos[1][2] * ratio);
                 console.log("1 drawed");
                 drawCount += 1;
                 if (drawCount >= 3) {
@@ -325,7 +332,7 @@
             const I_3 = new Image;
             I_3.src = image3rd;
             I_3.onload = function() {
-                collageContext.drawImage(I_3, pos[2][0], pos[2][1], pos[2][2], pos[2][3]);
+                collageContext.drawImage(I_3, pos[2][0], pos[2][1], pos[2][2], pos[2][2] * ratio);
                 console.log("2 drawed");
                 drawCount += 1;
                 if (drawCount >= 3) {
