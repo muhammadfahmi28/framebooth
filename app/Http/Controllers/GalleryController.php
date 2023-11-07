@@ -27,7 +27,7 @@ class GalleryController extends Controller
         $filename = $request->filename;
         // return dd($uid, $filename);
         if (empty($uid) || empty($filename)) {
-            return dd("empty", $uid, $filename);
+            // return dd("empty", $uid, $filename);
             return abort('404');
         }
 
@@ -39,7 +39,7 @@ class GalleryController extends Controller
             $folder = Photo::DEFAULT_DIR . '/' . $tuser->uid;
 
             if (empty($photo)) { // could been better but whatever
-                return dd("no photo", $uid, $filename, $tuser->photos);
+                // return dd("no photo", $uid, $filename, $tuser->photos);
                 return $this->publicShowFail(); // Content Not available. Sorry content not exst or not yet available, pls come back after a few moments
             }
 
@@ -63,7 +63,7 @@ class GalleryController extends Controller
 
             return view('pages.gallery.public-show', compact('title', 'tuser', 'photo', 'photo_urls' , 'folder'));
         }
-        return dd("fallback", $uid, $filename);
+        // return dd("fallback", $uid, $filename);
         return $this->publicShowFail();
     }
 
