@@ -110,7 +110,7 @@ class PhotoSync extends Command
         }
 
         // $pending->update([
-        //     "updated_at" => now(),
+        //     "uploaded_at" => now(),
         // ]);
 
         $this->line("UPLOADING " . $pending->id . " COMPLETE");
