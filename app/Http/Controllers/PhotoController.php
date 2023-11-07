@@ -235,7 +235,7 @@ class PhotoController extends Controller
             }
 
             $photo->update([
-                "printed_at" => now()
+                "updated_at" => now()
             ]);
 
             return response("Upload Success", 200);

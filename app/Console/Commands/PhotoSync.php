@@ -88,7 +88,7 @@ class PhotoSync extends Command
         try {
             $client = new Client();
 
-            $res = $client->request("POST", env("MASTER_APP_URL"), [
+            $res = $client->request("POST", env("MASTER_APP_URL") . "/api/photos/$pending->id/upload/", [
                 "headers"=>[
                     "key" => env('API_KEY')
                 ],
@@ -109,7 +109,11 @@ class PhotoSync extends Command
             return false;
         }
 
-        $this->line("UPLOADING " . $pending->id . "COMPLETE");
+        // $pending->update([
+        //     "updated_at" => now(),
+        // ]);
+
+        $this->line("UPLOADING " . $pending->id . " COMPLETE");
         return true;
     }
 
