@@ -111,7 +111,7 @@ class PhotoSync extends Command
             ]);
 
             if($res->getStatusCode() != 200) {
-                $response = json_decode($res->getBody());
+                $response = $res->getBody();
                 $this->line("UPLOADING " . $pending->id . " FAILED : BAD RESPONSE");
                 Log::error("Error Uploading " . $pending->id);
                 Log::error($response);

@@ -249,16 +249,16 @@ class PhotoController extends Controller
                 "failed_at" => null
             ]);
 
-            return response("Upload Success", 200);
+            return response()->json(["status" => "Upload Success"], 200);
         }
-        return response("not found", 300);
+            return response()->json(["status" => "not found"], 300);
     }
 
     function recieveGenerateAndSyncPhoto(Request $request) {
         $main = $request->file('main');
         $raws = $request->file('raw');
         $uid = $request->input('uid');
-        if (!empty($uid) && !empty($main) && !empty($raw)) {
+        if (!empty($uid) && !empty($main) && !empty($raws)) {
             // check and generate user
             $owner = Tuser::where('uid', $uid)->first();
             if (empty($owner)) {
@@ -306,10 +306,10 @@ class PhotoController extends Controller
                 $rawSavedThumbs = $rawImageThumbs->toJpeg(70)->save($savePath);
                 Storage::putFileAs("public/photos/{$uid}/", $raws[$key], $raw->getClientOriginalName());
             }
-            return response("Upload Success", 200);
+            return response()->json(["status" => "Upload Success"], 200);
 
         }
-        return response("not found", 300);
+        return response()->json(["status" => "not found"], 300);
     }
 
     function recievePhotoDirect(Request $request) { //!! DEPRECATED // Unsafe mode. only for trusted client. Nyimpen file langsung tanpa cek DB
@@ -334,9 +334,9 @@ class PhotoController extends Controller
                 $rawSavedThumbs = $rawImageThumbs->toJpeg(70)->save($savePath);
                 Storage::putFileAs("public/photos/{$uid}/", $raws[$key], $raw->getClientOriginalName());
             }
-            return response("Upload Success", 200);
+            return response()->json(["status" => "Upload Success"], 200);
         }
-        return response("not found", 300);
+        return response()->json(["status" => "not found"], 300);
     }
 
     function testRecieveSyncPhoto(Request $request, $photo_id) {
