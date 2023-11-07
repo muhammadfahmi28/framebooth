@@ -13,13 +13,15 @@ class Photo extends Model
         'tuser_id',
         'filename',
         'raws',
-        'uploaded_at'
+        'uploaded_at',
+        'failed_at'
     ];
     // protected $hidden = [
     // ];
     protected $casts = [
         'raws' => "array",
-        'uploaded_at' => 'datetime'
+        'uploaded_at' => 'datetime',
+        'failed_at' => 'datetime'
     ];
 
     /**

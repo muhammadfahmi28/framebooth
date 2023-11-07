@@ -15,11 +15,13 @@ class PendingPrint extends Model
         "filename_2nd",
         "second_id",
         "printed_at",
-        "filename_merged"
+        "filename_merged",
+        'failed_at'
     ];
 
     protected $casts = [
         'printed_at' => 'datetime',
+        'failed_at' => 'datetime'
     ];
 
 }

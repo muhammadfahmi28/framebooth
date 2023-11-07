@@ -46,16 +46,26 @@ class PhotoSync extends Command
     }
 
     function checkAndUpload() : bool {
-        $pending = Photo::whereNull('uploaded_at')->orderBy("created_at", "ASC")->first();
+        $pending = Photo::with('tuser:id,uid')->whereNull('uploaded_at')->whereNull('failed_at')->orderBy("created_at", "ASC")->first();
 
         if ($pending == null) {
-            $this->line("NO PENDING UPLOAD");
-            return true;
+            $this->line("NO PENDING UPLOAD, SEARCHING PAST FAILED");
+            $pending = Photo::with('tuser:id,uid')->whereNull('uploaded_at')->whereNotNull('failed_at')->orderBy("failed_at", "ASC")->first();
+            if ($pending == null) {
+                $this->line("NO FAILED UPLOAD");
+                return true;
+            }
         }
 
         $file_parts = [];
 
         try {
+            $this->line("UPLOADING " . $pending->id . "...");
+
+            $file_parts[] = [
+                'name' => 'uid',
+                'contents' => $pending->tuser->uid,
+            ];
 
             $file_parts[] = [
                 'name' => 'main',
@@ -77,14 +87,19 @@ class PhotoSync extends Command
 
         } catch (\Exception $ex) {
             $this->line("FAILED TO LOAD IMAGES");
+
+            $pending->update([
+                "failed_at" => now(),
+            ]);
+
             report($ex);
+
             return false;
         }
 
         // $this->line(dd($file_parts));
         // return true;
 
-        $this->line("UPLOADING " . $pending->id . "...");
         try {
             $client = new Client();
 
@@ -105,13 +120,20 @@ class PhotoSync extends Command
 
         } catch (\Exception $ex) {
             $this->line("FAILED TO UPLOAD");
+
+            $pending->update([
+                "failed_at" => now(),
+            ]);
+
             report($ex);
             return false;
         }
 
-        // $pending->update([
-        //     "uploaded_at" => now(),
-        // ]);
+        // Set lagi just o make sure lol.
+        $pending->update([
+            "uploaded_at" => now(),
+            "failed_at" => null
+        ]);
 
         $this->line("UPLOADING " . $pending->id . " COMPLETE");
         return true;

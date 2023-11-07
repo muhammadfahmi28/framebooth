@@ -235,12 +235,16 @@ class PhotoController extends Controller
             }
 
             $photo->update([
-                "uploaded_at" => now()
+                "uploaded_at" => now(),
+                "failed_at" => null
             ]);
 
             return response("Upload Success", 200);
         }
         return response("not found", 300);
+    }
+
+    function recievePhotoDirect(Request $request, $photo_id) { // Unsafe mode. only for trusted client. Nyimpen file langsung tanpa cek DB
     }
 
     function testRecieveSyncPhoto(Request $request, $photo_id) {
