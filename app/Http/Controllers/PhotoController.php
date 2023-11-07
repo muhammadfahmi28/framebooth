@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\File\File;
 use chillerlan\QRCode\QRCode;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\ImageManager;
 
 class PhotoController extends Controller
@@ -207,6 +208,11 @@ class PhotoController extends Controller
     }
 
     function recieveSyncPhoto(Request $request, $photo_id) {
+
+        if (env("FEATURE_DIRECT_STORE", false)) {
+            return $this->recievePhotoDirect($request);
+        }
+
         $photo = Photo::find($photo_id);
         $main = $request->file('main');
         $raws = $request->file('raw');
@@ -220,7 +226,7 @@ class PhotoController extends Controller
             $mainImageThumbs = $manager->read($main->getRealPath());
             $mainImageThumbs->scale(height: 360); //for thumbs
             $savePath = storage_path("app/public/photos/{$owner->uid}/small/".$photo->filename);
-            $mainSavedThumbs = $mainImageThumbs->toJpeg(100)->save($savePath);
+            $mainSavedThumbs = $mainImageThumbs->toJpeg(70)->save($savePath);
 
             Storage::putFileAs("public/photos/{$owner->uid}/", $main, $photo->filename);
 
@@ -229,7 +235,7 @@ class PhotoController extends Controller
                     $rawImageThumbs = $manager->read($raws[$key]->getRealPath());
                     $rawImageThumbs->scale(height: 360); //for thumbs
                     $savePath = storage_path("app/public/photos/{$owner->uid}/small/".$raw_filename);
-                    $rawSavedThumbs = $rawImageThumbs->toJpeg(100)->save($savePath);
+                    $rawSavedThumbs = $rawImageThumbs->toJpeg(70)->save($savePath);
                     Storage::putFileAs("public/photos/{$owner->uid}/", $raws[$key], $raw_filename);
                 }
             }
@@ -244,7 +250,31 @@ class PhotoController extends Controller
         return response("not found", 300);
     }
 
-    function recievePhotoDirect(Request $request, $photo_id) { // Unsafe mode. only for trusted client. Nyimpen file langsung tanpa cek DB
+    function recievePhotoDirect(Request $request) { // Unsafe mode. only for trusted client. Nyimpen file langsung tanpa cek DB
+        $main = $request->file('main');
+        $raws = $request->file('raw');
+        $uid = $request->input('uid');
+        if (!empty($uid)) {
+            $manager = new ImageManager(['driver' => 'gd']);
+            Storage::makeDirectory("public/photos/{$uid}/small"); //prepare dir
+
+            $mainImageThumbs = $manager->read($main->getRealPath());
+            $mainImageThumbs->scale(height: 360); //for thumbs
+            $savePath = storage_path("app/public/photos/{$uid}/small/".$main->getClientOriginalName());
+            $mainSavedThumbs = $mainImageThumbs->toJpeg(70)->save($savePath);
+
+            Storage::putFileAs("public/photos/{$uid}/", $main, $main->getClientOriginalName());
+
+            foreach ($raws as $key => $raw) {
+                $rawImageThumbs = $manager->read($raw->getRealPath());
+                $rawImageThumbs->scale(height: 360); //for thumbs
+                $savePath = storage_path("app/public/photos/{$uid}/small/" . $raw->getClientOriginalName());
+                $rawSavedThumbs = $rawImageThumbs->toJpeg(70)->save($savePath);
+                Storage::putFileAs("public/photos/{$uid}/", $raws[$key], $raw->getClientOriginalName());
+            }
+            return response("Upload Success", 200);
+        }
+        return response("not found", 300);
     }
 
     function testRecieveSyncPhoto(Request $request, $photo_id) {
