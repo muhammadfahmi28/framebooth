@@ -15,7 +15,7 @@ class PhotoPrint extends Command
      *
      * @var string
      */
-    protected $signature = 'photo:print';
+    protected $signature = 'photo:print {--work}';
 
     /**
      * The console command description.
@@ -31,11 +31,26 @@ class PhotoPrint extends Command
      */
     public function handle()
     {
+        if ($this->option('work')) {
+            for ($i=0; true ; $i++) {
+                $this->checkAndPrint();
+                sleep(2);
+            }
+            $this->line("and it ends...");
+            return Command::SUCCESS;
+        } else {
+            if ($this->checkAndPrint()) {
+                return Command::SUCCESS;
+            };
+        }
+    }
+
+    function checkAndPrint() : bool {
         // Get pending print with 2nd photo available
         $pending = PendingPrint::whereNotNull('second_id')->whereNull('printed_at')->orderBy("created_at", "ASC")->first();
         if ($pending == null) {
             $this->line("NO COMPLETE PENDING PRINT");
-            return Command::SUCCESS;
+            return true;
         }
         $images = Photo::whereIn('id', array($pending->first_id, $pending->second_id))->get();
         // $this->line($images[0]->getRelativePath() . $images[1]->getRelativePath());
@@ -69,6 +84,8 @@ class PhotoPrint extends Command
         $this->line("PRINTING...");
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             exec('rundll32 C:\WINDOWS\system32\shimgvw.dll,ImageView_PrintTo "'.$savePath.'" "'.env('PRINTER_NAME').'"');
+            // exec('"C:\Program Files\IrfanView\i_view64.exe" "'.$savePath.'" /print="'.env('PRINTER_NAME').'"');
+            // exec('mspaint /pt "'.$savePath.'" "'.env('PRINTER_NAME').'"');
             $this->line("PRINTING CALLED");
         } else {
             $this->line("UNSUPPORTED OS");
@@ -77,8 +94,9 @@ class PhotoPrint extends Command
             "printed_at" => now(),
             "filename_merged" => $filenamemerge
         ]);
+        sleep(25);
 
-        return Command::SUCCESS;
+        return true;
     }
 
 }

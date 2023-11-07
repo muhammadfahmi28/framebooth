@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'photos.cantake' => \App\Http\Middleware\CanTakePhoto::class,
+        'compare.api' => \App\Http\Middleware\CompareApiKey::class
     ];
 }

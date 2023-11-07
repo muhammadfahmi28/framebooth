@@ -12,12 +12,14 @@ class Photo extends Model
     protected $fillable = [
         'tuser_id',
         'filename',
-        'raws'
+        'raws',
+        'uploaded_at'
     ];
     // protected $hidden = [
     // ];
     protected $casts = [
-        'raws' => "array"
+        'raws' => "array",
+        'uploaded_at' => 'datetime'
     ];
 
     /**

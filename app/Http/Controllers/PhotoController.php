@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PendingPrint;
+use App\Models\Photo;
 use App\Models\Tuser;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -162,10 +163,6 @@ class PhotoController extends Controller
             ]);
         }
 
-        // Trigger Print Command, Bakal ngeprint kalau ada pending print yang bisa diprint
-        // jangan andelin ini. trigger print juga harus dipanggil di skeduler OS, crontab atau task scheduler
-        Artisan::call('photo:print');
-
         return json_encode(["status" => "OK", "body" => $request->all(), "dd" => $photo->toArray()]);
     }
 
@@ -208,4 +205,67 @@ class PhotoController extends Controller
 
         return json_encode(["status" => "OK", "body" => $request->all()]);
     }
+
+    function recieveSyncPhoto(Request $request, $photo_id) {
+        $photo = Photo::find($photo_id);
+        $main = $request->file('main');
+        $raws = $request->file('raw');
+
+        if (!empty($photo)) {
+
+            $owner = $photo->tuser;
+            $manager = new ImageManager(['driver' => 'gd']);
+            Storage::makeDirectory("public/photos/{$owner->uid}/small"); //prepare dir
+
+            $mainImageThumbs = $manager->read($main->getRealPath());
+            $mainImageThumbs->scale(height: 360); //for thumbs
+            $savePath = storage_path("app/public/photos/{$owner->uid}/small/".$photo->filename);
+            $mainSavedThumbs = $mainImageThumbs->toJpeg(100)->save($savePath);
+
+            Storage::putFileAs("public/photos/{$owner->uid}/", $main, $photo->filename);
+
+            foreach ($photo->raws as $key => $raw_filename) {
+                if (array_key_exists($key, $raws)) {
+                    $rawImageThumbs = $manager->read($raws[$key]->getRealPath());
+                    $rawImageThumbs->scale(height: 360); //for thumbs
+                    $savePath = storage_path("app/public/photos/{$owner->uid}/small/".$raw_filename);
+                    $rawSavedThumbs = $rawImageThumbs->toJpeg(100)->save($savePath);
+                    Storage::putFileAs("public/photos/{$owner->uid}/", $raws[$key], $raw_filename);
+                }
+            }
+
+            $photo->update([
+                "printed_at" => now()
+            ]);
+
+            return response("Upload Success", 200);
+        }
+        return response("not found", 300);
+    }
+
+    function testRecieveSyncPhoto(Request $request, $photo_id) {
+        // return response("OK", 200);
+        $photo = Photo::find($photo_id);
+        $raws = $request->file('raw');
+        $main = $request->file('main');
+        $requessss = $request->files->all();
+
+        $i = 0;
+        if (!empty($photo)) {
+            $manager = new ImageManager(['driver' => 'gd']);
+            $mainImage = $manager->read($main->getRealPath());
+            // return dd($requessss);
+            return dd($requessss, $mainImage);
+
+            foreach ($raws as $file) {
+                Storage::putFileAs("public/uptest/", $file, time() . $i . '.png');
+                // Storage::disk('public')->put(time(), $file);
+                // $file->store('storage/uploads','public');
+                $i++;
+            }
+            // return response("asd", 200);
+        }
+        return response("not found", 300);
+    }
+
 }
