@@ -34,7 +34,7 @@ class PhotoPrint extends Command
         if ($this->option('work')) {
             for ($i=0; true ; $i++) {
                 $this->checkAndPrint();
-                sleep(2);
+                sleep(env("UPLOAD_WAIT", 3));
             }
             $this->line("and it ends...");
             return Command::SUCCESS;
