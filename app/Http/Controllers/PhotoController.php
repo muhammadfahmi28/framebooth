@@ -209,8 +209,12 @@ class PhotoController extends Controller
 
     function recieveSyncPhoto(Request $request, $photo_id) {
 
-        if (env("FEATURE_DIRECT_STORE", false)) {
-            return $this->recievePhotoDirect($request);
+        // if (env("FEATURE_DIRECT_STORE", false)) { //!! Deprecated
+        //     return $this->recievePhotoDirect($request);
+        // }
+
+        if (env("PSUEDO_MASTER", false)) {
+            return $this->recieveGenerateAndSyncPhoto($request);
         }
 
         $photo = Photo::find($photo_id);
@@ -250,7 +254,65 @@ class PhotoController extends Controller
         return response("not found", 300);
     }
 
-    function recievePhotoDirect(Request $request) { // Unsafe mode. only for trusted client. Nyimpen file langsung tanpa cek DB
+    function recieveGenerateAndSyncPhoto(Request $request) {
+        $main = $request->file('main');
+        $raws = $request->file('raw');
+        $uid = $request->input('uid');
+        if (!empty($uid) && !empty($main) && !empty($raw)) {
+            // check and generate user
+            $owner = Tuser::where('uid', $uid)->first();
+            if (empty($owner)) {
+                $owner = Tuser::create([
+                    'uid' => $uid,
+                    'code' => $uid,
+                    'max_photos' => env("VAR_DEFAULT_MAX_PHOTOS", 3),
+                    'valid_until' => null,
+                    'is_psuedo' => true
+                ]);
+            }
+
+            // check and generate photos //?? this section could be improved later
+            $photo = $owner->photos()->where('filename', $main->getClientOriginalName())->first();
+            if (empty($photo)) {
+                $main_filename = $main->getClientOriginalName();
+                $raw_filenames = [];
+                foreach ($raws as $key => $raw) {
+                    $raw_filenames[] = $raw->getClientOriginalName();
+                }
+                $photo = Photo::create([
+                    'tuser_id' => $owner->id,
+                    'filename' => $main_filename,
+                    'raws' => $raw_filenames,
+                    'uploaded_at' => now(),
+                    'failed_at' => null,
+                ]);
+            }
+
+            // upload //?? rapihin nanti
+            $manager = new ImageManager(['driver' => 'gd']);
+            Storage::makeDirectory("public/photos/{$uid}/small"); //prepare dir
+
+            $mainImageThumbs = $manager->read($main->getRealPath());
+            $mainImageThumbs->scale(height: 360); //for thumbs
+            $savePath = storage_path("app/public/photos/{$uid}/small/".$main->getClientOriginalName());
+            $mainSavedThumbs = $mainImageThumbs->toJpeg(70)->save($savePath);
+
+            Storage::putFileAs("public/photos/{$uid}/", $main, $main->getClientOriginalName());
+
+            foreach ($raws as $key => $raw) {
+                $rawImageThumbs = $manager->read($raw->getRealPath());
+                $rawImageThumbs->scale(height: 360); //for thumbs
+                $savePath = storage_path("app/public/photos/{$uid}/small/" . $raw->getClientOriginalName());
+                $rawSavedThumbs = $rawImageThumbs->toJpeg(70)->save($savePath);
+                Storage::putFileAs("public/photos/{$uid}/", $raws[$key], $raw->getClientOriginalName());
+            }
+            return response("Upload Success", 200);
+
+        }
+        return response("not found", 300);
+    }
+
+    function recievePhotoDirect(Request $request) { //!! DEPRECATED // Unsafe mode. only for trusted client. Nyimpen file langsung tanpa cek DB
         $main = $request->file('main');
         $raws = $request->file('raw');
         $uid = $request->input('uid');

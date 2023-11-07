@@ -21,7 +21,8 @@ class Tuser extends Model implements
         'code',
         'max_photos',
         'autodelete_on',
-        'valid_until'
+        'valid_until',
+        'is_psuedo'
     ];
     protected $hidden = [
         'code',
