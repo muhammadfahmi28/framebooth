@@ -20,7 +20,59 @@ class GalleryController extends Controller
         } else {
             return redirect()->route('app.capture');
         }
-}
+    }
+
+    function publicShow(Request $request) {
+        $uid = $request->folder_id;
+        $filename = $request->filename;
+        // return dd($uid, $filename);
+        if (empty($uid) || empty($filename)) {
+            return dd("empty", $uid, $filename);
+            return abort('404');
+        }
+
+        $filename = urldecode($request->filename);
+        $tuser = Tuser::where('uid', $uid)->first();
+
+        if (!empty($tuser)) {
+            $photo = $tuser->photos()->where('filename', $filename)->first();
+            $folder = Photo::DEFAULT_DIR . '/' . $tuser->uid;
+
+            if (empty($photo)) { // could been better but whatever
+                return dd("no photo", $uid, $filename, $tuser->photos);
+                return $this->publicShowFail(); // Content Not available. Sorry content not exst or not yet available, pls come back after a few moments
+            }
+
+            if (!file_exists($photo->getRealPath())) {
+                return view('pages.gallery.public-show-fail');
+            }
+
+            foreach ($photo->getRawsRealPath() as $key => $raw) {
+                if (!file_exists($raw)) {
+                    return view('pages.gallery.public-show-fail');
+                }
+            }
+
+            $title = $photo->created_at->toDateString();
+            $photo_urls = [['url' => $photo->getAssetPath(), 'small' => $photo->getAssetPath(true)]];
+            $raws_urls = $photo->getRawsAssetPath();
+            $raws_small_urls = $photo->getRawsAssetPath(true);
+            foreach ($raws_urls as $key => $url) {
+                $photo_urls[] = ['url' => $url, 'small' => $raws_small_urls[$key]];
+            }
+
+            return view('pages.gallery.public-show', compact('title', 'tuser', 'photo', 'photo_urls' , 'folder'));
+        }
+        return dd("fallback", $uid, $filename);
+        return $this->publicShowFail();
+    }
+
+    function publicShowFail() {
+        if (env('PSUEDO_MASTER', false)) {
+            return view('pages.gallery.public-show-fail');
+        }
+        return abort('404');
+    }
 
     function show($id) {
         $tuser = Tuser::find(auth()->user()->id);

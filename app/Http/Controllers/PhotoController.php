@@ -35,8 +35,7 @@ class PhotoController extends Controller
             'raw' => 'required'
         ]);
 
-        // TODO REMOTE GET calon url {$uid}/" . $photo_filename . "." . $photo_ext -->> return string url
-        $imgUrl = 'https://www.google.com/'; // << Dari Remote
+        $imgUrl = env("MASTER_APP_URL",'') . "/gallery/viewer?folder_id=" . $uid . "&filename=" . urlencode($photo_filename . "." . $photo_ext);
         $qrBase64 = (new QRCode)->render($imgUrl);
 
         try {
@@ -45,7 +44,7 @@ class PhotoController extends Controller
             $imgBase64 = $request->main_photo;
             $imgImage = $manager->read($imgBase64);
 
-            if (env('PRINT_QR', false)) {
+            if (env('PRINT_QR', false) && !empty(env("MASTER_APP_URL",null))) {
                 $imgQR = $manager->read($qrBase64);
                 $imgQR->scale(height: 360);
                 $imgImage->place($imgQR, 'top-left', 459, 2127);
@@ -142,14 +141,12 @@ class PhotoController extends Controller
             return json_encode(["status" => "FAILED", "body" => $request->all()]);
         }
 
-        // TODO UPLOAD KE REMOTE Dengan link placehoder diatas
-
         $photo = $tuser->photos()->create([
             "filename" => $photo_filename . "." . $photo_ext,
             "raws" => $rawFileNames
         ]);
 
-        // insert into pending
+        // insert into pending, Photos will be uploaded and Pending will be printed on the background by workers
         $pending = PendingPrint::whereNull('second_id')->orderBy("created_at", "ASC")->first();
         if (is_null($pending)) {
             //crete new pending

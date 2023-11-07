@@ -22,7 +22,7 @@ Route::post('/logout', "SplashController@logout");
 
 
 Route::prefix('app')->middleware('auth')->group(function () {
-Route::post('/', "SplashController@login");
+    // Route::post('/', "SplashController@login"); 071123 disabled, idk why this post in this group
     Route::get('/', "GalleryController@index")->name('app.gallery');
 
     Route::middleware(['photos.cantake'])->group(function () {
@@ -32,10 +32,12 @@ Route::post('/', "SplashController@login");
         // Route::post('/testcsrf', "PhotoController@testcsrf")->name('app.testcsrf');
     });
 
-    Route::get('/print/{id}', "GalleryController@printPhoto")->name('app.open');
     Route::get('/delete/{id}', "GalleryController@delete");
-    Route::get('/view/{id}', "GalleryController@show");
 
+    Route::get('/print/{id}', "GalleryController@printPhoto")->name('app.open'); // TEST
+    Route::get('/view/{id}', "GalleryController@show"); //WIP
 
 });
+
+Route::get('/gallery/viewer', "GalleryController@publicShow")->middleware('gallery.public')->name('app.public_gallery'); // UID ada di url parameters untuk prevent search enginge crawl
 

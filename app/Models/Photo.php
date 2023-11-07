@@ -34,23 +34,37 @@ class Photo extends Model
         return $this->belongsTo(Tuser::class, 'tuser_id');
     }
 
-    function getAssetPath() {
+    function getAssetPath($is_small = false) {
+        $small = $is_small ? 'small/' : '';
         $folder = Photo::DEFAULT_DIR . '/' . $this->tuser->uid;
-        return asset('storage/'.$folder.'/'.$this->filename);
+        return asset('storage/'.$folder . '/' . $small . $this->filename);
     }
 
-    function getRealPath() {
-        $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/'.$this->filename;
+    function getRealPath($is_small = false) {
+        $small = $is_small ? 'small/' : '';
+        $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/' . $small .$this->filename;
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $storage_rel_path = str_replace('/', '\\', $storage_rel_path);
         }
         return storage_path($storage_rel_path);
     }
 
-    function getRawsRealPath() {
+    function getRawsAssetPath($is_small = false) {
+        $small = $is_small ? 'small/' : '';
+        $folder = Photo::DEFAULT_DIR . '/' . $this->tuser->uid;
+        $urls = [];
+        foreach ($this->raws as $filename) {
+            $urls[] = asset('storage/'.$folder.'/'.$small.$filename);
+        }
+
+        return $urls;
+    }
+
+    function getRawsRealPath($is_small = false) {
+        $small = $is_small ? 'small/' : '';
         $filenames = [];
         foreach ($this->raws as $filename) {
-            $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/'.$filename;
+            $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/'.$small.$filename;
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
                 $storage_rel_path = str_replace('/', '\\', $storage_rel_path);
             }
