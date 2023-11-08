@@ -1,5 +1,6 @@
 :root{
     --background-color: rgba(247, 227, 221,1);
+    --bs-body-font-size: 1.25rem !important;
 }
 
 body{
@@ -7,6 +8,10 @@ body{
     background-repeat: repeat;
     background-color: var(--background-color);
     /* overflow: hidden; */
+    font-family: 'urbanist', sans-serif;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 #main-container {
@@ -77,6 +82,10 @@ h2 {
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
+}
+
+.click-through {
+    pointer-events: none;
 }
 
 /* Custom Components */

@@ -96,6 +96,10 @@ class GalleryController extends Controller
             if (file_exists($real_path)) {
                 unlink($real_path);
             }
+
+            if (file_exists($photo->getRealPath(true))) {
+                unlink($photo->getRealPath(true));
+            }
         } catch (\Exception $ex) {
             Log::alert("CANT DELETE IMAGE FILE!! PROCEED DELETE MODEL ANYWAY >> " . $filename );
             report($ex);
@@ -103,6 +107,14 @@ class GalleryController extends Controller
 
         try {
             foreach ($raws_real_path as $real_path) {
+                if (file_exists($real_path)) {
+                    try {
+                        unlink($real_path);
+                    } catch (\Exception $ex) {}
+                }
+            }
+
+            foreach ($photo->getRawsRealPath(true) as $real_path) {
                 if (file_exists($real_path)) {
                     try {
                         unlink($real_path);

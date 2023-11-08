@@ -7,12 +7,25 @@
         max-width: 1400px;
     }
     .available-photo {
+        position: relative;
         border: solid 0 white;
-        transition: transform 400ms, border-width 400ms
+        transition: transform 400ms, border-width 400ms;
+        background-color: rgba(165, 42, 42, 0.548);
+        cursor: pointer;
     }
     .available-photo.active {
         border-width: 4px;
-        transform: scale(1.075)
+        transform: scale(1.075);
+    }
+    .available-photo.active::before {
+        position: absolute;
+        top: -40px;
+        right: -40px;
+        width: 64px;
+        height: 64px;
+        content: "";
+        background-image: url("{{asset('assets/images/select_arraow.png')}}");
+        background-size: contain;
     }
 </style>
 @endsection
@@ -27,21 +40,32 @@
                     <video id="video" class="w-100 h-auto">Video stream not available.</video>
                 </div>
                 {{-- <video id="video" class="ratio__f4 d-block rounded w-100 mb-3" style=" background-color: rgba(165, 42, 42, 0.548)">Video stream not available.</video> --}}
-                <button id="capturebtn" class="d-block m-auto btn btn-success fs-1">
-                    <i class="fa-solid fa-camera"></i>
-                </button>
+                <div class="d-block m-auto" style="width: fit-content;">
+                    <button id="capturebtn" class="d-inline-block btn btn-success" >
+                        <i class="fa-solid fa-camera" style="font-size: 4rem"></i>
+                    </button>
+                    <span class="text-body-tertiary mx-3" style="font-size: 2rem; font-weight: 600; vertical-align: bottom; ">
+                        <i class="fa-solid fa-clock-rotate-left"></i> 3sec
+                    </span>
+                </div>
             </div>
             <div class="col-12 col-lg-3 p-5">
-                <div class="available-photo active ratio__f4 d-block rounded overflow-hidden mb-5" style="background-color: rgba(165, 42, 42, 0.548)">
-                    <img id="image1st" src="" alt="" class="w-100">
+                <div class="available-photo active ratio__f4 d-block rounded overflow-visible mb-5">
+                    <div class="ratio__f4 rounded overflow-hidden">
+                        <img id="image1st" src="" alt="" class="w-100">
+                    </div>
                 </div>
 
-                <div class="available-photo ratio__f4 d-block rounded overflow-hidden mb-5" style="background-color: rgba(165, 42, 42, 0.548)">
-                    <img id="image2nd" src="" alt="" class="w-100">
+                <div class="available-photo ratio__f4 d-block rounded overflow-visible mb-5">
+                    <div class="ratio__f4 rounded overflow-hidden">
+                        <img id="image2nd" src="" alt="" class="w-100">
+                    </div>
                 </div>
 
-                <div class="available-photo ratio__f4 d-block rounded overflow-hidden " style="background-color: rgba(165, 42, 42, 0.548)">
-                    <img id="image3rd" src="" alt="" class="w-100">
+                <div class="available-photo ratio__f4 d-block rounded overflow-visible ">
+                    <div class="ratio__f4 rounded overflow-hidden">
+                        <img id="image3rd" src="" alt="" class="w-100">
+                    </div>
                 </div>
             </div>
             <div class="col-12">
@@ -51,15 +75,15 @@
             </div>
         </div>
         <div id="step-2" class="row align-items-center h-100" style="display: none;">
-            <div class="col-2 fs-1 text-end" onclick="prevCollage();">
-                <button class="btn btn-primary">
+            <div class="col-2 fs-1 text-end" onclick="prevCollage();" style="padding: 240px 0">
+                <button class="btn btn-info rounded-pill fs-2 text-white" style="width: 62px; height 62px;">
                     <i class="fa-solid fa-chevron-left"></i>
                 </button>
             </div>
 
             <div class="col-8">
                 <div id="image-main" class="mx-auto mb-4 hidden text-left" style="width: fit-content; background-color: rgba(165, 42, 42, 0.548)">
-                    <img src="" alt="" height="1024px">
+                    <img src="" alt="" height="980px">
                 </div>
                 <form id="form_main" action="javascript:void(0);" data-url="{{route("app.save_and_print")}}">
                     @csrf
@@ -72,8 +96,8 @@
                     </button>
                 </form>
             </div>
-            <div class="col-2 fs-1 text-start text-start">
-                <button class="btn btn-primary"onclick="nextCollage();">
+            <div class="col-2 fs-1 text-start text-start" onclick="nextCollage();" style="padding: 240px 0">
+                <button class="btn btn-info rounded-pill fs-2 text-white" style="width: 62px; height 62px;">
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
             </div>
@@ -83,6 +107,12 @@
 </div>
 <canvas id="canvas-collage" style="display: none;"> </canvas>
 <canvas id="canvas" style="display: none;"> </canvas>
+
+<div id="overlay-countdown" class="position-absolute text-center text-white overflow-hidden prevent-select click-through" style="top:0; left:0; height:100vh; width: 100vw; display:none;">
+    <div class="w-100" style="font-size: 100vh; line-height: 100vh; font-weight: 900;">
+        3
+    </div>
+</div>
 
 <div id="modalLoading" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -159,6 +189,42 @@
 </script>
 
 <script>
+
+    var timeout_countdown = null;
+
+    function startCountdown(count, onComplete) {
+        clearTimeout(timeout_countdown);
+        timeout_countdown = null;
+        count = parseInt(count+1);
+        $('#overlay-countdown>div').text(count);
+        $('#overlay-countdown').show();
+        loopCountdown(onComplete);
+    }
+
+    function loopCountdown(onComplete) {
+        clearTimeout(timeout_countdown);
+        timeout_countdown = null;
+        var count = parseInt($('#overlay-countdown>div').text());
+        count = count-1;
+
+        if (count <= 0) {
+            $('#overlay-countdown').hide();
+            onComplete();
+        }else {
+            $('#overlay-countdown>div').removeClass(['animate__animated', 'animate__slower', 'animate__zoomOut']);
+            $('#overlay-countdown').hide();
+            $('#overlay-countdown>div').text(count);
+            setTimeout(() => {
+                $('#overlay-countdown').show();
+                $('#overlay-countdown>div').addClass(['animate__animated', 'animate__slower', 'animate__zoomOut']);
+            }, 20);
+
+            timeout_countdown = setTimeout(() => {
+                loopCountdown(onComplete);
+            }, 1000);
+        }
+    }
+
     const width = 1920; // We will scale the photo width to this
     // var camera_ratio = (9/16)
     let height = null; // This will be computed based on the input stream
@@ -244,7 +310,7 @@
             context.drawImage(video, 0, 0, width, height);
 
             const data = canvas.toDataURL('image/jpeg', 0.95);
-            $(".available-photo.active>img").first().attr("src", data);
+            $(".available-photo.active>div>img").first().attr("src", data);
             console.log("takepicture", data);
         } else {
             // clear
@@ -382,6 +448,10 @@
     });
 
     $("#capturebtn").on("click", function () {
+        startCountdown(3, triggerTakePhoto);
+    });
+
+    function triggerTakePhoto() {
         takePhoto();
         let cur = $(".available-photo.active").first();
         console.log(cur.next());
@@ -397,7 +467,7 @@
         if (image1st && image2nd && image3rd) {
             $("#capture_done").removeAttr("disabled");
         }
-    });
+    }
 
     $("#capture_done").click(function (e) {
         e.preventDefault();
