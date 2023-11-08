@@ -255,13 +255,14 @@ class PhotoController extends Controller
         $main = $request->file('main');
         $raws = $request->file('raw');
         $uid = $request->input('uid');
+        $code = $request->input('code');
         if (!empty($uid) && !empty($main) && !empty($raws)) {
             // check and generate user
             $owner = Tuser::where('uid', $uid)->first();
             if (empty($owner)) {
                 $owner = Tuser::create([
                     'uid' => $uid,
-                    'code' => $uid,
+                    'code' => $code,
                     'max_photos' => env("VAR_DEFAULT_MAX_PHOTOS", 3),
                     'valid_until' => null,
                     'is_psuedo' => true
