@@ -73,6 +73,12 @@ class PhotoSync extends Command
             ];
 
             $file_parts[] = [
+                'name' => 'username',
+                'contents' => $pending->tuser->name,
+            ];
+
+
+            $file_parts[] = [
                 'name' => 'main',
                 'contents' => file_get_contents($pending->getRealPath()),
                 // 'contents' => $pending->getRealPath(),
