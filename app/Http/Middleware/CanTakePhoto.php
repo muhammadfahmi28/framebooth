@@ -10,7 +10,7 @@ class CanTakePhoto
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::guard('web')->check() && auth()->user()) {
+        if (Auth::guard('web')->check() && auth()->user() && env('FEATURE_CAPTURE_PRINT', false)) {
             $tuser = Tuser::find(auth()->user()->id);
             if ($tuser->canTakePhotos()) {
                 return $next($request);
@@ -19,5 +19,6 @@ class CanTakePhoto
             }
                 return redirect()->route('login');
         }
+        return redirect(url('/'));
     }
 }

@@ -90,12 +90,17 @@
 
 <!-- Button trigger modal -->
 {{-- todo if !$tuser->canTakePhotos() disable, grtayscale dan bukan pointer, text berapa perberapa image yang diambil --}}
+
+@if (env('FEATURE_CAPTURE_PRINT', false))
+
 <h2 class="opacity-0 load-hide app-capture-counter">
     {{$photos->count()}}/{{$tuser->max_photos}}
 </h2>
 <a class="app-btn-capture load-hide opacity-0 {{$tuser->canTakePhotos() ? "" : "filer-grayscale"}}" href="{{$tuser->canTakePhotos() ? route('app.capture') : "#"}}">
     &nbsp;
 </a>
+
+@endif
 
 <div id="gl-photo-tool" class="gl-photo-tool gl-photo-tool-hidden px-3 d-block prevent-select">
     <div class="d-block" style="margin: auto; text-align: center; width: 300px;">
