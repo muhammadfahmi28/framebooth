@@ -20,8 +20,8 @@ class TuserFactory extends Factory
     public function definition()
     {
         return [
-            'uid' => Str::random(6) . time() . Str::random(2),
-            'code' => md5(Hash::make( '' . time() . Str::random(4))),
+            'uid' => env("TUSER_PREFIX", "") . Str::random(6) . time() . Str::random(2),
+            'code' => env("TUSER_PREFIX", "") . md5(Hash::make( '' . time() . Str::random(4))),
             'max_photos' => env("VAR_DEFAULT_MAX_PHOTOS", 3),
             'valid_until' => Carbon::today()->addDays(env("VAR_DEFAULT_DAYS_VALID", 60))
         ];
