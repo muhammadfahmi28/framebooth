@@ -28,7 +28,7 @@ class SplashController extends Controller
                 'uid'
             ]);
 
-            $is_expired = Carbon::now()->gt($tuser->valid_until);
+            $is_expired = ($tuser->valid_until == null) ? false : Carbon::now()->gt($tuser->valid_until);
 
             if ($is_expired) {
                 return back()->withErrors(["code" => ["Code Expired"]]);
