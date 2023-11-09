@@ -46,11 +46,11 @@ class PhotoSync extends Command
     }
 
     function checkAndUpload() : bool {
-        $pending = Photo::with('tuser:id,uid')->whereNull('uploaded_at')->whereNull('failed_at')->orderBy("created_at", "ASC")->first();
+        $pending = Photo::with('tuser:id,uid,code,name')->whereNull('uploaded_at')->whereNull('failed_at')->orderBy("created_at", "ASC")->first();
 
         if ($pending == null) {
             $this->line("NO PENDING UPLOAD, SEARCHING PAST FAILED");
-            $pending = Photo::with('tuser:id,uid')->whereNull('uploaded_at')->whereNotNull('failed_at')->orderBy("failed_at", "ASC")->first();
+            $pending = Photo::with('tuser:id,uid,code,name')->whereNull('uploaded_at')->whereNotNull('failed_at')->orderBy("failed_at", "ASC")->first();
             if ($pending == null) {
                 $this->line("NO FAILED UPLOAD");
                 return true;
@@ -64,19 +64,21 @@ class PhotoSync extends Command
 
             $file_parts[] = [
                 'name' => 'uid',
-                'contents' => $pending->tuser->uid,
+                'contents' => "" . $pending->tuser->uid,
             ];
 
             $file_parts[] = [
                 'name' => 'code',
-                'contents' => $pending->tuser->code,
+                'contents' => "" . $pending->tuser->code,
             ];
 
             $file_parts[] = [
                 'name' => 'username',
-                'contents' => $pending->tuser->name,
+                'contents' => (!empty($pending->tuser->name) ? $pending->tuser->name : $pending->tuser->uid) ,
             ];
 
+            // $this->line(dd($file_parts));
+            // return true;
 
             $file_parts[] = [
                 'name' => 'main',
@@ -115,6 +117,7 @@ class PhotoSync extends Command
             $client = new Client();
 
             $res = $client->request("POST", env("MASTER_APP_URL") . "/api/photos/$pending->id/upload/", [
+                'verify' => false,
                 "headers"=>[
                     "key" => env('API_KEY')
                 ],
@@ -135,6 +138,8 @@ class PhotoSync extends Command
             $pending->update([
                 "failed_at" => now(),
             ]);
+
+            // Log::debug(json_encode($file_parts));
 
             report($ex);
             return false;
