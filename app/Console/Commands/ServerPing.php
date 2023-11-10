@@ -8,7 +8,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 
-class PhotoSync extends Command
+class ServerPing extends Command
 {
     /** WIP !!
      * The name and signature of the console command.
