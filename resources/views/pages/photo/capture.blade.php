@@ -136,7 +136,7 @@
                 <h5 class="modal-title">Selesai</h5>
             </div>
             <div class="modal-body text-center">
-                Foto tersimpan dan masuk ke fatar antrian cetak.
+                Foto tersimpan dan masuk ke daftar antrian cetak.
             </div>
                 <div class="modal-footer">
             </div>
