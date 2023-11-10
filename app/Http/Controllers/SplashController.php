@@ -44,4 +44,9 @@ class SplashController extends Controller
         Auth::logout();
         return redirect('/');
     }
+
+    function apiPong(Request $request) {
+        return json_encode(["PONG"]) ;
+    }
+
 }

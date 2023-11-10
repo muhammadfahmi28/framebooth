@@ -1,0 +1,1 @@
+php artisan photo:print --work
