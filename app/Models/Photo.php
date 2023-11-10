@@ -14,7 +14,8 @@ class Photo extends Model
         'filename',
         'raws',
         'uploaded_at',
-        'failed_at'
+        'failed_at',
+        'qr_url'
     ];
     // protected $hidden = [
     // ];

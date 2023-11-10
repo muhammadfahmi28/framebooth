@@ -143,6 +143,7 @@ class PhotoController extends Controller
 
         $photo = $tuser->photos()->create([
             "filename" => $photo_filename . "." . $photo_ext,
+            "qr_url" => $imgUrl,
             "raws" => $rawFileNames
         ]);
 

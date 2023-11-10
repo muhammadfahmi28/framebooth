@@ -37,7 +37,7 @@
                 {{-- @for ($x = 0; $x <= 10; $x++) --}}
 
                 @foreach ($photos as $photo)
-                <div class="gl-photo-frame col" data-photo_id="{{$photo->id}}">
+                <div class="gl-photo-frame col" data-photo_id="{{$photo->id}}" data-details-url="{{$photo->qr_url}}">
                     <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">
                         @if (count($photo->raws) > 0)
                             <img src="{{asset('storage/'.$folder.'/small\/'.$photo->raws[0])}}" alt="">
@@ -104,7 +104,7 @@
 
 <div id="gl-photo-tool" class="gl-photo-tool gl-photo-tool-hidden px-3 d-block prevent-select">
     <div class="d-block" style="margin: auto; text-align: center; width: 300px;">
-        <a href="#" class="d-inline-block gl-icon-gl-view px-3">
+        <a id="gl-tool-details" href="#" class="d-inline-block gl-icon-gl-view px-3">
             &nbsp;
             {{-- <img src="{{'assets/images/view-1.svg'}}" height="82px" alt=""> --}}
         </a>
@@ -171,6 +171,7 @@
         photo_selected = parent.data("photo_id");
 
         $("#modalConfirmDeleteConfirm").attr("href", ("" + $("#modalConfirmDeleteConfirm").data("url") + photo_selected));
+        $("#gl-tool-details").attr("href", ("" + parent.data("details-url")));
 
         $("#gl-photo-tool").removeClass("disabled");
         $("#gl-photo-tool").removeClass("gl-photo-tool-hidden");
