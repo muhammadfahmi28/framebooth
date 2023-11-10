@@ -46,7 +46,7 @@ class SplashController extends Controller
     }
 
     function apiPong(Request $request) {
-        return json_encode(["PONG"]) ;
+        return json_encode(["status"=>"PONG", "SERVER"=>env('API_KEY'), "CLIENT"=>request()->header('key')]) ;
     }
 
 }

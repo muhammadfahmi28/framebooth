@@ -20,5 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['compare.api'])->group(function () {
     Route::post('photos/{photo_id}/upload/', 'PhotoController@recieveSyncPhoto');
-    Route::post('ping/', 'SplashController@apiPong');
 });
+
+Route::post('ping', 'SplashController@apiPong');
+Route::get('ping', 'SplashController@apiPong');
+
