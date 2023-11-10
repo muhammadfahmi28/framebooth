@@ -114,10 +114,12 @@
             &nbsp;
         </a> --}}
 
+        @if (env('FEATURE_PHOTOS_DELETE', false))
         <a id="gl-tool-delete" href="#" class="d-inline-block gl-icon-gl-del px-3" data-bs-toggle="modal" data-bs-target="#modalConfirmDelete">
             &nbsp;
             {{-- <img src="{{'assets/images/del-1.svg'}}" height="82px" alt=""> --}}
         </a>
+        @endif
 
 
     </div>

@@ -133,10 +133,10 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Success</h5>
+                <h5 class="modal-title">Selesai</h5>
             </div>
             <div class="modal-body text-center">
-                You'll be redirected
+                Foto tersimpan dan masuk ke fatar antrian cetak.
             </div>
                 <div class="modal-footer">
             </div>
@@ -244,15 +244,14 @@
     // let ratio = (33 / 21); //ratio of the frame
     let ratio = (33 / 21); //ratio of the frame
     const defaultPos = [
-        [36, 24, 777, 525],
-        [36, 597, 777, 525],
-        [36, 1170, 777, 525],
+        [36, 36, 777, 525],
+        [36, 609, 777, 525],
+        [36, 1182, 777, 525],
     ]; //x, y, w, h
     const collageArray = [
         ["1.png", null],
         ["2.png", null],
         ["3.png", null],
-        ["4.png", null]
     ];
     var collageIndex = 0;
 
@@ -350,6 +349,8 @@
         const collageContext = canvascollage.getContext("2d");
         canvascollage.width = bgImages[collageIndex].width;
         canvascollage.height = bgImages[collageIndex].height;
+        collageContext.fillStyle = "white";
+        collageContext.fillRect(0, 0, canvascollage.width, canvascollage.height);
     }
 
 
@@ -516,9 +517,10 @@
             success: function (data) {
                 modalLoading.hide();
                 modalSuccess.show();
+                // Auto logout change this for multiple images
                 setTimeout(() => {
-                    window.location.replace(HOME_URL);
-                }, 2000);
+                    window.location.replace(HOME_URL+"/logout");
+                }, 4000);
             },
             always: function (data) {
                 modalLoading.hide();
