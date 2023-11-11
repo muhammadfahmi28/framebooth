@@ -40,10 +40,13 @@ class ServerPing extends Command
                     "key" => env('API_KEY')
                 ]
             ]);
+            $response = $res->getBody();
+            $this->line($response);
 
             if($res->getStatusCode() != 200) {
                 $response = $res->getBody();
                 $this->line("FAILED : BAD RESPONSE");
+                $this->line($response);
                 Log::error($response);
                 return false;
             }
