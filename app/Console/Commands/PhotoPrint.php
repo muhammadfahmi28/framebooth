@@ -59,6 +59,7 @@ class PhotoPrint extends Command
         }
 
         try {
+            $wGutter = 300;
             $images = Photo::whereIn('id', array($pending->first_id, $pending->second_id))->get();
             // $this->line($images[0]->getRelativePath() . $images[1]->getRelativePath());
 
@@ -67,12 +68,16 @@ class PhotoPrint extends Command
             $secondImage = $manager->read($images[1]->getRealPath());
             // $this->line($mainImage->getHeight() . $secondImage->getHeight());
 
-            $w = $mainImage->getWidth() + $secondImage->getWidth();
-            $h = max($mainImage->getHeight(), $secondImage->getHeight());
+            $w = $mainImage->getWidth() + $secondImage->getWidth() + $wGutter;
+            $h = max($mainImage->getHeight(), $secondImage->getHeight() + $wGutter);
 
             $mergedImage = $manager->create($w, $h);
-            $mergedImage->place($mainImage, 'top-left');
-            $mergedImage->place($secondImage, 'top-right');
+            $mergedImage = $mergedImage->fill('#FFFFFF', 10, 10);
+
+            $mergedImage->place($mainImage, 'top-left', ($wGutter/2), ($wGutter/2));
+            $mergedImage->place($secondImage, 'top-right', ($wGutter/2), ($wGutter/2));
+            // $mergedImage->resizeCanvas(200,  0, 'center', true);
+            $mergedImage->scale($mergedImage->getWidth() - 200);
 
             $filenamemerge = $pending->id . "_" . time() . '.jpg';
 
