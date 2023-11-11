@@ -15,16 +15,17 @@
         <div class="splash-content text-center" style="width: 100%;">
             <img src="{{asset('assets/images/logo.png')}}" alt="logo" class="m-5" height="400px">
             <div style="height: 400px; width:400px; margin: auto;">
-                <div id="reader"></div>
-            </div>
-            <form id="form_main" action="/submit_code" method="post">
-                @csrf
-                <input id="input_code" type="hidden" name="code">
+                <div id="reader" class="mb-3"></div>
+                <form id="form_main" action="/submit_code" method="post">
+                    @csrf
+                    <input class="d-inline-block" id="input_code" type="text" name="code">
+                    <button type="submit" class="btn button-primary">submit</button>
 
-                @if($errors->has('code'))
-                    <div class="error" style="color: red;">{{ $errors->first('code') }}</div>
-                @endif
-            </form>
+                    @if($errors->has('code'))
+                        <div class="error" style="color: red;">{{ $errors->first('code') }}</div>
+                    @endif
+                </form>
+            </div>
         </div>
     </div>
     {{-- <div id="footer" >

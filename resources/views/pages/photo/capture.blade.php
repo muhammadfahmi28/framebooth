@@ -159,6 +159,8 @@
         </div>
     </div>
 </div>
+@include('components.logout-modal')
+
 @endsection
 
 @section("post_body")
