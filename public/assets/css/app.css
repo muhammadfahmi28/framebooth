@@ -233,7 +233,8 @@ h2 {
 }
 
 .ratio__f4 {
-    aspect-ratio: 33/21;
+    /* aspect-ratio: 33/21; */
+    aspect-ratio: 777/525;
 }
 .ratio__f4_portait {
     aspect-ratio: 21/33;

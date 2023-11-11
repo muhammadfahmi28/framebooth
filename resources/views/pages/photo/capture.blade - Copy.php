@@ -294,8 +294,8 @@
                 console.log("canplay", height);
                 video.setAttribute("width", width);
                 video.setAttribute("height", height);
-                canvas.setAttribute("width", height / ratioFile);
-                canvas.setAttribute("height", height);
+                canvas.setAttribute("width", width);
+                canvas.setAttribute("height", width * ratioFile);
                 streaming = true;
             },
             false,
