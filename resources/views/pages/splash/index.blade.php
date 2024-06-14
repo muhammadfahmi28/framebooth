@@ -18,7 +18,7 @@
                 <div id="reader" class="mb-3"></div>
                 <form id="form_main" action="/submit_code" method="post">
                     @csrf
-                    <input class="d-inline-block" id="input_code" type="text" name="code">
+                    <input autocomplete="off" class="d-inline-block" id="input_code" type="text" name="code">
                     <button type="submit" class="btn button-primary">submit</button>
 
                     @if($errors->has('code'))
