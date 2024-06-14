@@ -10,7 +10,7 @@
         position: relative;
         border: solid 0 white;
         transition: transform 400ms, border-width 400ms;
-        background-color: rgba(165, 42, 42, 0.548);
+        background-color: rgba(42, 165, 159, 0.4);
         cursor: pointer;
     }
     .available-photo.active {
@@ -36,11 +36,11 @@
     <div id="content">
         <div id="step-1" class="row align-items-center h-100">
             <div class="col-12 col-lg-9 p-5">
-                <div class="ratio__f4 d-block rounded overflow-hidden mb-3" style="background-color: rgba(165, 42, 42, 0.548)">
+                <div class="ratio__f4 d-block rounded overflow-hidden mb-3" style="background-color: rgba(42, 165, 159, 0.4)">
                     {{-- <video id="video" class="h-100 ratio__f4" style="margin-left: -7.5%">Video stream not available.</video> --}}
                     <video id="video" class="ratio__f4" style="margin-left: -10.5%; width: 121%;">Video stream not available.</video>
                 </div>
-                {{-- <video id="video" class="ratio__f4 d-block rounded w-100 mb-3" style=" background-color: rgba(165, 42, 42, 0.548)">Video stream not available.</video> --}}
+                {{-- <video id="video" class="ratio__f4 d-block rounded w-100 mb-3" style=" background-color: rgba(42, 165, 159, 0.4)">Video stream not available.</video> --}}
                 <div class="d-block m-auto" style="width: fit-content;">
                     <button id="capturebtn" class="d-inline-block btn btn-success" >
                         <i class="fa-solid fa-camera" style="font-size: 4rem"></i>
@@ -83,7 +83,7 @@
             </div>
 
             <div class="col-8">
-                <div id="image-main" class="mx-auto mb-4 hidden text-left" style="width: fit-content; background-color: rgba(165, 42, 42, 0.548)">
+                <div id="image-main" class="mx-auto mb-4 hidden text-left" style="width: fit-content; background-color: rgba(42, 165, 159, 0.4)">
                     <img src="" alt="" height="980px">
                 </div>
                 <form id="form_main" action="javascript:void(0);" data-url="{{route("app.save_and_print")}}">

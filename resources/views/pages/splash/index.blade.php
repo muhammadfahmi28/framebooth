@@ -13,7 +13,16 @@
     </div> --}}
     <div id="content" class="d-flex flex-column justify-content-center">
         <div class="splash-content text-center" style="width: 100%;">
-            <img src="{{asset('assets/images/logo.png')}}" alt="logo" class="m-5" height="400px">
+            {{-- <img src="{{asset('assets/images/logo.png')}}" alt="logo" class="m-5" height="400px"> --}}
+            <div style="margin: 72px 0">
+                <div style="font-size: 96px; line-height: 80px; font-family: 'Cinzel'; font-weight: 500;">
+                    Delfta & Odi
+                </div>
+                <div style="font-size: 28px; font-family: 'Cinzel'; font-weight: 400;">
+                    15 Juni 2024
+                </div>
+            </div>
+
             <div style="height: 400px; width:400px; margin: auto;">
                 <div id="reader" class="mb-3"></div>
                 <form id="form_main" action="/submit_code" method="post">

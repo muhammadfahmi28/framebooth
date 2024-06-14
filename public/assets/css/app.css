@@ -1,5 +1,6 @@
 :root{
-    --background-color: rgba(247, 227, 221,1);
+    --background-color: rgb(233 245 240);
+    /* --background-color: rgb(221 247 236); */
     --bs-body-font-size: 1.25rem !important;
 }
 

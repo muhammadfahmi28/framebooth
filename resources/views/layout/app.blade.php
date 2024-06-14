@@ -11,6 +11,7 @@
     <script src="{{asset('assets/vendor/bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js')}}"></script>
     <link href="{{asset('assets/vendor/animate.css-4.1.1/animate.min.css')}}" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{asset('assets/css/fonts.css')}}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
