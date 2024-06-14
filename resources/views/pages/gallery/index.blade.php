@@ -40,9 +40,9 @@
                 <div class="gl-photo-frame col" data-photo_id="{{$photo->id}}" data-details-url="{{$photo->qr_url}}">
                     <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">
                         @if (count($photo->raws) > 0)
-                            <img src="{{asset('storage/'.$folder.'/small\/'.$photo->raws[0])}}" alt="">
+                            <img src="{{asset('storage/'.$folder."/small/".$photo->raws[0])}}" alt="">
                         @else
-                            <img src="{{asset('storage/'.$folder.'/small\/'.$photo->filename)}}" alt="">
+                            <img src="{{asset('storage/'.$folder."/small/".$photo->filename)}}" alt="">
                         @endif
                     </div>
                 </div>

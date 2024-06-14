@@ -35,7 +35,7 @@ class PhotoController extends Controller
             'raw' => 'required'
         ]);
 
-        $imgUrl = env("MASTER_APP_URL",'') . "/gallery/viewer?folder_id=" . $uid . "&filename=" . urlencode($photo_filename . "." . $photo_ext);
+        $imgUrl = env("MASTER_APP_URL",'') . "/gallery/viewer?folder_id=" . $uid . "&filename=" . urlencode($photo_filename . "." . $photo_ext); //!!
         $qrBase64 = (new QRCode)->render($imgUrl);
 
         try {
@@ -46,8 +46,8 @@ class PhotoController extends Controller
 
             if (env('PRINT_QR', false) && !empty(env("MASTER_APP_URL",null))) {
                 $imgQR = $manager->read($qrBase64);
-                $imgQR->scale(height: 360);
-                $imgImage->place($imgQR, 'top-left', 459, 2127);
+                $imgQR->scale(height: 362);
+                $imgImage->place($imgQR, 'top-left', 498, 2199);
             }
 
             // $imgImage->toJpeg(100)->save(storage_path("app/public/photos/{$uid}/" . $photo_filename . "." . $photo_ext));

@@ -6,6 +6,7 @@ use App\Models\PendingPrint;
 use App\Models\Photo;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Drivers\Gd\Font;
 use Intervention\Image\ImageManager;
 
 class PhotoPrint extends Command
@@ -59,25 +60,48 @@ class PhotoPrint extends Command
         }
 
         try {
-            $wGutter = 300;
-            $images = Photo::whereIn('id', array($pending->first_id, $pending->second_id))->get();
+            $wGutter = 300; //!!DONTCHANGE 300
+            $images = Photo::with('tuser')->whereIn('id', array($pending->first_id, $pending->second_id))->get();
             // $this->line($images[0]->getRelativePath() . $images[1]->getRelativePath());
 
             $manager = new ImageManager(['driver' => 'gd']);
             $mainImage = $manager->read($images[0]->getRealPath());
             $secondImage = $manager->read($images[1]->getRealPath());
+            $mainCode = $images[0]->tuser->code;
+            $secondCode = $images[0]->tuser->code;
+
+            $fontPath = base_path().'/public/assets/vendor/google/static/Urbanist-Medium.ttf';
+
             // $this->line($mainImage->getHeight() . $secondImage->getHeight());
 
-            $w = $mainImage->getWidth() + $secondImage->getWidth() + $wGutter;
-            $h = max($mainImage->getHeight(), $secondImage->getHeight() + $wGutter);
+            // $w = $mainImage->getWidth() + $secondImage->getWidth() + $wGutter;
+            // $h = max($mainImage->getHeight(), $secondImage->getHeight() + $wGutter);
 
-            $mergedImage = $manager->create($w, $h);
-            $mergedImage = $mergedImage->fill('#FFFFFF', 10, 10);
+            // $mergedImage = $manager->create($w, $h);
+            // $mergedImage = $mergedImage->fill('#FFFFFF', 10, 10);
 
-            $mergedImage->place($mainImage, 'top-left', ($wGutter/2), ($wGutter/2));
-            $mergedImage->place($secondImage, 'top-right', ($wGutter/2), ($wGutter/2));
+            $mergedImage = $manager->read(base_path().'/public/assets/images/print-background.png');
+
+            $mergedImage->place($mainImage, 'top-right', ($mergedImage->getWidth()/2)+8, ($mergedImage->getHeight()/2) - ($mainImage->getHeight()/2) + 8); //Yadjusted
+            $mergedImage->place($secondImage, 'top-left', ($mergedImage->getWidth()/2)-8, ($mergedImage->getHeight()/2) - ($secondImage->getHeight()/2) + 8); //Yadjusted
             // $mergedImage->resizeCanvas(200,  0, 'center', true);
-            $mergedImage->scale($mergedImage->getWidth() - 200);
+
+            // write text to image
+            $mergedImage->text($mainCode, ($wGutter/2)+28, 97, function ($font) {
+                $font->filename( base_path().'/public/assets/vendor/google/static/Urbanist-Medium.ttf');
+                $font->size(56);
+                $font->align('left');
+                $font->valign('bottom');
+            });
+
+            $mergedImage->text($secondCode, ($mergedImage->getWidth()/2)+48, 97, function (Font $font) {
+                $font->filename( base_path().'/public/assets/vendor/google/static/Urbanist-Medium.ttf');
+                $font->size(56);
+                $font->align('left');
+                $font->valign('bottom');
+            });
+
+            $mergedImage->scale($mergedImage->getWidth() - 236); //!! ENABLE ON PROD - Final Adjustment Disable for test scale
 
             $filenamemerge = $pending->id . "_" . time() . '.jpg';
 
@@ -94,7 +118,8 @@ class PhotoPrint extends Command
             $this->line("MERGE OK");
             $this->line("PRINTING...");
             if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-                exec('rundll32 C:\WINDOWS\system32\shimgvw.dll,ImageView_PrintTo "'.$savePath.'" "'.env('PRINTER_NAME').'"');
+                exec('rundll32 C:\WINDOWS\system32\shimgvw.dll,ImageView_PrintTo "'.$savePath.'" "'.env('PRINTER_NAME').'"'); //!! ENABLE ON PROD Disable for testing merge
+
                 // exec('"C:\Program Files\IrfanView\i_view64.exe" "'.$savePath.'" /print="'.env('PRINTER_NAME').'"');
                 // exec('mspaint /pt "'.$savePath.'" "'.env('PRINTER_NAME').'"');
                 $this->line("PRINTING CALLED");

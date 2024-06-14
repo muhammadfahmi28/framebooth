@@ -37,7 +37,8 @@
         <div id="step-1" class="row align-items-center h-100">
             <div class="col-12 col-lg-9 p-5">
                 <div class="ratio__f4 d-block rounded overflow-hidden mb-3" style="background-color: rgba(165, 42, 42, 0.548)">
-                    <video id="video" class="w-100 h-auto">Video stream not available.</video>
+                    {{-- <video id="video" class="h-100 ratio__f4" style="margin-left: -7.5%">Video stream not available.</video> --}}
+                    <video id="video" class="ratio__f4" style="margin-left: -10.5%; width: 121%;">Video stream not available.</video>
                 </div>
                 {{-- <video id="video" class="ratio__f4 d-block rounded w-100 mb-3" style=" background-color: rgba(165, 42, 42, 0.548)">Video stream not available.</video> --}}
                 <div class="d-block m-auto" style="width: fit-content;">
@@ -76,7 +77,7 @@
         </div>
         <div id="step-2" class="row align-items-center h-100" style="display: none;">
             <div class="col-2 fs-1 text-end" onclick="prevCollage();" style="padding: 240px 0">
-                <button class="btn btn-info rounded-pill fs-2 text-white" style="width: 62px; height 62px;">
+                <button class="btn btn-info rounded-pill fs-2 text-white" style="display: none; width: 62px; height 62px;">
                     <i class="fa-solid fa-chevron-left"></i>
                 </button>
             </div>
@@ -97,7 +98,7 @@
                 </form>
             </div>
             <div class="col-2 fs-1 text-start text-start" onclick="nextCollage();" style="padding: 240px 0">
-                <button class="btn btn-info rounded-pill fs-2 text-white" style="width: 62px; height 62px;">
+                <button class="btn btn-info rounded-pill fs-2 text-white" style="display: none; width: 62px; height 62px;">
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
             </div>
@@ -227,9 +228,9 @@
         }
     }
 
-    var width = 972; // We will scale the photo width to this
+    var width = 972; //!! OF ELEMENT - CAN BE DYNAMICLY CHANGED!! FOR RATIO PURPOSE ONLY!! We will scale the photo width to this
     // var camera_ratio = (9/16)
-    let height = null; // This will be computed based on the input stream
+    let height = null; //!! OF ELEMENT - CAN BE DYNAMICLY CHANGED!! FOR RATIO PURPOSE ONLY!! This will be computed based on the input stream
     let streaming = false;
 
     let video = null;
@@ -244,20 +245,16 @@
     // F
     let canvascollage = null;
     // let ratio = (33 / 21); //ratio of the frame
-    var ratio = (33 / 21); //ratio of the video
+    var ratio = (33 / 21); //ratio of the video without blackbars
     // var ratioFile = (33 / 21); //ratio of the File
-    var ratioFile = (777/ 525); //ratio of the File
+    var ratioFile = (776/ 526); //ratio of the File
     const defaultPos = [
-        [36, 36, 777, 525],
-        [36, 609, 777, 525],
-        [36, 1182, 777, 525],
+        [61, 67 , 776 , 526],
+        [61, 637, 776, 526],
+        [61, 1207, 776, 526],
     ]; //x, y, w, h
     const collageArray = [
         ["1.png", null],
-        ["2.png", null],
-        ["3.png", null],
-        ["4.png", null],
-        ["5.png", null],
     ];
     var collageIndex = 0;
 
@@ -296,8 +293,10 @@
                 console.log("canplay", height);
                 video.setAttribute("width", width);
                 video.setAttribute("height", height);
-                canvas.setAttribute("width", height / ratioFile);
-                canvas.setAttribute("height", height);
+                let vHeight = $(video)[0].videoHeight; //with black bars
+                let vWidth = $(video)[0].videoWidth; //with blackbars
+                canvas.setAttribute("width", vHeight * ratioFile);
+                canvas.setAttribute("height", vHeight);
                 streaming = true;
             },
             false,
@@ -313,16 +312,18 @@
         const context = canvas.getContext("2d");
         console.log("takepicture", width, height);
         if (width && height) { //if camera active
-            let vHeight = $(video).height();
-            let vWidth = $(video).width();
+            let vHeight = $(video)[0].videoHeight; //with black bars
+            let vWidth = $(video)[0].videoWidth; //with blackbars
+            console.log("vWidth >" + vHeight);
+            console.log("vWidth >" + vHeight);
             let vCorrectWidth = vHeight * ratioFile;
             let difference =  vWidth - vCorrectWidth;
-            let xStart = (difference*2);
+            let xStart = (difference/2);
             // let xEnd = vWidth - (difference/2);
             canvas.width = vCorrectWidth;
             canvas.height = vHeight;
-            // console.log("PRABOWO", vCorrectWidth, vHeight, "TARGET", width, height );
-            // console.log("PRABOWO", video);
+            // console.log("vCorrectWidth", vCorrectWidth, vHeight, "TARGET", width, height );
+            // console.log("video", video);
             // drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
             // context.drawImage(video, 0, 0, width, height);
             context.drawImage(video, xStart, 0, vCorrectWidth, vHeight, 0, 0, canvas.width, canvas.height);
@@ -368,8 +369,10 @@
         const collageContext = canvascollage.getContext("2d");
         canvascollage.width = bgImages[collageIndex].width;
         canvascollage.height = bgImages[collageIndex].height;
+        collageContext.globalAlpha = 0.0;
         collageContext.fillStyle = "white";
         collageContext.fillRect(0, 0, canvascollage.width, canvascollage.height);
+        collageContext.globalAlpha = 1;
     }
 
 
@@ -434,7 +437,7 @@
         await drawPhotos();
         await drawForeground();
         const collageContext = canvascollage.getContext("2d");
-        const data = canvascollage.toDataURL('image/jpeg', 0.95);
+        const data = canvascollage.toDataURL('image/png');
         $("#image-main>img").attr("src", data);
         $("#main_photo").val(data);
         $("#image-main").removeClass("hidden");
