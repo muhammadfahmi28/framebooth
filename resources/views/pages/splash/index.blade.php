@@ -23,9 +23,9 @@
                 </div>
             </div>
 
-            <div style="height: 400px; width:400px; margin: auto;">
-                <div id="reader" class="mb-3"></div>
-                <form id="form_main" action="/submit_code" method="post">
+            <div style="height: {{ env('DISPLAY_QR_CAMERA', true) ? '400px' : '120px'}}; width:400px; margin: auto;">
+                <div id="reader" class="mb-3 {{ env('DISPLAY_QR_CAMERA', true) ? '' : 'force_hidden'}}"></div>
+                <form id="form_main" action="/submit_code" method="post" style="opacity: 0.4">
                     @csrf
                     <input autocomplete="off" class="d-inline-block" id="input_code" type="text" name="code">
                     <button type="submit" class="btn button-primary">submit</button>
@@ -45,8 +45,33 @@
 
 @section('post_body')
 <script>
+    var str = "";
+    const CODE_LENGHT = 8;
     $(function () {
         showPage();
+    });
+
+    $('body').on('keyup', function(e) {
+        if ((event.keyCode >= 48 && event.keyCode <= 57)||(event.keyCode >= 65 && event.keyCode <= 90)) {
+            str = str + e.key;
+            if (str.length > CODE_LENGHT) {
+                str = str.substring(str.length - CODE_LENGHT);
+            }
+            console.log(str);
+        }
+        if (event.key == "Enter") {
+            console.log("ENTER PRESSED");
+            console.log(str.toUpperCase());
+            if (str.length >= CODE_LENGHT) {
+                if (!submitting) {
+                    $("#main-container").addClass("opacity-0");
+                    submitting = true;
+                    $("#input_code").val(str);
+                    $("#form_main").submit();
+                }
+            }
+            str = "";
+        }
     });
 
     var submitting = false;
