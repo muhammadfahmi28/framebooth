@@ -35,8 +35,8 @@ class PhotoController extends Controller
             'raw' => 'required'
         ]);
 
-        $imgUrl = env("MASTER_APP_URL",'') . "/gallery/viewer?folder_id=" . $uid . "&filename=" . urlencode($photo_filename . "." . $photo_ext); //!!
-        $qrBase64 = (new QRCode)->render($imgUrl);
+        // $imgUrl = env("MASTER_APP_URL",'') . "/gallery/viewer?folder_id=" . $uid . "&filename=" . urlencode($photo_filename . "." . $photo_ext); //!!
+        $imgUrl = $tuser->drive_url; //!!
 
         try {
 
@@ -44,7 +44,8 @@ class PhotoController extends Controller
             $imgBase64 = $request->main_photo;
             $imgImage = $manager->read($imgBase64);
 
-            if (env('PRINT_QR', false) && !empty(env("MASTER_APP_URL",null))) {
+            if (env('PRINT_QR', false) && !empty($imgUrl)) {
+                $qrBase64 = (new QRCode)->render($imgUrl);
                 $imgQR = $manager->read($qrBase64);
                 $imgQR->scale(height: 362);
                 $imgImage->place($imgQR, 'top-left', 498, 2199);
