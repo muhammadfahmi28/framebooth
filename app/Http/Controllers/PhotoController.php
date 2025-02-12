@@ -319,8 +319,10 @@ class PhotoController extends Controller
                 $rawSavedThumbs = $rawImageThumbs->toJpeg(70)->save($savePath);
                 Storage::putFileAs("public/photos/{$uid}/", $raws[$key], $raw->getClientOriginalName());
             }
-            return response()->json(["status" => "Upload Success"], 200);
 
+            $this->fixPermission("photos");
+
+            return response()->json(["status" => "Upload Success"], 200);
         }
         return response()->json(["status" => "not found"], 300);
     }
@@ -347,6 +349,9 @@ class PhotoController extends Controller
                 $rawSavedThumbs = $rawImageThumbs->toJpeg(70)->save($savePath);
                 Storage::putFileAs("public/photos/{$uid}/", $raws[$key], $raw->getClientOriginalName());
             }
+
+            $this->fixPermission("photos");
+
             return response()->json(["status" => "Upload Success"], 200);
         }
         return response()->json(["status" => "not found"], 300);
