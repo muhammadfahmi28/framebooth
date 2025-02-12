@@ -1,5 +1,5 @@
 @extends('layout.app')
-@section('title', "Splash")
+@section('title', "")
 
 @section("head")
 <script src="{{asset('assets/js/html5-qrcode.min.js')}}" type="text/javascript"></script>
