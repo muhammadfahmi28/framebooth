@@ -215,6 +215,13 @@ class PhotoController extends Controller
         return json_encode(["status" => "OK", "body" => $request->all()]);
     }
 
+    function directUploadPhoto(Request $request) {
+        if (env("PSUEDO_MASTER", false)) {
+            return $this->recieveGenerateAndSyncPhoto($request);
+        }
+        abort('403');
+    }
+
     function recieveSyncPhoto(Request $request, $photo_id) {
 
         // if (env("FEATURE_DIRECT_STORE", false)) { //!! Deprecated

@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::middleware(['compare.api'])->group(function () {
+
+    Route::post('photos/upload/', 'PhotoController@directUploadPhoto'); //for psuedo master only
     Route::post('photos/{photo_id}/upload/', 'PhotoController@recieveSyncPhoto');
 });
 
