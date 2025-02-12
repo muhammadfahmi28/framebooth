@@ -21,6 +21,15 @@ class PhotoController extends Controller
         return view('pages.photo.capture');
     }
 
+    function fixPermission($folder) {
+        try {
+            $dir = storage_path("app/public/{$folder}");
+            exec("chmod -R 755 {$dir}");
+        } catch (\Throwable $th) {
+            Log::error($th->getMessage());
+        }
+    }
+
     function saveAndPrint(Request $request) {
         $manager = new ImageManager(['driver' => 'gd']);
         $tuser = Tuser::find(auth()->user()->id);
@@ -246,6 +255,8 @@ class PhotoController extends Controller
                 "uploaded_at" => now(),
                 "failed_at" => null
             ]);
+
+            $this->fixPermission("photos");
 
             return response()->json(["status" => "Upload Success"], 200);
         }
