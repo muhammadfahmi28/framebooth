@@ -38,6 +38,11 @@ Route::prefix('app')->middleware('auth')->group(function () {
     Route::get('/view/{id}', "GalleryController@show"); //WIP
 
 });
+//View folder
+Route::get('/g/{uid}', "GalleryController@publicIndex")->middleware('gallery.public')->name('app.short_public_gallery_index'); // UID ada di url parameters untuk prevent search enginge crawl
+//!!ID relative url. DONT use for Print purpose
+Route::get('/g/{uid}/v/{pid}', "GalleryController@publicShow")->middleware('gallery.public')->name('app.short_public_gallery_show'); // UID ada di url parameters untuk prevent search enginge crawl
 
+//View single image
 Route::get('/gallery/viewer', "GalleryController@publicShow")->middleware('gallery.public')->name('app.public_gallery'); // UID ada di url parameters untuk prevent search enginge crawl
 

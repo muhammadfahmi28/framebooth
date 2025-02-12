@@ -1,33 +1,58 @@
 @extends('layout.app')
-@section('title', "Gallery - " . $title)
+@section('title', "Gallery")
 @section("body")
 
 <div id="main-container" class="opacity-0" >
+    {{-- <div id="header" >
+        <div>
+            nanti ganti jadi nama dan tombol ganti nama
+            <a href="/logout">logout</a>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                Logout
+            </button>
+        </div>
+    </div> --}}
 
     <div id="header" class="mb-4 py-3" >
-        <h2>{{$title}}</h2>
+        <h1>Photos</h1>
     </div>
 
     <div id="content">
 
-        @if ($photo_urls)
+        @if ($photos)
 
             <div class="row">
+                {{-- @foreach ($photos as $photo)
+                <div>
+                    <img src="{{asset('storage/'.$folder.'/'.$photo->filename)}}" alt="" width="250px">
+                    <a href="{{url("app/print/{$photo->id}")}}">Print</a>
+                    <br/>
+                    <a href="{{url("app/delete/{$photo->id}")}}">Delete</a>
+                    <br/>
+                    <a href="{{url("app/view/{$photo->id}")}}">View</a>
+                    <br/>
+                    {{$photo->created_at}}
+                </div>
+                @endforeach --}}
+                {{-- @for ($x = 0; $x <= 10; $x++) --}}
 
-                @foreach ($photo_urls as $key => $photo_url)
-                <div class="gl-photo-frame col" data-index="{{$key}}" data-url="{{$photo_url['url']}}">
+                @foreach ($photos as $photo)
+                <div class="gl-photo-frame col" data-photo_id="{{$photo->id}}" data-details-url="{{url("/g/{$uid}/v/{$photo->id}")}}">
                     <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">
-                        <img src="{{$photo_url['small']}}" alt="">
+                        @if (count($photo->raws) > 0)
+                            <img src="{{asset('storage/'.$folder.'/small\/'.$photo->raws[0])}}" alt="">
+                        @else
+                            <img src="{{asset('storage/'.$folder.'/small\/'.$photo->filename)}}" alt="">
+                        @endif
                     </div>
                 </div>
                 @endforeach
-
+                {{-- @endfor --}}
             </div>
-
         @else
-            <div class="text-center">
-                No Data
-            </div>
+            {{-- <div>
+                <a href="{{route('app.capture')}}">Take Photo Big Button</a>
+            </div> --}}
         @endif
 
     </div>
@@ -38,18 +63,18 @@
 
 @section("post_body")
 
-<!-- Button trigger modal -->
-
 <div id="gl-photo-tool" class="gl-photo-tool gl-photo-tool-hidden px-3 d-block prevent-select">
     <div class="d-block" style="margin: auto; text-align: center; width: 300px;">
-        <a id="gl-tool-view" href="#" target="_blank" class="d-inline-block gl-icon-gl-view px-3">
+        <a id="gl-tool-details" href="" class="d-inline-block gl-icon-gl-view px-3">
             &nbsp;
             {{-- <img src="{{'assets/images/view-1.svg'}}" height="82px" alt=""> --}}
         </a>
-        <a id="gl-tool-download" href="#" class="d-inline-block gl-icon-gl-download px-3" download>
+
+        {{-- Print via gallery ga dulu --}}
+        {{-- <a href="#" class="d-inline-block gl-icon-gl-print px-3">
             &nbsp;
-            {{-- <img src="{{'assets/images/download-1.svg'}}" height="82px" alt=""> --}}
-        </a>
+        </a> --}}
+
     </div>
 </div>
 
@@ -72,10 +97,7 @@
         '/assets/images/del-2.svg',
         '/assets/images/view-3.svg',
         '/assets/images/print-3.svg',
-        '/assets/images/del-3.svg',
-        '/assets/images/download-1.svg',
-        '/assets/images/download-2.svg',
-        '/assets/images/download-3.svg',
+        '/assets/images/del-3.svg'
     ];
 
     function preloadImages(images) {
@@ -99,11 +121,9 @@
         let parent = $(this).parent();
         $(".gl-photo-frame").removeClass("selected");
         parent.addClass("selected");
-        photo_selected = parent.data("photo_index");
-        full_url = parent.data("url");
+        photo_selected = parent.data("photo_id");
 
-        $("#gl-tool-view").attr("href", full_url);
-        $("#gl-tool-download").attr("href", full_url);
+        $("#gl-tool-details").attr("href", ("" + parent.data("details-url")));
 
         $("#gl-photo-tool").removeClass("disabled");
         $("#gl-photo-tool").removeClass("gl-photo-tool-hidden");

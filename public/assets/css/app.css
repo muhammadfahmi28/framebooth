@@ -1,5 +1,5 @@
 :root{
-    --background-color: rgba(247, 227, 221,1);
+    --background-color: rgba(245, 236, 226,1);
     --bs-body-font-size: 1.25rem !important;
 }
 
@@ -146,7 +146,13 @@ h2 {
     max-width: 250px;
     max-height: 250px;
     margin: 10px 10px 28px 10px;
+    cursor: pointer;
     pointer-events: none;
+}
+
+.gl-photo-frame:only-of-type .gl-photo>img {
+    max-width: 400px;
+    max-height: 400px;
 }
 
 .gl-photo {
@@ -196,6 +202,7 @@ h2 {
 
 .gl-icon-gl-view,
 .gl-icon-gl-print,
+.gl-icon-gl-download,
 .gl-icon-gl-del {
     width: 82px;
     height: 82px;
@@ -230,6 +237,16 @@ h2 {
 }
 .gl-icon-gl-del:active {
     background-image: url("/assets/images/del-3.svg");
+}
+
+.gl-icon-gl-download {
+    background-image: url("/assets/images/download-1.svg");
+}
+.gl-icon-gl-download:hover {
+    background-image: url("/assets/images/download-2.svg");
+}
+.gl-icon-gl-download:active {
+    background-image: url("/assets/images/download-3.svg");
 }
 
 .ratio__f4 {

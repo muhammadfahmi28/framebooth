@@ -33,7 +33,7 @@
         }
 
         $("body").on("click", "a", function () {
-            if ($(this).attr("href") && $(this).attr("href") != "#" && $(this).attr("target") != "_blank") {
+            if ($(this).attr("download") === undefined && $(this).attr("href") && $(this).attr("href") != "#" && $(this).attr("target") != "_blank") {
                 hidePage();
             }
         });

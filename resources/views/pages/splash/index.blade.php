@@ -13,7 +13,9 @@
     </div> --}}
     <div id="content" class="d-flex flex-column justify-content-center">
         <div class="splash-content text-center" style="width: 100%;">
-            <img src="{{asset('assets/images/logo.png')}}" alt="logo" class="m-5" height="400px">
+            <img src="{{asset('assets/images/logo.png')}}" alt="logo" class="m-5" style="max-height: 500px; max-width: 600px">
+
+            @if (env("FEATURE_LOGIN", true))
             <div style="height: 400px; width:400px; margin: auto;">
                 <div id="reader" class="mb-3"></div>
                 <form id="form_main" action="/submit_code" method="post">
@@ -26,6 +28,7 @@
                     @endif
                 </form>
             </div>
+            @endif
         </div>
     </div>
     {{-- <div id="footer" >

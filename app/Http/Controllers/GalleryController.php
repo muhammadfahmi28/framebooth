@@ -22,20 +22,35 @@ class GalleryController extends Controller
         }
     }
 
-    function publicShow(Request $request) {
-        $uid = $request->folder_id;
-        $filename = $request->filename;
+    function publicIndex(Request $request, String $uid) {
+        $tuser = Tuser::where('uid', $uid)->first();
+        $photos = $tuser->photos;
+        if ($photos->count())
+        { //use count. has() will create new query.
+            $folder = Photo::DEFAULT_DIR . '/' . $tuser->uid;
+            return view('pages.gallery.public-index', compact('uid','tuser', 'photos', 'folder'));
+        } else {
+            return $this->publicShowFail();
+        }
+    }
+
+    function publicShow(Request $request, $uid = null, $pid = null) {
+        $uid = !empty($uid) ? $uid : $request->uid;
+        $filename = !empty($request->filename) ? urldecode($request->filename) : null;
         // return dd($uid, $filename);
-        if (empty($uid) || empty($filename)) {
-            // return dd("empty", $uid, $filename);
+        if (empty($uid) || (empty($filename) && empty($pid))) {
             return abort('404');
         }
 
-        $filename = urldecode($request->filename);
         $tuser = Tuser::where('uid', $uid)->first();
 
         if (!empty($tuser)) {
-            $photo = $tuser->photos()->where('filename', $filename)->first();
+            $photo = null;
+            if (!empty($pid)) {
+                $photo = $tuser->photos()->find($pid);
+            } else {
+                $photo = $tuser->photos()->where('filename', $filename)->first();
+            }
             $folder = Photo::DEFAULT_DIR . '/' . $tuser->uid;
 
             if (empty($photo)) { // could been better but whatever
