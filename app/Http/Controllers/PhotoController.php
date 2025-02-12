@@ -26,6 +26,7 @@ class PhotoController extends Controller
             $dir = storage_path("app/public/{$folder}");
             exec("chmod -R 755 {$dir}");
         } catch (\Throwable $th) {
+            Log::error("CANT CHANGE PERMISSION FOR : {$dir}");
             Log::error($th->getMessage());
         }
     }
