@@ -268,7 +268,7 @@ class PhotoController extends Controller
 
             return response()->json(["status" => "Upload Success"], 200);
         }
-            return response()->json(["status" => "not found"], 300);
+            return response()->json(["status" => "not found"], 422);
     }
 
     function recieveGenerateAndSyncPhoto(Request $request) {
@@ -277,6 +277,8 @@ class PhotoController extends Controller
         $uid = $request->input('uid');
         $code = $request->input('code');
         $name = $request->input('username');
+
+        Log::debug("MAIN {$main}");
         if (!empty($uid) && !empty($main) && !empty($raws)) {
             // check and generate user
             $owner = Tuser::where('uid', $uid)->first();
@@ -331,7 +333,7 @@ class PhotoController extends Controller
 
             return response()->json(["status" => "Upload Success"], 200);
         }
-        return response()->json(["status" => "not found"], 300);
+        return response()->json(["status" => "not found"], 422);
     }
 
     function recievePhotoDirect(Request $request) { //!! DEPRECATED // Unsafe mode. only for trusted client. Nyimpen file langsung tanpa cek DB
@@ -361,7 +363,7 @@ class PhotoController extends Controller
 
             return response()->json(["status" => "Upload Success"], 200);
         }
-        return response()->json(["status" => "not found"], 300);
+        return response()->json(["status" => "not found"], 422);
     }
 
     function testRecieveSyncPhoto(Request $request, $photo_id) {
@@ -386,7 +388,7 @@ class PhotoController extends Controller
             }
             // return response("asd", 200);
         }
-        return response("not found", 300);
+        return response("not found", 422);
     }
 
 }
