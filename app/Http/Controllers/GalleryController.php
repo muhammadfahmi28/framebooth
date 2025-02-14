@@ -79,7 +79,7 @@ class GalleryController extends Controller
                 $photo_urls[] = ['url' => $url, 'small' => $raws_small_urls[$key]];
             }
 
-            return view('pages.gallery.public-show', compact('title', 'tuser', 'photo', 'photo_urls' , 'folder'));
+            return view('pages.gallery.public-show', compact('title', 'uid', 'tuser', 'photo', 'photo_urls' , 'folder'));
         }
         // return dd("fallback", $uid, $filename);
         return $this->publicShowFail();

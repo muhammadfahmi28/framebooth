@@ -28,6 +28,8 @@
                     @endif
                 </form>
             </div>
+            @else
+            @include('components.div-socials')
             @endif
         </div>
     </div>

@@ -1,6 +1,11 @@
 :root{
     --background-color: rgba(245, 236, 226,1);
     --bs-body-font-size: 1.25rem !important;
+    --bs-link-color: #504D46;
+    --bs-link-color-rgb: 80, 77, 70;
+    --bs-link-decoration: underline;
+    --bs-link-hover-color: #3f3d37;
+    --bs-link-hover-color-rgb: rgb(63, 61, 55);
 }
 
 body{

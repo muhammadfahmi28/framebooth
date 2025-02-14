@@ -8,7 +8,12 @@
 <div id="main-container" class="opacity-0" >
 
     <div id="header" class="mb-4 py-3" >
-        <h2>{{$title}}</h2>
+        <div class="d-flex flex-row justify-content-between">
+            <h2>{{$title}}</h2>
+            <a href="{{url("/g/{$uid}")}}" target="_blank" class="d-block p-4" >
+                <i class="fa-brands fa-xmark fa-2x"></i>
+            </a>
+        </div>
     </div>
 
     <div id="content">
@@ -34,6 +39,10 @@
         @endif
 
     </div>
+
+    @if (!env("FEATURE_LOGIN", true))
+    @include('components.div-socials')
+    @endif
 
 </div>
 

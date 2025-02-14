@@ -60,6 +60,10 @@
 
     </div>
 
+    @if (!env("FEATURE_LOGIN", true))
+    @include('components.div-socials')
+    @endif
+
 </div>
 
 @endsection
