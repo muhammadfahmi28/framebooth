@@ -1,5 +1,8 @@
 @extends('layout.app')
 @section('title', "Gallery")
+@section('head')
+<meta name="robots" content="noindex, nofollow">
+@endsection
 @section("body")
 
 <div id="main-container" class="opacity-0" >

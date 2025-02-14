@@ -178,13 +178,16 @@ h2 {
     user-select: none; /* Standard syntax */
 }
 
-.gl-photo-frame.selected .gl-photo {
-    transform: rotate(0deg) scale(1.25) !important;
+.gl-photo-frame.col.selected {
     z-index: 1;
 }
 
+.gl-photo-frame.selected .gl-photo {
+    transform: rotate(0deg) scale(1.25) !important;
+}
+
 .gl-photo-tool {
-    position: absolute; bottom: 0; z-index: 5; width: 100%;
+    position: fixed; bottom: 0; z-index: 5; width: 100%;
     overflow: hidden;
 }
 

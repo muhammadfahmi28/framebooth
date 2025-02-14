@@ -1,5 +1,8 @@
 @extends('layout.app')
 @section('title', "Gallery - Not Found")
+@section('head')
+<meta name="robots" content="noindex, nofollow">
+@endsection
 @section("body")
 
 <div id="main-container" class="opacity-0" >
@@ -10,9 +13,9 @@
 
     <div id="content" class="text-center" style="margin-top: 200px">
 
-        <h2> Content Not available</h2>
+        <h2> Content Not Ready</h2>
         <h3>
-            Sorry content does not exist or not yet available. Please come back after a few moments
+            Sorry content does not yet available. Please come back after a few moments
         </h3>
 
     </div>

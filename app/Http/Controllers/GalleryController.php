@@ -24,6 +24,9 @@ class GalleryController extends Controller
 
     function publicIndex(Request $request, String $uid) {
         $tuser = Tuser::where('uid', $uid)->first();
+        if ($tuser == null) {
+            return $this->publicShowFail();
+        }
         $photos = $tuser->photos;
         if ($photos->count())
         { //use count. has() will create new query.
