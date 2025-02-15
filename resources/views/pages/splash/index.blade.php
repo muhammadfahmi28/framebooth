@@ -13,7 +13,9 @@
     </div> --}}
     <div id="content" class="d-flex flex-column justify-content-center">
         <div class="splash-content text-center" style="width: 100%;">
-            <img src="{{asset('assets/images/logo.png')}}" alt="logo" class="m-5" style="max-height: 500px; max-width: 600px">
+            <div class="m-5">
+                <img src="{{asset('assets/images/logo.png')}}" alt="logo" style="max-height: 500px; max-width: min(600px, 100%)">
+            </div>
 
             @if (env("FEATURE_LOGIN", true))
             <div style="height: 400px; width:400px; margin: auto;">

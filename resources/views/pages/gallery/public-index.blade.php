@@ -74,7 +74,7 @@
 
 @section("post_body")
 
-<div id="gl-photo-tool" class="gl-photo-tool gl-photo-tool-hidden px-3 d-block prevent-select">
+<div id="gl-photo-tool" class="gl-photo-tool gl-photo-tool-hidden px-3 d-block prevent-select z-n1">
     <div class="d-block" style="margin: auto; text-align: center; width: 300px;">
         <a id="gl-tool-details" href="" class="d-inline-block gl-icon-gl-view px-3">
             &nbsp;
@@ -92,6 +92,7 @@
 <script>
 
     var photo_selected = null;
+    var gl_tool_timeout;
 
     const pre_image = [
         '/assets/images/btn-logout.svg',
@@ -129,6 +130,9 @@
     });
 
     $(".gl-photo").on("click", function () {
+        if (gl_tool_timeout) {
+            clearTimeout(gl_tool_timeout);
+        }
         let parent = $(this).parent();
         $(".gl-photo-frame").removeClass("selected");
         parent.addClass("selected");
@@ -136,6 +140,7 @@
 
         $("#gl-tool-details").attr("href", ("" + parent.data("details-url")));
 
+        $("#gl-photo-tool").removeClass("z-n1");
         $("#gl-photo-tool").removeClass("disabled");
         $("#gl-photo-tool").removeClass("gl-photo-tool-hidden");
     });
@@ -149,6 +154,12 @@
             $("#gl-photo-tool").addClass("gl-photo-tool-hidden");
             $(".gl-photo-frame").removeClass("selected");
             $("#gl-photo-tool").addClass("disabled");
+            if (gl_tool_timeout) {
+                clearTimeout(gl_tool_timeout);
+            }
+            gl_tool_timeout = setTimeout(() => {
+                $("#gl-photo-tool").addClass("z-n1");
+            }, 500);
         }
     });
 
