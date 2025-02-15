@@ -178,6 +178,7 @@
         $("#gl-tool-details").attr("href", ("" + parent.data("details-url")));
 
         $("#gl-photo-tool").removeClass("disabled");
+        $("#gl-photo-tool").removeClass("z-n1");
         $("#gl-photo-tool").removeClass("gl-photo-tool-hidden");
     });
 

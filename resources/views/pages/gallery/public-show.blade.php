@@ -124,6 +124,7 @@
         $("#gl-tool-download").attr("href", full_url);
 
         $("#gl-photo-tool").removeClass("disabled");
+        $("#gl-photo-tool").removeClass("z-n1");
         $("#gl-photo-tool").removeClass("gl-photo-tool-hidden");
     });
 
