@@ -64,7 +64,7 @@
 
     </div>
 
-    <div style="height: 82px">
+    <div style="display:block; padding: 25px;">
         &nbsp;
     </div>
 
