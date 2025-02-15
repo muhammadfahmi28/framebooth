@@ -10,8 +10,8 @@
     <div id="header" class="mb-4 py-3" >
         <div class="d-flex flex-row justify-content-between">
             <h2>{{$title}}</h2>
-            <a href="{{url("/g/{$uid}")}}" target="_blank" class="d-block p-4" >
-                <i class="fa-brands fa-xmark fa-2x"></i>
+            <a href="{{url("/g/{$uid}")}}" class="d-block p-4" >
+                <i class="fa-solid fa-xmark fa-2x"></i>
             </a>
         </div>
     </div>
