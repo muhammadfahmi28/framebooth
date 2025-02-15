@@ -58,11 +58,15 @@
             </div> --}}
         @endif
 
+        @if (!env("FEATURE_LOGIN", true))
+        @include('components.div-socials')
+        @endif
+
     </div>
 
-    @if (!env("FEATURE_LOGIN", true))
-    @include('components.div-socials')
-    @endif
+    <div style="height: 82px">
+        &nbsp;
+    </div>
 
 </div>
 
