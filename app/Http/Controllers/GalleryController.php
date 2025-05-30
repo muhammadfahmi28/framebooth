@@ -86,6 +86,8 @@ class GalleryController extends Controller
                 $photo_urls[] = ['url' => $url, 'small' => $raws_small_urls[$key]];
             }
 
+            // dd($photo->other_photos, $photo->getOtherAssetPath(null), $photo->getOtherAssetPath(null, true));
+
             return view('pages.gallery.public-show', compact('title', 'uid', 'tuser', 'photo', 'photo_urls' , 'folder'));
         }
         // return dd("fallback", $uid, $filename);

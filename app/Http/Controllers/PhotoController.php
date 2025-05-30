@@ -278,7 +278,7 @@ class PhotoController extends Controller
         $code = $request->input('code');
         $name = $request->input('username');
         $otherFiles = $request->file('otherFile', []);
-        $otherJson = $request->file('otherJson');
+        $otherJson = $request->input('otherJson');
         $otherUploads = [];
 
         if (!empty($otherJson)) {
@@ -342,12 +342,18 @@ class PhotoController extends Controller
             }
 
             if (!empty($otherUploads) && count($otherFiles) && count($otherUploads) ) {
+                $i = 0;
                 foreach ($otherFiles as $key => $file) {
                     try {
                         $otherSavedThumbs = $manager->read($file->getRealPath());
                         $otherSavedThumbs->scale(height: 360); //for thumbs
-                        $savePath = storage_path("app/public/photos/{$uid}/small/" . $raw->getClientOriginalName() . '.jpeg'); //adds .jpeg
-                        $otherSavedThumbs = $otherSavedThumbs->toJpeg(70)->save($savePath);
+                        if (isset($otherUploads[$i]) && isset($otherUploads[$i]['type']) && $otherUploads[$i]['type'] == 'gif') {
+                            $savePath = storage_path("app/public/photos/{$uid}/small/" . $file->getClientOriginalName());
+                            $otherSavedThumbs = $otherSavedThumbs->toJpeg(70)->save($savePath);
+                        } else {
+                            $savePath = storage_path("app/public/photos/{$uid}/small/" . $file->getClientOriginalName() . '.jpeg'); //adds .jpeg
+                            $otherSavedThumbs = $otherSavedThumbs->toJpeg(70)->save($savePath);
+                        }
                     } catch (\Exception $ex) {
                         $_log = '';
                         if (isset($otherFiles[$key]) && $otherFiles[$key]->getType() === 'string') {
@@ -356,7 +362,8 @@ class PhotoController extends Controller
                         Log::error('ERROR ON GENERATING THUMB '.$_log);
                         report($ex);
                     }
-                    Storage::putFileAs("public/photos/{$uid}/", $file, $raw->getClientOriginalName());
+                    Storage::putFileAs("public/photos/{$uid}/", $file, $file->getClientOriginalName());
+                    $i++;
                 }
                 $photo->other_photos = $otherUploads;
             }

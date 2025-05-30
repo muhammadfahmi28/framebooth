@@ -85,9 +85,13 @@ class Photo extends Model
         $photos = $this->other_photos ?? [];
         foreach ($photos as $photo) {
             $photo = collect($photo);
-            if (isset($photo->type) && isset($photo->filename)
-                && ($photo->type === $key_name) || $key_name === null) {
-                $urls[] = asset('storage/'.$folder.'/'.$small.$photo->filename);
+            if (isset($photo['type']) && isset($photo['filename'])
+                && ($photo['type'] === $key_name || $key_name === null)) {
+                if ($photo['type'] == 'gif') {
+                    $urls[] = asset('storage/'.$folder.'/'.$small.$photo['filename']);
+                } else {
+                    $urls[] = asset('storage/'.$folder.'/'.$small.$photo['filename'].'.jpeg');
+                }
             }
         }
         return $urls;
@@ -99,9 +103,13 @@ class Photo extends Model
         $photos = $this->other_photos ?? [];
         foreach ($photos as $photo) {
             $photo = collect($photo);
-            if (isset($photo->type) && isset($photo->filename)
-            && ($photo->type === $key_name || $key_name === null)) {
-                $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/'.$small.$photo->filename;
+            if (isset($photo['type']) && isset($photo['filename'])
+            && ($photo['type'] === $key_name || $key_name === null)) {
+                if ($photo['type'] == 'gif') {
+                    $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/'.$small.$photo['filename'];
+                } else {
+                    $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/'.$small.$photo['filename'].'.jpeg';
+                }
                 if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
                     $storage_rel_path = str_replace('/', '\\', $storage_rel_path);
                 }
