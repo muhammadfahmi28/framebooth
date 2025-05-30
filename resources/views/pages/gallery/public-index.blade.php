@@ -41,7 +41,7 @@
 
                 @foreach ($photos as $photo)
                 <div class="gl-photo-frame col" data-photo_id="{{$photo->id}}" data-details-url="{{url("/g/{$uid}/v/{$photo->id}")}}">
-                    <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">+
+                    <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">
                         @php
                             $gifs = $photo->getOtherAssetPath('gif', true);
                         @endphp
