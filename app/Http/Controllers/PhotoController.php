@@ -349,7 +349,7 @@ class PhotoController extends Controller
                         $otherSavedThumbs->scale(height: 360); //for thumbs
                         if (isset($otherUploads[$i]) && isset($otherUploads[$i]['type']) && $otherUploads[$i]['type'] == 'gif') {
                             $savePath = storage_path("app/public/photos/{$uid}/small/" . $file->getClientOriginalName());
-                            $otherSavedThumbs = $otherSavedThumbs->toJpeg(70)->save($savePath);
+                            $otherSavedThumbs = $otherSavedThumbs->optimize()->save($savePath);
                         } else {
                             $savePath = storage_path("app/public/photos/{$uid}/small/" . $file->getClientOriginalName() . '.jpeg'); //adds .jpeg
                             $otherSavedThumbs = $otherSavedThumbs->toJpeg(70)->save($savePath);
