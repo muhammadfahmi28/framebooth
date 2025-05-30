@@ -82,7 +82,7 @@ class Photo extends Model
         $small = $is_small ? 'small/' : '';
         $folder = Photo::DEFAULT_DIR . '/' . $this->tuser->uid;
         $urls = [];
-        $photos = $this->other_photos;
+        $photos = $this->other_photos ?? [];
         foreach ($photos as $photo) {
             $photo = collect($photo);
             if (isset($photo->type) && isset($photo->filename)
@@ -96,7 +96,7 @@ class Photo extends Model
     function getOtherRealPath(string | null $key_name = null, $is_small = false) {
         $small = $is_small ? 'small/' : '';
         $filenames = [];
-        $photos = $this->other_photos;
+        $photos = $this->other_photos ?? [];
         foreach ($photos as $photo) {
             $photo = collect($photo);
             if (isset($photo->type) && isset($photo->filename)
