@@ -73,8 +73,15 @@ class GalleryController extends Controller
 
             $title = $photo->created_at->toDateString();
             $photo_urls = [['url' => $photo->getAssetPath(), 'small' => $photo->getAssetPath(true)]];
+            $other_urls = $photo->getOtherAssetPath(null);
+            $other_small_urls = $photo->getOtherAssetPath(null, true);
             $raws_urls = $photo->getRawsAssetPath();
             $raws_small_urls = $photo->getRawsAssetPath(true);
+
+            foreach ($other_urls as $key => $url) {
+                $photo_urls[] = ['url' => $url, 'small' => $other_small_urls[$key]];
+            }
+
             foreach ($raws_urls as $key => $url) {
                 $photo_urls[] = ['url' => $url, 'small' => $raws_small_urls[$key]];
             }

@@ -13,9 +13,9 @@
 
     <div id="content" class="text-center" style="margin-top: 200px">
 
-        <h2> Content Not Ready</h2>
+        <h2>Foto belum siap</h2>
         <h3>
-            Sorry content does not yet available. Please come back after a few moments
+            Foto dalam proses Upload. Kembali beberapa saat lagi.
         </h3>
 
     </div>

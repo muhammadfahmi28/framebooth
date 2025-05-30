@@ -234,7 +234,7 @@ class PhotoController extends Controller
 
         $photo = Photo::find($photo_id);
         $main = $request->file('main');
-        $raws = $request->file('raw');
+        $raws = $request->file('raw') ?? [];
 
         if (!empty($photo)) {
 
@@ -273,10 +273,22 @@ class PhotoController extends Controller
 
     function recieveGenerateAndSyncPhoto(Request $request) {
         $main = $request->file('main');
-        $raws = $request->file('raw');
+        $raws = $request->file('raw') ?? [];
         $uid = $request->input('uid');
         $code = $request->input('code');
         $name = $request->input('username');
+        $otherFiles = $request->file('otherFile', []);
+        $otherJson = $request->file('otherJson');
+        $otherUploads = [];
+
+        if (!empty($otherJson)) {
+            try {
+                $otherUploads = json_decode($otherJson);
+            } catch (\Exception $ex) {
+                Log::error("failed parsing JSON");
+                Log::error($otherJson);
+            }
+        }
 
         Log::debug("MAIN {$main}");
         if (!empty($uid) && !empty($main) && !empty($raws)) {
@@ -316,7 +328,7 @@ class PhotoController extends Controller
 
             $mainImageThumbs = $manager->read($main->getRealPath());
             $mainImageThumbs->scale(height: 360); //for thumbs
-            $savePath = storage_path("app/public/photos/{$uid}/small/".$main->getClientOriginalName());
+            $savePath = storage_path("app/public/photos/{$uid}/small/".$main->getClientOriginalName()); //assume jpeg uploaded. didnt change format name
             $mainSavedThumbs = $mainImageThumbs->toJpeg(70)->save($savePath);
 
             Storage::putFileAs("public/photos/{$uid}/", $main, $main->getClientOriginalName());
@@ -328,6 +340,27 @@ class PhotoController extends Controller
                 $rawSavedThumbs = $rawImageThumbs->toJpeg(70)->save($savePath);
                 Storage::putFileAs("public/photos/{$uid}/", $raws[$key], $raw->getClientOriginalName());
             }
+
+            if (!empty($otherUploads) && count($otherFiles) && count($otherUploads) ) {
+                foreach ($otherFiles as $key => $file) {
+                    try {
+                        $otherSavedThumbs = $manager->read($file->getRealPath());
+                        $otherSavedThumbs->scale(height: 360); //for thumbs
+                        $savePath = storage_path("app/public/photos/{$uid}/small/" . $raw->getClientOriginalName() . '.jpeg'); //adds .jpeg
+                        $otherSavedThumbs = $otherSavedThumbs->toJpeg(70)->save($savePath);
+                    } catch (\Exception $ex) {
+                        $_log = '';
+                        if (isset($otherFiles[$key]) && $otherFiles[$key]->getType() === 'string') {
+                            $_log = $otherFiles[$key];
+                        }
+                        Log::error('ERROR ON GENERATING THUMB '.$_log);
+                        report($ex);
+                    }
+                    Storage::putFileAs("public/photos/{$uid}/", $file, $raw->getClientOriginalName());
+                }
+                $photo->other_photos = $otherUploads;
+            }
+            $photo->save();
 
             $this->fixPermission("photos");
 
