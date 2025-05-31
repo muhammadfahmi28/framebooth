@@ -327,7 +327,7 @@ class PhotoController extends Controller
             Storage::makeDirectory("public/photos/{$uid}/small"); //prepare dir
 
             $mainImageThumbs = $manager->read($main->getRealPath());
-            $mainImageThumbs->scale(height: 360); //for thumbs
+            $mainImageThumbs->scale(height: 250); //for thumbs
             $savePath = storage_path("app/public/photos/{$uid}/small/".$main->getClientOriginalName()); //assume jpeg uploaded. didnt change format name
             $mainSavedThumbs = $mainImageThumbs->toJpeg(70)->save($savePath);
 
@@ -335,7 +335,7 @@ class PhotoController extends Controller
 
             foreach ($raws as $key => $raw) {
                 $rawImageThumbs = $manager->read($raw->getRealPath());
-                $rawImageThumbs->scale(height: 360); //for thumbs
+                $rawImageThumbs->scale(height: 250); //for thumbs
                 $savePath = storage_path("app/public/photos/{$uid}/small/" . $raw->getClientOriginalName());
                 $rawSavedThumbs = $rawImageThumbs->toJpeg(70)->save($savePath);
                 Storage::putFileAs("public/photos/{$uid}/", $raws[$key], $raw->getClientOriginalName());
@@ -346,10 +346,10 @@ class PhotoController extends Controller
                 foreach ($otherFiles as $key => $file) {
                     try {
                         $otherSavedThumbs = $manager->read($file->getRealPath());
-                        $otherSavedThumbs->scale(height: 360); //for thumbs
-                        if (isset($otherUploads[$i]) && isset($otherUploads[$i]['type']) && $otherUploads[$i]['type'] == 'gif') {
+                        $otherSavedThumbs->scale(height: 250); //for thumbs
+                        if (isset($otherUploads[$i]) && isset($otherUploads[$i]->type) && $otherUploads[$i]->type == 'gif') {
                             $savePath = storage_path("app/public/photos/{$uid}/small/" . $file->getClientOriginalName());
-                            $otherSavedThumbs = $otherSavedThumbs->optimize()->save($savePath);
+                            $otherSavedThumbs = $otherSavedThumbs->toGif()->save($savePath);
                         } else {
                             $savePath = storage_path("app/public/photos/{$uid}/small/" . $file->getClientOriginalName() . '.jpeg'); //adds .jpeg
                             $otherSavedThumbs = $otherSavedThumbs->toJpeg(70)->save($savePath);
