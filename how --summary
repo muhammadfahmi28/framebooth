@@ -1,0 +1,454 @@
+[33mcommit 6ebd203a4e4831d62202c5e33dfa330788f9426c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mnew-psuedo-master[m[33m, [m[1;31morigin/new-psuedo-master[m[33m)[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Sat May 31 07:43:36 2025 +0700
+
+    fix save gif
+
+[33mcommit 8f317abed4f3311e4bf36c3beff6f35ac1736be7[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Fri May 30 21:29:11 2025 +0700
+
+    fix thumb
+
+[33mcommit 5dcc7cd47785f660dd34e7d62923c899819557d5[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Fri May 30 21:28:19 2025 +0700
+
+    update optimize gif thumbs
+
+[33mcommit 32311cf32c2955951d6d74e0b5f3da0cfe389476[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Fri May 30 20:57:17 2025 +0700
+
+    fix upload dan view gif
+
+[33mcommit 1c9e58a47c1d4f1df2819e465b31899d819165b5[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Fri May 30 19:16:25 2025 +0700
+
+    fix error on other_photos null
+
+[33mcommit 3f49f2d035b8358edd4e2b9e3732ce581939f63b[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Fri May 30 15:50:58 2025 +0700
+
+    add other photos upload
+
+[33mcommit ffe8fe93085bb9edf3f395d69c74c48a5b65bc89[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sat Feb 15 23:04:30 2025 +0700
+
+    fix z-n1
+
+[33mcommit b9402299e3567f205dd89bc4f8541f13a2e5472e[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sat Feb 15 22:58:16 2025 +0700
+
+    fix logo on splash mobile
+    
+    fix Z Index  on toolbar hide
+
+[33mcommit 40a2ebee8ec4f74d14aaab7d47dd6a826121cae1[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sat Feb 15 07:18:55 2025 +0700
+
+    fix spacer
+
+[33mcommit 8ea4b8cc7aeb75bfffd9afc138f3e619241de554[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sat Feb 15 07:14:21 2025 +0700
+
+    add spacer
+
+[33mcommit 597eed5438901f3092ae379137b7e08bd77ac618[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sat Feb 15 07:02:37 2025 +0700
+
+    fix icon
+
+[33mcommit 923b6d72eb467b1ff24a727a0316676a258d212a[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sat Feb 15 06:58:35 2025 +0700
+
+    update: add social
+
+[33mcommit 3d647f9d9b3d93dacc2edb099afa283eb07574eb[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Fri Feb 14 21:40:54 2025 +0700
+
+    fix css overflow in mobile
+
+[33mcommit 2ab262a670812b47e58fd523234e98a928a9645e[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Fri Feb 14 21:22:04 2025 +0700
+
+    add css versioning
+
+[33mcommit 637b9ba3ba4e77ecbda94aad12330fa2350c6c13[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Fri Feb 14 21:09:52 2025 +0700
+
+    fix floating buttons, add robot meta
+
+[33mcommit 8c619fd2ef9dad5d4dc671df4abe696b8f2464c2[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Feb 13 08:00:53 2025 +0700
+
+    fix photo upload
+
+[33mcommit c7d4826d2f6a6563523a1023951856b0c733a2cf[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Feb 13 00:34:41 2025 +0700
+
+    change api once again
+
+[33mcommit 3d6058443ead7ee6ef24a31c0f0195d78482ac7c[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Feb 13 00:33:36 2025 +0700
+
+    change upload API URL
+
+[33mcommit 1a7c5f937cdb9d7bd166b28e04161f331a15b8f6[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Feb 13 00:31:17 2025 +0700
+
+    add photos/upload api
+
+[33mcommit 8bf744462128626b0d9364bd46aeeb07c60d0a93[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Feb 12 18:19:47 2025 +0700
+
+    update api
+
+[33mcommit 7924144ddfcd9f5c6eca0a61220d151708c7ebfe[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Feb 12 18:16:51 2025 +0700
+
+    update
+
+[33mcommit b9301efc4d61244abfb75065280bfe331ba0f1eb[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Feb 12 18:15:53 2025 +0700
+
+    fix permission after upload
+
+[33mcommit a2d55e26366b2dd5361b791ec599d5f5801b8854[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Feb 12 17:26:54 2025 +0700
+
+    update title
+
+[33mcommit ee077afa56348afd08a17bb03c622e6f52ca4ef5[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Feb 12 17:24:07 2025 +0700
+
+    update tema, update gallery
+
+[33mcommit 7f852b2d5260034cd1d2f4b40833af5c3be2f485[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Fri Jun 14 10:20:15 2024 +0700
+
+    Turn off Autocomplete
+    
+    Turn off Autocomplete
+
+[33mcommit f02289e3f742d5d982dcc0668a863b15c78d9dc0[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sun Nov 12 02:25:03 2023 +0700
+
+    update: add manual input, add logout in capture
+
+[33mcommit 26eb5d98ac97725c09a4ea6c11724388614bb2ee[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sun Nov 12 02:12:36 2023 +0700
+
+    fix add gutter
+
+[33mcommit 2cbff1c8575bd821ef83529a5ef8ed5a68dd6edb[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sat Nov 11 23:26:26 2023 +0700
+
+    host fontawsome
+
+[33mcommit be2c17eea066e439d19d2fcec48f39635f708b27[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sat Nov 11 23:15:44 2023 +0700
+
+    fix ratio
+
+[33mcommit a757ff5227832c19d880ba4049896fef5311be0e[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sat Nov 11 16:06:11 2023 +0700
+
+    pong
+
+[33mcommit 77df684cdee1916700870f2ad76eed62212267d4[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Sat Nov 11 15:37:52 2023 +0700
+
+    add 2 frame
+
+[33mcommit 0944738b30420531fdf15ebfed0bd41dda8d5e7e[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Fri Nov 10 18:42:53 2023 +0700
+
+    ping open from middleware
+
+[33mcommit 88a6c7432c2ba8f2e907fb9d9f4001ddc5546030[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Fri Nov 10 18:37:14 2023 +0700
+
+    fix server ping fix bat
+
+[33mcommit bd375c14c18a6e42fa853394db4e7d2361b36e49[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Fri Nov 10 18:31:43 2023 +0700
+
+    add server ping
+
+[33mcommit 287918e4e573ffde692a9c46ee005028432dc1eb[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Fri Nov 10 17:38:17 2023 +0700
+
+    fix: fix typo
+
+[33mcommit 4f3dfcdc336a0feca67bf33e07a142017eef30f5[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Fri Nov 10 17:28:57 2023 +0700
+
+    details button, store qr_url, env example
+
+[33mcommit 2552f0e3480f67db4c1762cbd9d07e45e92766d9[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Fri Nov 10 16:46:55 2023 +0700
+
+    add design. wip qrurl in tables
+
+[33mcommit b5d8a4c3f721e1252c84a31e1a53cbec629e53f8[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Nov 9 20:38:26 2023 +0700
+
+    update: allow null valid to take photos
+
+[33mcommit 67c93b94969bad2c347c3508fa8411856eea874d[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Nov 9 17:57:17 2023 +0700
+
+    feat: add TUSER_PREFIX
+
+[33mcommit 1ce2f609a00ffc66c1b86cdb0a899629f20a94bc[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Nov 9 17:53:11 2023 +0700
+
+    fix: fix photosync
+
+[33mcommit 0936d7814e6776d0b8082ea51b42af9791d6d6d0[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Nov 9 01:58:45 2023 +0700
+
+    update also upload name
+
+[33mcommit 0a3430d3e52cf267051caba796b7dbf990d48109[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Nov 9 01:57:54 2023 +0700
+
+    update: also upload code for psuedo
+
+[33mcommit 66ecd9a8c285513cc22338e2c1c708329b3de944[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Nov 8 19:18:49 2023 +0700
+
+    feat: countdown
+
+[33mcommit f8ebac0043cbd0519ce010fd16d0fdcd71852af1[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Nov 8 15:58:08 2023 +0700
+
+    update: FEATURE_CAPTURE_PRINT
+
+[33mcommit 2f5024c44474ca2d1948ffc86e72ae3461abcd71[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Nov 8 04:09:26 2023 +0700
+
+    fix disable dd
+
+[33mcommit b1e5c88b69aeffc43efbe63df8b2433ad4cf89c1[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Nov 8 03:37:46 2023 +0700
+
+    feat PublicGallery done
+
+[33mcommit 2ce792277ef9f74b88cf93b6f0e3612bf98ef0d0[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Nov 8 01:56:28 2023 +0700
+
+    fix photosync generate
+
+[33mcommit 3f7ea9f80676e557dd472765da2ebad4fc6ee40e[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Nov 8 01:40:36 2023 +0700
+
+    add psuedo master feature
+
+[33mcommit 74538770e73c60b64a16cf5458451e4e1344a90e[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Tue Nov 7 22:43:12 2023 +0700
+
+    FEATURE_DIRECT_STORE
+
+[33mcommit 44c8e0591bd59866bea2cef5163abf23ea9330cb[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Tue Nov 7 21:57:42 2023 +0700
+
+    add failed_at PhotoPrint PhotoSync
+    
+    add failed_at PhotoPrint PhotoSync
+
+[33mcommit 1f3c348d7c3cc0606e4332d16cfffc5a36bad0fd[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Tue Nov 7 19:42:46 2023 +0700
+
+    fix PhotoSync fix uploaded_at
+
+[33mcommit 6bde2f861767b512b720df3f1c32dfa0f5b5a011[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Tue Nov 7 19:42:10 2023 +0700
+
+    fix PhotoSync fix
+
+[33mcommit 2cb47b676d198c2d72c21c8b8139f65865fd5282[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Tue Nov 7 19:20:48 2023 +0700
+
+    PhotoSyncCommand
+
+[33mcommit 65c755d6f9ff3c7be5a8a470aeefeaa3cdd0b4f3[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Tue Nov 7 16:46:29 2023 +0700
+
+    Photo Print worker, Photo receive
+    
+    Photo worker
+    Photo upload receive on upload.
+    wip Photo upload command
+
+[33mcommit fcccb29e0e426025981377f267f2b2450ac28e29[m
+Author: muhammadfahmi28 <79831020+muhammadfahmi28@users.noreply.github.com>
+Date:   Sun Nov 5 19:52:16 2023 +0700
+
+    remove bootstrap inegrity,
+    set camera ratio, fix print
+
+[33mcommit fcf841a0fa76d80723e6f01976378e19fc94eeea[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Sat Nov 4 11:01:39 2023 +0700
+
+    updateframe
+
+[33mcommit dc6424f937d7bc518b5a8184882648293f3a64dd[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Sat Nov 4 10:19:05 2023 +0700
+
+    splash screen branding
+
+[33mcommit 8211e6cc583000aa0a001142c8cd16a7591ddb29[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Sat Nov 4 00:18:50 2023 +0700
+
+    save thumbs, gallery fe, capture fe
+
+[33mcommit 1ca7c9ad97a7ad3679b7e76e6ac819048f18b577[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Fri Nov 3 01:25:58 2023 +0700
+
+    add placeholder qr insert
+
+[33mcommit a10e285a3649a175ea052eb6f7e82013b1ad7713[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Nov 2 20:40:58 2023 +0700
+
+    Print Done
+
+[33mcommit 3a7eab75f957bb7febfe397f1d06353547260217[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Wed Nov 1 23:22:51 2023 +0700
+
+    Init pending print, save and delete raws
+
+[33mcommit 955ae2688d5b4559f75ae396c5c1ba013fcd4255[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Tue Oct 31 20:35:54 2023 +0700
+
+    add Queue Jobs
+
+[33mcommit 90a4bc3bfe7c6ec31393ac2e0e631df76c4f2085[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Tue Oct 31 20:28:02 2023 +0700
+
+    Capture done
+
+[33mcommit cb2205c58513acae8914f3940c0e42caba5f17ec[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Sun Oct 29 11:11:39 2023 +0700
+
+    Captrure done
+
+[33mcommit b392321df89468559b975e712eeacb0ac25fac38[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Fri Oct 27 17:45:25 2023 +0700
+
+    Gallery fix, capture reset
+
+[33mcommit b2ace285ccafaf12c7357b7c4efca0ecb356d269[m
+Author: muhammadfahmi28 <fahmi.personal96@gmail.com>
+Date:   Thu Oct 26 13:13:26 2023 +0700
+
+    Gallery Finished
+
+[33mcommit 35ccde92350f4cddeb82844b3013478b5387d5f4[m
+Author: Muhammad Fahmi <fahmi.personal96@gmail.com>
+Date:   Mon Oct 2 10:07:29 2023 +0700
+
+    styling splash
+
+[33mcommit 3c98b9c12396d51d029e323ca56aab902531c3a4[m
+Author: Muhammad Fahmi <fahmi.personal96@gmail.com>
+Date:   Sun Oct 1 16:07:44 2023 +0700
+
+    windows print using shimgvw.dll
+
+[33mcommit 93dcc53f29b180bba85043ea959cd663ff385ee5[m
+Author: Muhammad Fahmi <fahmi.personal96@gmail.com>
+Date:   Thu Sep 28 07:03:57 2023 +0700
+
+    capture html canvas
+
+[33mcommit a2b290fef3d65076046527675de9b2dd02057708[m
+Author: Muhammad Fahmi <fahmi.personal96@gmail.com>
+Date:   Wed Sep 27 14:37:45 2023 +0700
+
+    show delete images
+
+[33mcommit 88fb5a184f85777dc8da7993c8413a3b8cb627c0[m
+Author: Muhammad Fahmi <fahmi.personal96@gmail.com>
+Date:   Sat Sep 9 16:39:02 2023 +0700
+
+    qr code scan
+
+[33mcommit 01f1ec9090d8011488f21f94a5b086faf6ad02e5[m
+Author: Muhammad Fahmi <fahmi.personal96@gmail.com>
+Date:   Thu Sep 7 22:06:09 2023 +0700
+
+    ticket authenticable and login
+
+[33mcommit b1f9249c16c55ebbe98bb856290f933f3e7d6959[m
+Author: Muhammad Fahmi <fahmi.personal96@gmail.com>
+Date:   Thu Sep 7 20:57:39 2023 +0700
+
+    Init
+
+[33mcommit 008cfeda716189e60d761cf2d1844e0bca11f9c8[m
+Author: Muhammad Fahmi <fahmi.personal96@gmail.com>
+Date:   Thu Sep 7 20:54:32 2023 +0700
+
+    first commit
