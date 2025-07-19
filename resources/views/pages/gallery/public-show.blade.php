@@ -24,7 +24,11 @@
 
                 @foreach ($photo_urls as $key => $photo_url)
                 <div class="gl-photo-frame col" data-index="{{$key}}" data-url="{{$photo_url['url']}}">
-                    <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">
+                    <div class="gl-photo cursor-pointer" style="transform: rotate({{rand(0,6)-3}}deg)"
+                        @if (!env('FEATURE_CAPTURE_PRINT', false))
+                            data-direct="true"
+                        @endif
+                    >
                         <img src="{{$photo_url['small']}}" alt="">
                     </div>
                 </div>
@@ -48,6 +52,9 @@
     </div>
 
 </div>
+
+@include('pages.gallery.components.photo_viewer_base')
+@include('pages.gallery.components.tutorial_buttom_base', ["className" => "tutorial-pick-photo", "tutorial" => "Pilih salah satu foto"])
 
 @endsection
 
@@ -110,15 +117,24 @@
         renderPage();
     });
 
-    $(".gl-photo").on("click", function () {
+    $(".gl-photo").on("click", function (e) {
+        $(".tutorial-pick-photo").addClass("opacity-0");
+        let parent = $(this).parent();
+        photo_selected = parent.data("photo_index");
+        full_url = parent.data("url");
+
+        if ($(e.target).data('direct')) {
+            $(".gl-photo-frame").removeClass("selected");
+            parent.addClass("selected");
+            photoViewerOpen(full_url);
+            return;
+        }
+
         if (gl_tool_timeout) {
             clearTimeout(gl_tool_timeout);
         }
-        let parent = $(this).parent();
         $(".gl-photo-frame").removeClass("selected");
         parent.addClass("selected");
-        photo_selected = parent.data("photo_index");
-        full_url = parent.data("url");
 
         $("#gl-tool-view").attr("href", full_url);
         $("#gl-tool-download").attr("href", full_url);
@@ -147,5 +163,8 @@
     });
 
 </script>
+
+@include('pages.gallery.components.photo_viewer_script')
+
 @endsection
 

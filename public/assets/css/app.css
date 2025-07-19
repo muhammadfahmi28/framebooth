@@ -19,6 +19,10 @@ body{
     user-select: none; /* Standard syntax */
 }
 
+.cursor-pointer{
+    cursor: pointer;
+}
+
 #main-container {
     display: flex;
     flex-direction: column;
@@ -280,4 +284,13 @@ h2 {
     .gl-photo-frame.col {
         margin-bottom: 1rem;
     }
+}
+
+.tutorial-bottom {
+    pointer-events: none;
+    font-weight: 600;
+    padding: 1rem;
+    padding-top: 2rem;
+    background: #000000;
+    background: linear-gradient(0deg,rgba(0, 0, 0, 0.54) 80%, rgba(0, 0, 0, 0) 100%);
 }

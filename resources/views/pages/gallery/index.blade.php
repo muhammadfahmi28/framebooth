@@ -38,7 +38,11 @@
 
                 @foreach ($photos as $photo)
                 <div class="gl-photo-frame col" data-photo_id="{{$photo->id}}" data-details-url="{{$photo->qr_url}}">
-                    <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">
+                    <div class="gl-photo cursor-pointer" style="transform: rotate({{rand(0,6)-3}}deg)"
+                        @if (!env('FEATURE_CAPTURE_PRINT', false))
+                            data-direct="true"
+                        @endif
+                    >
                         @php
                             $gifs = $photo->getOtherAssetPath('gif', true);
                         @endphp
@@ -92,6 +96,8 @@
 @section("post_body")
 
 @include('components.logout-modal')
+
+@include('pages.gallery.components.tutorial_buttom_base', ["className" => "tutorial-pick-photo", "tutorial" => "Pilih salah satu foto"])
 
 <!-- Button trigger modal -->
 {{-- todo if !$tuser->canTakePhotos() disable, grtayscale dan bukan pointer, text berapa perberapa image yang diambil --}}
@@ -170,7 +176,8 @@
         renderPage();
     });
 
-    $(".gl-photo").on("click", function () {
+    $(".gl-photo").on("click", function (e) {
+        console.log(e, $(e.target).data('direct'));
         if (gl_tool_timeout) {
             clearTimeout(gl_tool_timeout);
         }

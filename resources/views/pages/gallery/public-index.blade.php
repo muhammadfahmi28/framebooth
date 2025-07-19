@@ -41,7 +41,11 @@
 
                 @foreach ($photos as $photo)
                 <div class="gl-photo-frame col" data-photo_id="{{$photo->id}}" data-details-url="{{url("/g/{$uid}/v/{$photo->id}")}}">
-                    <div class="gl-photo" style="transform: rotate({{rand(0,6)-3}}deg)">
+                    <div class="gl-photo cursor-pointer" style="transform: rotate({{rand(0,6)-3}}deg)"
+                        @if (!env('FEATURE_CAPTURE_PRINT', false))
+                            data-direct="true"
+                        @endif
+                    >
                         @php
                             $gifs = $photo->getOtherAssetPath('gif', true);
                         @endphp
@@ -78,6 +82,8 @@
 @endsection
 
 @section("post_body")
+
+@include('pages.gallery.components.tutorial_buttom_base', ["className" => "tutorial-pick-photo", "tutorial" => "Pilih salah satu foto"])
 
 <div id="gl-photo-tool" class="gl-photo-tool gl-photo-tool-hidden px-3 d-block prevent-select z-n1">
     <div class="d-block" style="margin: auto; text-align: center; width: 300px;">
@@ -134,11 +140,19 @@
         renderPage();
     });
 
-    $(".gl-photo").on("click", function () {
+    $(".gl-photo").on("click", function (e) {
+        $(".tutorial-pick-photo").addClass("opacity-0");
+        let parent = $(this).parent();
+
+        if ($(e.target).data('direct')) {
+            window.location.href = parent.data("details-url");
+            $(".gl-photo-frame").removeClass("selected");
+            parent.addClass("selected");
+            return;
+        }
         if (gl_tool_timeout) {
             clearTimeout(gl_tool_timeout);
         }
-        let parent = $(this).parent();
         $(".gl-photo-frame").removeClass("selected");
         parent.addClass("selected");
         photo_selected = parent.data("photo_id");
