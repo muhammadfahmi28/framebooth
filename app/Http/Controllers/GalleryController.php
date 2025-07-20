@@ -32,7 +32,7 @@ class GalleryController extends Controller
         { //use count. has() will create new query.
             if ($photos->count() === 1 && env("FEATURE_REDIRECT_IF_ONE_PHOTO", false)) {
                 $id = $photos->first()->id;
-                return redirect("/g/$uid/v/->id");
+                return redirect("/g/$uid/v/$id");
             }
             $folder = Photo::DEFAULT_DIR . '/' . $tuser->uid;
             return view('pages.gallery.public-index', compact('uid','tuser', 'photos', 'folder'));
