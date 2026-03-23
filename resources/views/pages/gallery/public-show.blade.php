@@ -23,7 +23,8 @@
             <div class="row">
 
                 @foreach ($photo_urls as $key => $photo_url)
-                <div class="gl-photo-frame col" data-index="{{$key}}" data-url="{{$photo_url['url']}}">
+                <div class="gl-photo-frame col" data-index="{{$key}}" data-url="{{$photo_url['url']}}" data-type="{{$photo_url['type']}}">
+                    {{-- todo draw over play button --}}
                     <div class="gl-photo cursor-pointer" style="transform: rotate({{rand(0,6)-3}}deg)"
                         @if (!env('FEATURE_CAPTURE_PRINT', false))
                             data-direct="true"
@@ -54,6 +55,7 @@
 </div>
 
 @include('pages.gallery.components.photo_viewer_base')
+@include('pages.gallery.components.video_viewer_base')
 @include('pages.gallery.components.tutorial_buttom_base', ["className" => "tutorial-pick-photo", "tutorial" => "Pilih salah satu foto"])
 
 @endsection
@@ -124,9 +126,14 @@
         full_url = parent.data("url");
 
         if ($(e.target).data('direct')) {
+            let type = $(e.target).data('type') ?? 'other';
             $(".gl-photo-frame").removeClass("selected");
             parent.addClass("selected");
-            photoViewerOpen(full_url);
+            if (type === 'mp4') {
+                photoViewerOpen(full_url);
+            } else {
+                videoViewerOpen(full_url);
+            }
             return;
         }
 
@@ -165,6 +172,8 @@
 </script>
 
 @include('pages.gallery.components.photo_viewer_script')
+@include('pages.gallery.components.video_viewer_script')
+
 
 @endsection
 

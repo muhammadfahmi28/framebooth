@@ -89,6 +89,8 @@ class Photo extends Model
                 && ($photo['type'] === $key_name || $key_name === null)) {
                 if ($photo['type'] == 'gif') {
                     $urls[] = asset('storage/'.$folder.'/'.$small.$photo['filename']);
+                } else if ($photo['type'] == 'mp4') {
+                    $urls[] = asset('storage/'.$folder.'/'.$small.$photo['filename'].'.jpeg');
                 } else {
                     $urls[] = asset('storage/'.$folder.'/'.$small.$photo['filename'].'.jpeg');
                 }
@@ -107,6 +109,8 @@ class Photo extends Model
             && ($photo['type'] === $key_name || $key_name === null)) {
                 if ($photo['type'] == 'gif') {
                     $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/'.$small.$photo['filename'];
+                } else if ($photo['type'] == 'mp4') {
+                    $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/'.$small.$photo['filename'].'.jpeg';
                 } else {
                     $storage_rel_path = 'app/public/'.Photo::DEFAULT_DIR . '/' . $this->tuser->uid.'/'.$small.$photo['filename'].'.jpeg';
                 }
