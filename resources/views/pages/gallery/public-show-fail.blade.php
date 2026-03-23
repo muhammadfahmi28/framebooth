@@ -15,7 +15,7 @@
 
         <h2>Foto belum siap</h2>
         <h3>
-            Foto dalam proses Upload. Kembali beberapa saat lagi.
+            Foto dalam proses Upload. Kembali dan coba muat ulang halaman dalam beberapa saat lagi.
         </h3>
 
     </div>
