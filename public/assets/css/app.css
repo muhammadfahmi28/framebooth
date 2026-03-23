@@ -188,6 +188,7 @@ h2 {
     text-align: center;
     align-content: center;
     vertical-align: middle;
+    pointer-events: none;
 }
 
 
