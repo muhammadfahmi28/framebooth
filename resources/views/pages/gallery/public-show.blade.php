@@ -24,13 +24,22 @@
 
                 @foreach ($photo_urls as $key => $photo_url)
                 <div class="gl-photo-frame col" data-index="{{$key}}" data-url="{{$photo_url['url']}}" data-type="{{$photo_url['type']}}">
-                    {{-- todo draw over play button --}}
                     <div class="gl-photo cursor-pointer" style="transform: rotate({{rand(0,6)-3}}deg)"
                         @if (!env('FEATURE_CAPTURE_PRINT', false))
                             data-direct="true"
                         @endif
                     >
                         <img src="{{$photo_url['small']}}" alt="">
+                        @if ($photo_url['type'] === 'mp4')
+                            <div class="gl-photo-text-overlay">
+                                MP4
+                            </div>
+                        @endif
+                        @if ($photo_url['type'] === 'gif')
+                            <div class="gl-photo-text-overlay">
+                                GIF
+                            </div>
+                        @endif
                     </div>
                 </div>
                 @endforeach
