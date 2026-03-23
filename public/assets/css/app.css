@@ -181,10 +181,12 @@ h2 {
     position: absolute;
     top: 0;
     bottom: 0;
-    background: #00000025;
-    font-size: large;
-    color: #ffffff57;
+    background: #00000052;
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffffff;
     text-align: center;
+    align-content: center;
     vertical-align: middle;
 }
 
