@@ -139,9 +139,9 @@
             $(".gl-photo-frame").removeClass("selected");
             parent.addClass("selected");
             if (type === 'mp4') {
-                photoViewerOpen(full_url);
-            } else {
                 videoViewerOpen(full_url);
+            } else {
+                photoViewerOpen(full_url);
             }
             return;
         }
