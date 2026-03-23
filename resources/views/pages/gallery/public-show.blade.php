@@ -23,7 +23,7 @@
             <div class="row">
 
                 @foreach ($photo_urls as $key => $photo_url)
-                <div class="gl-photo-frame col" data-index="{{$key}}" data-url="{{$photo_url['url']}}" data-type="{{$photo_url['type']}}">
+                <div class="gl-photo-frame col" data-index="{{$key}}" data-url="{{$photo_url['url']}}" data-type="{{($photo_url['type'] ?? 'other')}}">
                     <div class="gl-photo cursor-pointer" style="transform: rotate({{rand(0,6)-3}}deg)"
                         @if (!env('FEATURE_CAPTURE_PRINT', false))
                             data-direct="true"
