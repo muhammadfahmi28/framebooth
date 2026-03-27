@@ -6,7 +6,7 @@
         </a>
     </div>
     <div class="flex-grow-1 flex-shrink-1 h-0 position-relative" style="height: 0%;">
-        <div id="video-viewer-main" class="h-100 p-4">
+        <div id="video-viewer-main" class="h-100 p-4 text-center">
             <video controls src="#" type="video/mp4" style="height: 100%;">
                 Your browser does not support the video tag.
             </video>
