@@ -80,6 +80,7 @@ class Photo extends Model
 
     function getOtherAssetPath(string | null $key_name = null, $is_small = false) {
         $small = $is_small ? 'small/' : '';
+        $suffix = $is_small ? '.jpeg' : '';
         $folder = Photo::DEFAULT_DIR . '/' . $this->tuser->uid;
         $urls = [];
         $photos = $this->other_photos ?? [];
@@ -90,9 +91,9 @@ class Photo extends Model
                 if ($photo['type'] == 'gif') {
                     $urls[] = asset('storage/'.$folder.'/'.$small.$photo['filename']);
                 } else if ($photo['type'] == 'mp4') {
-                    $urls[] = asset('storage/'.$folder.'/'.$small.$photo['filename'].'.jpeg');
+                    $urls[] = asset('storage/'.$folder.'/'.$small.$photo['filename'].$suffix);
                 } else {
-                    $urls[] = asset('storage/'.$folder.'/'.$small.$photo['filename'].'.jpeg');
+                    $urls[] = asset('storage/'.$folder.'/'.$small.$photo['filename'].$suffix);
                 }
             }
         }
