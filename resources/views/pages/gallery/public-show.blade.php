@@ -139,7 +139,7 @@
             $(".gl-photo-frame").removeClass("selected");
             parent.addClass("selected");
             console.log($(e.target));
-            console.log(type === 'mp4', type);
+            console.log(type === 'mp4', $(e.target).data('type'), type);
             if (type === 'mp4') {
                 videoViewerOpen(full_url);
             } else {
