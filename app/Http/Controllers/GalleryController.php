@@ -84,7 +84,7 @@ class GalleryController extends Controller
             $raws_small_urls = $photo->getRawsAssetPath(true);
 
             foreach ($others as $key => $item) {
-                $photo_urls[] = ['url' => $other_urls[$key], 'small' => $other_small_urls[$key], 'type' => $item['type'] ?? 'other'];
+                $photo_urls[] = ['url' => $other_urls[$key], 'small' => ($item['type'] != 'gif' || $item['type'] != 'raw') ? $raws_small_urls[0] : $other_small_urls[$key], 'type' => $item['type'] ?? 'other'];
             }
 
             foreach ($raws_urls as $key => $url) {

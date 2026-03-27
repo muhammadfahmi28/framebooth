@@ -1,5 +1,6 @@
 <script>
     function photoViewerOpen(href) {
+        console.log('photoViewerOpen(href)', href);
         const css = {
             "background-image": `url('${href}')`,
             "background-size": "contain",

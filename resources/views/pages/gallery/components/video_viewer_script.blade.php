@@ -1,5 +1,6 @@
 <script>
     function videoViewerOpen(href) {
+        console.log('videoViewerOpen(href)', href);
         $("#video-viewer").removeClass("d-none");
         $("#video-viewer-main-source").attr("src", href);
         $("#video-viewer-download").attr("href", href);

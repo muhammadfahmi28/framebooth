@@ -138,6 +138,8 @@
             let type = $(e.target).data('type') ?? 'other';
             $(".gl-photo-frame").removeClass("selected");
             parent.addClass("selected");
+            console.log($(e.target));
+            console.log(type === 'mp4', type);
             if (type === 'mp4') {
                 videoViewerOpen(full_url);
             } else {
