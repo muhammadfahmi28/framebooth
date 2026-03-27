@@ -135,11 +135,11 @@
         full_url = parent.data("url");
 
         if ($(e.target).data('direct')) {
-            let type = $(e.target).data('type') ?? 'other';
+            let type = parent.data('type') ?? 'other';
             $(".gl-photo-frame").removeClass("selected");
             parent.addClass("selected");
-            console.log($(e.target));
-            console.log(type === 'mp4', $(e.target).data('type'), type);
+            console.log($(e.target), parent);
+            console.log(type === 'mp4', parent.data('type'), type);
             if (type === 'mp4') {
                 videoViewerOpen(full_url);
             } else {
