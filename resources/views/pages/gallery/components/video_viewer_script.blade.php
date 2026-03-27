@@ -2,7 +2,7 @@
     function videoViewerOpen(href) {
         console.log('videoViewerOpen(href)', href);
         $("#video-viewer").removeClass("d-none");
-        $("#video-viewer-main").attr("src", href);
+        $("#video-viewer-main>video").attr("src", href);
         $("#video-viewer-download").attr("href", href);
     }
 
