@@ -5,7 +5,7 @@
             <i class="fa-solid fa-xmark fa-2x"></i>
         </a>
     </div>
-    <div class="flex-grow-1 flex-shrink-1 h-100 position-relative">
+    <div class="flex-grow-1 flex-shrink-1 h-0 position-relative">
         <div id="video-viewer-main" class="h-100 p-4">
             <video controls src="#" type="video/mp4">
                 Your browser does not support the video tag.
